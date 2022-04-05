@@ -64,9 +64,4 @@ public void delete(int id) throws DALException {
 	
 }
 
-@Override
-public Utilisateur connexion(String pseudo, String mdp) throws DALException {
-	// TODO Auto-generated method stub
-	return null;
-}
 }
