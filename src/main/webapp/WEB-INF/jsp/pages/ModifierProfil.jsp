@@ -1,0 +1,60 @@
+<%@ page pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@include file="../includes/userConnect.jsp" %>
+<main class="inscription">
+	<form action="" method="post">
+		<h1>Profil</h1>
+		<div>
+			<div class="groupForm">
+				<label for="pseudo">pseudo</label>
+				<input required type="text" id="pseudo"  name="pseudo" value="${utilisateur != null ? utilisateur.getPseudo():''}"/>
+			</div>
+			<div class="groupForm">
+				<label for="nom">nom</label>
+				<input required type="text" id="nom" name="nom" value="${utilisateur != null ? utilisateur.getNom():''}"/>
+			</div>
+			<div class="groupForm">
+				<label for="prenom">prénom</label>
+				<input required type="text" id="prenom" name="prenom" value="${utilisateur != null ? utilisateur.getPrenom():''}"/>
+			</div>
+			<div class="groupForm">
+				<label for="email">email</label>
+				<input required type="email" id="email" name="email" value="${utilisateur != null ? utilisateur.getEmail():''}"/>
+			</div>
+			<div class="groupForm">
+				<label for="telephone">téléphone</label>
+				<input required type="tel" id="telephone" name="telephone" placeholder="FR 0605040302"  pattern="[0-9]{10}" value="${utilisateur != null ? utilisateur.getTelephone():''}" />
+			</div>
+		</div>
+		<div>
+			<div class="groupForm">
+				<label for="rue">rue</label>
+				<input required type="text" id="rue" name="rue" value="${utilisateur != null ? utilisateur.getRue():''}"/>
+			</div>
+			<div class="groupForm">
+				<label for="codePostal">code Postal</label>
+				<input required type="text" id="codePostal" name="codePostal" placeholder="75000" pattern="[0-9]{5}" value="${utilisateur != null ? utilisateur.getCode_postal():''}"/>
+			</div>
+			<div class="groupForm">
+				<label for="ville">ville</label>
+				<input required type="text" id="ville" name="ville" value="${utilisateur != null ? utilisateur.getVille():''}"/>
+			</div>
+			<div class="groupForm">
+				<label for="mdp">mot de passe</label>
+				<input required type="password" id="mdp" name="mdp" value="${utilisateur != null ? utilisateur.getMot_de_passe():''}"/>
+			</div>
+			<div class="groupForm">
+				<label for="mdpConfirme">confirmation du mot de passe</label>
+				<input required type="password" id="mdpConfirme"  name="mdpConfirme" value="${utilisateur != null ? utilisateur.getMot_de_passe():''}"/>
+			</div>
+			<div class="groupForm">
+				<p>Crédit : ${utilisateur != null ? utilisateur.getCredit():''}</p>
+			</div>
+		</div>
+		<div class="btnsForm">
+			<button type="submit">Enregistrer</button>
+			<a href="SuppressionCompte">Supprimer mon compte</a>
+			<a href="">Retour</a>
+		</div>
+	</form>
+</main>

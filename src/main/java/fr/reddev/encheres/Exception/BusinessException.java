@@ -1,4 +1,12 @@
+/**
+ * PROJET ENI-ENCHERES
+ * 
+ */
 package fr.reddev.encheres.Exception;
+
+/**
+ * @author REDDEV
+ */
 import java.util.ArrayList;
 import java.util.List;
 

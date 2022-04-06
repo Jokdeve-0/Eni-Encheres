@@ -5,6 +5,7 @@
 			<c:choose>
 			<c:when test="${utilisateur != null }">
 				<a href="${context}/Deconnexion">Déconnexion</a>						
+				<a href="${context}/MonProfil">Profile</a>						
 			</c:when>
 			<c:otherwise>
 				<a href="${context}/Inscription">Inscription</a>

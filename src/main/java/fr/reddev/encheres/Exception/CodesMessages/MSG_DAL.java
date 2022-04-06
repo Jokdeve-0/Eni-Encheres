@@ -1,5 +1,12 @@
+/**
+ * PROJET ENI-ENCHERES
+ * 
+ */
 package fr.reddev.encheres.Exception.CodesMessages;
 
+/**
+ * @author REDDEV
+ */
 public abstract class MSG_DAL {
 	public static final int SELECTALL_ECHEC= 10100;
 	public static final int SELECTBY_ID_ECHEC= 10101;

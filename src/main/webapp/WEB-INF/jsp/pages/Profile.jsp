@@ -1,43 +1,40 @@
-<%@ page pageEncoding="UTF-8" %>
-<main class="inscription">
-	<form action="" method="post">
-		<h1>Modifier Profile</h1>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@include file="../includes/userConnect.jsp" %>
+<main class="Inscription">
+<%@include file="../includes/erreurs.jsp" %>
+		<h1>Profile</h1>
 		<div>
 			<div class="groupForm">
-				<p>pseudo : ${utilisateur.getPrenom()} }</p>
-			
+				<p>pseudo : ${utilisateur.getPseudo()}</p>
 			</div>
 			<div class="groupForm">
-				<label for="nom">nom</label>
-				<input required type="text" id="nom" />
+				<p>nom :${utilisateur.getNom()}</p>
 			</div>
 			<div class="groupForm">
-				<label for="prenom">prÃ©nom</label>
-				<input required type="text" id="prenom" />
+				<p>prénom :${utilisateur.getPrenom()}</p>
 			</div>
-		
 			<div class="groupForm">
-				<label for="telephone">tÃ©lÃ©phone</label>
-				<input required type="tel" id="telephone" placeholder="FR 0605040302"  pattern="[0-9]{10}" />
+				<p>email :${utilisateur.getEmail()}</p>	
+			</div>
+			<div class="groupForm">
+				<p>téléphone :${utilisateur.getTelephone()}</p>
 			</div>
 		</div>
 		<div>
 			<div class="groupForm">
-				<label for="rue">rue</label>
-				<input required type="text" id="rue" />
+				<p>rue :${utilisateur.getRue()}</p>
 			</div>
 			<div class="groupForm">
-				<label for="codePostal">code Postal</label>
-				<input required type="text" id="codePostal" placeholder="75000" pattern="[0-9]{5}"/>
+				<p>code Postal :${utilisateur.getCode_postal()}</p>
 			</div>
 			<div class="groupForm">
-				<label for="ville">ville</label>
-				<input required type="text" id="ville" />
+				<p>ville :${utilisateur.getVille()}</p>	
+			</div>
+			<div class="groupForm">		
+				<p>Crédit :${utilisateur.getCredit()}</p>
 			</div>
 		</div>
 		<div class="btnsForm">
-			<button type ="submit">Modifier</button>
-			
+			<a href="ModifierProfil">Modifier</a>
 		</div>
-	</form>
 </main>
