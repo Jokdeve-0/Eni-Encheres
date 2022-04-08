@@ -137,10 +137,6 @@ public class Home extends HttpServlet {
 			}
 			// Ajoute a la request le catalogue des résultats de la recherche
 			request.setAttribute("catalogue", catalogueByName);
-			// Redirection vers la page d'affichage des articles (HOME)
-			request.setAttribute("titlePage", "Accueil");
-			rqtDispatcher = request.getRequestDispatcher("WEB-INF/jsp/pages/Home.jsp");
-			rqtDispatcher.forward(request, response);
 		}
 		// Si on ne reçoit pas la catégorie "Toutes"
 		// c'est à dire que l'on va reçevoir n'importe quelles catégories existantes et : *1 et *2 , *3 ou *4
@@ -190,10 +186,10 @@ public class Home extends HttpServlet {
 				// set dans la requete la liste d'erreurs pour la jsp
 				request.setAttribute("listeCodesErreur", exceptions.getListeCodesErreur());
 			}
-			// Affiche la page Home
-			request.setAttribute("titlePage", "Accueil");
-			rqtDispatcher = request.getRequestDispatcher("WEB-INF/jsp/pages/Home.jsp");
-			rqtDispatcher.forward(request, response);
 		}
+		// Affiche la page Home
+		request.setAttribute("titlePage", "Accueil");
+		rqtDispatcher = request.getRequestDispatcher("WEB-INF/jsp/pages/Home.jsp");
+		rqtDispatcher.forward(request, response);
 	}
 }

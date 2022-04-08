@@ -3,23 +3,23 @@ package fr.reddev.encheres.BO;
 import java.sql.Date;
 
 public class Articles_vendus{
-	private Integer no_article;
-	private String  nom_article;
-	private String description;
-	private Date date_debut_encheres;
-	private Date  date_fin_encheres;
-	private Integer  prix_initial;
-	private Integer  prix_vente;
-	private Integer  no_utilisateur;
-	private Integer  no_categorie;
-	private Utilisateur vendeur;
+	private	Integer no_article;
+	private 	String  nom_article;
+	private    String description;
+	private    Date date_debut_encheres;
+	private    Date  date_fin_encheres;
+	private    Integer  prix_initial;
+	private    Integer  prix_vente;
+	private    Integer  no_utilisateur;
+	private    Integer  no_categorie;
+	private 	String etat_vente;
+	private 	String vendeur;
 	
 	public Articles_vendus() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 	public Articles_vendus(String nom_article, String description, Date date_debut_encheres, Date date_fin_encheres,
-			Integer prix_initial, Integer prix_vente, Integer no_utilisateur, Integer no_categorie, Utilisateur vendeur) {
+			Integer prix_initial, Integer prix_vente, Integer no_utilisateur, Integer no_categorie,String etat_vente, String vendeur) {
 		super();
 		this.nom_article = nom_article;
 		this.description = description;
@@ -29,11 +29,12 @@ public class Articles_vendus{
 		this.prix_vente = prix_vente;
 		this.no_utilisateur = no_utilisateur;
 		this.no_categorie = no_categorie;
+		this.etat_vente = etat_vente;
 		this.vendeur = vendeur;
 	}
 	public Articles_vendus(Integer no_article, String nom_article, String description, Date date_debut_encheres,
 			Date date_fin_encheres, Integer prix_initial, Integer prix_vente, Integer no_utilisateur,
-			Integer no_categorie, Utilisateur vendeur) {
+			Integer no_categorie, String etat_vente, String vendeur) {
 		super();
 		this.no_article = no_article;
 		this.nom_article = nom_article;
@@ -44,6 +45,7 @@ public class Articles_vendus{
 		this.prix_vente = prix_vente;
 		this.no_utilisateur = no_utilisateur;
 		this.no_categorie = no_categorie;
+		this.etat_vente = etat_vente;
 		this.vendeur = vendeur;
 	}
 	
@@ -102,12 +104,20 @@ public class Articles_vendus{
 		this.no_categorie = no_categorie;
 	}
 
-	public Utilisateur getVendeur() {
+	public String getEtat_vente() {
+		return etat_vente;
+	}
+
+	public void setEtat_vente(String etat_vente) {
+		this.etat_vente = etat_vente;
+	}
+	public String getVendeur() {
 		return vendeur;
 	}
-	public void setVendeur(Utilisateur vendeur) {
+	public void setVendeur(String vendeur) {
 		this.vendeur = vendeur;
 	}
+	
 	
 	@Override
 	public String toString() {

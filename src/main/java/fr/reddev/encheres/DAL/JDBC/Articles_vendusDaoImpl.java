@@ -38,11 +38,13 @@ public class Articles_vendusDaoImpl implements Articles_vendusDAO  {
 			while (rs.next()) {
 				UtilisateurDAO userDao = DAOFactory.getUtilisateurDAO();
 				Utilisateur user = userDao.selectById(rs.getInt("no_utilisateur"));
-					article = new Articles_vendus(rs.getInt("no_article"), rs.getString("nom_article"), rs.getString("description"),
-							rs.getDate("date_debut_encheres"), rs.getDate("date_fin_encheres"), rs.getInt("prix_initial"),
-							rs.getInt("prix_vente"),rs.getInt("no_utilisateur"),rs.getInt("no_categorie"), user );
-
-				listArticles.add(article);
+					article = new Articles_vendus(
+							rs.getInt("no_article"), rs.getString("nom_article"),
+							rs.getString("description"), rs.getDate("date_debut_encheres"),
+							rs.getDate("date_fin_encheres"), rs.getInt("prix_initial"),
+							rs.getInt("prix_vente"),rs.getInt("no_utilisateur"),
+							rs.getInt("no_categorie"),"CR", user.getPseudo());
+					listArticles.add(article);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -56,21 +58,26 @@ public class Articles_vendusDaoImpl implements Articles_vendusDAO  {
 		// TODO Auto-generated method stub
 		
 	}
-
+	
 	@Override
 	public void insert(Articles_vendus articles) throws DALException {
 	    try {    Connection cnx = JdbcTools.getConnection();
         String INSERT = "INSERT INTO ARTICLES_VENDUS " +
-                "(nom_article,description,date_debut_encheres,date_fin_encheres,prix_initial,prix_vente"
+                "(nom_article,description,date_debut_encheres,date_fin_encheres,prix_initial,prix_vente,no_utilisateur, no_categorie, etat_vente, vendeur"
                 + ") " +
-                "VALUES (?, ?, ?, ?, ?, ?)";
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement stmt = cnx.prepareStatement(INSERT, PreparedStatement.RETURN_GENERATED_KEYS);
         stmt.setString(1, articles.getNom_article());
         stmt.setString(2, articles.getDescription());
         stmt.setDate(3, articles.getDate_debut_encheres());
         stmt.setDate(4, articles.getDate_fin_encheres());
-        stmt.setInt(5, articles.getPrix_initial());
-        stmt.setInt(6, articles.getPrix_vente());
+        stmt.setInt(5, articles.getPrix_initial() !=null ? articles.getPrix_initial() : 0);
+        stmt.setInt(6, articles.getPrix_vente() !=null ? articles.getPrix_vente() : 0);
+        stmt.setInt(7, articles.getNo_utilisateur());
+        stmt.setInt(8, articles.getNo_categorie());
+        stmt.setString(9, articles.getEtat_vente());
+        stmt.setString(10, articles.getVendeur());
+
         
         System.out.println(stmt);
         stmt.executeUpdate();
@@ -107,11 +114,9 @@ public class Articles_vendusDaoImpl implements Articles_vendusDAO  {
 			ResultSet rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				UtilisateurDAO userDao = DAOFactory.getUtilisateurDAO();
-				Utilisateur user = userDao.selectById(rs.getInt("no_utilisateur"));
 					article = new Articles_vendus(rs.getInt("no_article"), rs.getString("nom_article"), rs.getString("description"),
 							rs.getDate("date_debut_encheres"), rs.getDate("date_fin_encheres"), rs.getInt("prix_initial"),
-							rs.getInt("prix_vente"),rs.getInt("no_utilisateur"),rs.getInt("no_categorie"), user );
+							rs.getInt("prix_vente"),rs.getInt("no_utilisateur"),rs.getInt("no_categorie"),rs.getString("etat_vente") , rs.getString("vendeur"));
 
 				listArticles.add(article);
 			}
@@ -132,12 +137,9 @@ public class Articles_vendusDaoImpl implements Articles_vendusDAO  {
 			ResultSet rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				UtilisateurDAO userDao = DAOFactory.getUtilisateurDAO();
-				Utilisateur user = userDao.selectById(rs.getInt("no_utilisateur"));
 					article = new Articles_vendus(rs.getInt("no_article"), rs.getString("nom_article"), rs.getString("description"),
 							rs.getDate("date_debut_encheres"), rs.getDate("date_fin_encheres"), rs.getInt("prix_initial"),
-							rs.getInt("prix_vente"),rs.getInt("no_utilisateur"),rs.getInt("no_categorie"), user );
-
+							rs.getInt("prix_vente"),rs.getInt("no_utilisateur"),rs.getInt("no_categorie"),rs.getString("etat_vente") , rs.getString("vendeur") );
 				listArticles.add(article);
 			}
 		} catch (Exception e) {

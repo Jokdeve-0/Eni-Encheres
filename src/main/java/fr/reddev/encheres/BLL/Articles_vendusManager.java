@@ -65,7 +65,7 @@ public class Articles_vendusManager {
 		if (articleVendu.getDate_debut_encheres().after(articleVendu.getDate_fin_encheres())) {
 			exceptions.ajouterErreur(MSG_BLL.ERROR_START_DATE_AFTER_END_DATE);
 		}
-		if (date_debut.isBefore(LocalDate.now()) || date_fin.isAfter(LocalDate.now())) {
+		if (date_debut.isBefore(LocalDate.now()) || !date_fin.isAfter(date_debut)) {
 			exceptions.ajouterErreur(MSG_BLL.ERROR_DATE_BEFORE_TODAY);
 		}
 		return exceptions;

@@ -8,3 +8,5 @@
 </div>
 
 </header>
+<a href="${context}/VendreUnArticle">Vendre article</a>
+<p>TEST : <a href="${context}/test/AddArticle">Ajout d'un Article</a></p>

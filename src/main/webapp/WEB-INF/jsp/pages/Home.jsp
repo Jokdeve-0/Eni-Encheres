@@ -1,5 +1,6 @@
 <%@ page pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@include file="../includes/userConnect.jsp" %>
 
 <main class="home">
@@ -36,9 +37,9 @@
 <div class="photo"></div>
           <p>${article.nom_article}</p>
           <p>Prix:${article.prix_initial }€</p>
-          <p>Fin de l'enchére: ${article.date_fin_encheres }</p>
-          <p>Retrait : 5 rue des Pinsons<br>44000 Nantes</p>
-          <p>Vendeur : NineJea</p>
+          
+          <p>Fin de l'enchére : <fmt:formatDate pattern = "dd/MM/yy" value="${article.date_fin_encheres}"/></p>
+           <p>Vendeur : ${article.vendeur}</p>
 </div>
 </c:forEach>
 
