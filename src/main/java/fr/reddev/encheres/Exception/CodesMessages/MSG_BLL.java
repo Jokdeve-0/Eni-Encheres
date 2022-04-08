@@ -29,4 +29,6 @@ public abstract class MSG_BLL {
 	public static final int ERROR_LENGTH_DESCRIPTION_ARTICLE =20018;
 	public static final int ERROR_DATE_BEFORE_TODAY=20019;
 	public static final int ERROR_START_DATE_AFTER_END_DATE=20020;
+	public static final int ERROR_ZERO_CATEGORIES = 20098;
+	public static final int ERROR_ZERO_ENCHERES=20099;
 }

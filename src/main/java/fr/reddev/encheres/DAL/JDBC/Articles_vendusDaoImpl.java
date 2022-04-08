@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.reddev.encheres.BO.Articles_vendus;
+import fr.reddev.encheres.BO.Retraits;
 import fr.reddev.encheres.BO.Utilisateur;
 import fr.reddev.encheres.DAL.Articles_vendusDAO;
 import fr.reddev.encheres.DAL.DAOFactory;
@@ -22,7 +23,7 @@ public class Articles_vendusDaoImpl implements Articles_vendusDAO  {
 	
 	@Override
 	public Articles_vendus selectById(int id) throws DALException {
-		// TODO Auto-generated method stub
+		// TODO Pensez a joindre les retraits
 		return null;
 	}
 
@@ -61,6 +62,8 @@ public class Articles_vendusDaoImpl implements Articles_vendusDAO  {
 	
 	@Override
 	public void insert(Articles_vendus articles) throws DALException {
+		UtilisateurDAO userDao = DAOFactory.getUtilisateurDAO();
+		Integer no_article = null;
 	    try {    Connection cnx = JdbcTools.getConnection();
         String INSERT = "INSERT INTO ARTICLES_VENDUS " +
                 "(nom_article,description,date_debut_encheres,date_fin_encheres,prix_initial,prix_vente,no_utilisateur, no_categorie, etat_vente, vendeur"
@@ -85,10 +88,23 @@ public class Articles_vendusDaoImpl implements Articles_vendusDAO  {
         ResultSet rs = stmt.getGeneratedKeys();
         if (rs.next()) {
             articles.setNo_article(rs.getInt(1));
+            no_article = rs.getInt(1);
         }
+
+		Utilisateur user = userDao.selectById(articles.getNo_utilisateur());
+        
+        Retraits retraits= new Retraits(no_article,user.getRue(),user.getCode_postal(),user.getVille());
+        String sql = "INSERT INTO RETRAITS (no_article,rue,code_postal,ville) VALUES(?,?,?,?)";
+        PreparedStatement stmt2 = cnx.prepareStatement(sql);
+        stmt2.setInt(1, retraits.getNo_article());
+        stmt2.setString(2, retraits.getRue());
+        stmt2.setString(3, retraits.getCode_postal());
+        stmt2.setString(4, retraits.getVille());
+        stmt2.executeUpdate();
+        
     } catch (SQLException e) {
         e.printStackTrace();
-        throw new DALException("Erreur lors de la requêtte insert");
+        throw new DALException("Erreur lors de la requête insert");
     }		
 	}
 

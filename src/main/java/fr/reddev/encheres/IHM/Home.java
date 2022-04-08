@@ -24,6 +24,7 @@ import fr.reddev.encheres.BO.Articles_vendus;
 import fr.reddev.encheres.BO.Categorie;
 import fr.reddev.encheres.Exception.BLLException;
 import fr.reddev.encheres.Exception.BusinessException;
+import fr.reddev.encheres.Exception.CodesMessages.MSG_BLL;
 
 /**
  * Accueil
@@ -47,8 +48,7 @@ public class Home extends HttpServlet {
 			// Ajoute le catalogue d'articles dans la requete
 			request.setAttribute("catalogue", catalogue);
 		} catch (BLLException e) {
-			exceptions.ajouterErreur(0);
-// TODO ajouter code erreurs
+			exceptions.ajouterErreur(MSG_BLL.ERROR_ZERO_ENCHERES);
 			e.printStackTrace();
 		}
 		try {
@@ -57,8 +57,7 @@ public class Home extends HttpServlet {
 			// Ajoute la liste des catégories dans la requete
 			request.setAttribute("categorie", categorie);
 		} catch (BLLException e) {
-			exceptions.ajouterErreur(0);
-// TODO ajouter code erreurs
+			exceptions.ajouterErreur(MSG_BLL.ERROR_ZERO_CATEGORIES);
 			e.printStackTrace();
 		}
 		if(exceptions.hasErreurs()) {
@@ -94,8 +93,7 @@ public class Home extends HttpServlet {
 			// Ajoute a la request les catégories pour l'affichage du select (HTML)
 			request.setAttribute("categorie", categorie);
 		} catch (BLLException e) {
-			exceptions.ajouterErreur(0);
-			// TODO ajouter code erreurs
+			exceptions.ajouterErreur(MSG_BLL.ERROR_ZERO_CATEGORIES);
 			e.printStackTrace();
 		}
 		//---------------------------------------------------//
@@ -125,8 +123,7 @@ public class Home extends HttpServlet {
 						}
 					}
 				}  catch (BLLException e) {
-					exceptions.ajouterErreur(0);
-					// TODO ajouter code erreurs
+					exceptions.ajouterErreur(MSG_BLL.ERROR_ZERO_ENCHERES);
 					e.printStackTrace();
 				}
 				
@@ -145,16 +142,14 @@ public class Home extends HttpServlet {
 				// *1 Récupère la catégorie recherchée
 				CategorieRechercher = new CategorieManager().getCatalogueLibelle(request.getParameter("categorie")).get(0);
 			}  catch (BLLException e) {
-				exceptions.ajouterErreur(0);
-				// TODO ajouter code erreurs
+				exceptions.ajouterErreur(MSG_BLL.ERROR_ZERO_CATEGORIES);
 				e.printStackTrace();
 			}
 			// *2 Récupère le catalogue avec tous les articles de la catégories demandée
 			try {
 				catalogueByName = new Articles_vendusManager().getCatalogueCategorie(CategorieRechercher.getNo_categorie());
 			}  catch (BLLException e) {
-				exceptions.ajouterErreur(0);
-				// TODO ajouter code erreurs
+				exceptions.ajouterErreur(MSG_BLL.ERROR_ZERO_ENCHERES);
 				e.printStackTrace();
 			}
 			// *3 : Si l'utilisateur n'a pas entré de valeur dans la recherche
@@ -168,8 +163,7 @@ public class Home extends HttpServlet {
 					// Récupération des articles contient la valeur de la recherche
 					catalogueByName = new Articles_vendusManager().getCatalogueByName( request.getParameter("search"));
 				}  catch (BLLException e) {
-					exceptions.ajouterErreur(0);
-					// TODO ajouter code erreurs
+					exceptions.ajouterErreur(MSG_BLL.ERROR_ZERO_ENCHERES);
 					e.printStackTrace();
 				}
 				//	 Boucle sur le catalogue de tous les articles qui contient la valeur de la recherche
