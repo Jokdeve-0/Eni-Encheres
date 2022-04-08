@@ -36,7 +36,7 @@ public class Connexion extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
+		
 		request.setAttribute("titlePage", "Connexion");
 		RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/jsp/pages/Connexion.jsp");
 		rd.forward(request, response);
@@ -65,8 +65,7 @@ public class Connexion extends HttpServlet {
 				session.setAttribute("utilisateur", utilisateur);
 				// redirection sur la page Home en mode connecter
 				request.setAttribute("titlePage", "Liste des enchères");
-				rd = request.getRequestDispatcher("WEB-INF/jsp/pages/Home.jsp");
-				rd.forward(request, response);
+				response.sendRedirect(request.getContextPath()+"/");
 			} else {
 				// PAS OK si erreurs identifiants
 				exceptions.ajouterErreur(MSG_BLL.ID_MDP_KO);

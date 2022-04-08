@@ -3,6 +3,7 @@
  * 
  */
 package fr.reddev.encheres.DAL.JDBC;
+
 /**
  * @author REDDEV
  */
@@ -22,7 +23,8 @@ public class UtilisateurDaoImpl implements UtilisateurDAO {
 	public static final String DELETE_USER = "DELETE FROM UTILISATEURS where no_utilisateur = ?";
 	public static final String UPDATE_USER = "UPDATE UTILISATEURS SET  pseudo=? , nom=?  , prenom=? , email=? , telephone=? , rue=? , code_postal=? , ville=? , mot_de_passe=? WHERE no_utilisateur = ?";
 	public static final String INSERT_USER = "INSERT INTO UTILISATEURS (pseudo,nom,prenom,email,telephone,rue,code_postal,ville,mot_de_passe ,credit,administrateur) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
+	public static final String SELECT_BY_ID = "SELECT * FROM UTILISATEURS WHERE no_utilisateur = ?";
+	
 	@Override
 	public Utilisateur selectByLogin(String login) throws DALException {
 		Utilisateur utilisateur = null;
@@ -33,9 +35,9 @@ public class UtilisateurDaoImpl implements UtilisateurDAO {
 			ResultSet rs = pstmt.executeQuery();
 			if (rs.next()) {
 				utilisateur = new Utilisateur(rs.getInt("no_utilisateur"), rs.getString("pseudo"), rs.getString("nom"),
-					rs.getString("prenom"), rs.getString("email"), rs.getString("telephone"), rs.getString("rue"),
-					rs.getString("code_postal"), rs.getString("ville"), rs.getString("mot_de_passe"),
-					rs.getInt("credit"), rs.getBoolean("administrateur"));
+						rs.getString("prenom"), rs.getString("email"), rs.getString("telephone"), rs.getString("rue"),
+						rs.getString("code_postal"), rs.getString("ville"), rs.getString("mot_de_passe"),
+						rs.getInt("credit"), rs.getBoolean("administrateur"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -46,8 +48,23 @@ public class UtilisateurDaoImpl implements UtilisateurDAO {
 
 	@Override
 	public Utilisateur selectById(int id) throws DALException {
-		// TODO Auto-generated method stub
-		return null;
+		Utilisateur utilisateur = null;
+		try {
+			Connection cnx = JdbcTools.getConnection();
+			PreparedStatement pstmt = cnx.prepareStatement(SELECT_BY_ID);
+			pstmt.setInt(1, id);
+			ResultSet rs = pstmt.executeQuery();
+			if (rs.next()) {
+				utilisateur = new Utilisateur(rs.getInt("no_utilisateur"), rs.getString("pseudo"), rs.getString("nom"),
+						rs.getString("prenom"), rs.getString("email"), rs.getString("telephone"), rs.getString("rue"),
+						rs.getString("code_postal"), rs.getString("ville"), rs.getString("mot_de_passe"),
+						rs.getInt("credit"), rs.getBoolean("administrateur"));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new DALException("Identifiant ou mot de passe invalide");
+		}
+		return utilisateur;
 	}
 
 	@Override
@@ -82,7 +99,8 @@ public class UtilisateurDaoImpl implements UtilisateurDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new DALException(
-					" Une erreur est intervenue lors de la mise a jour du profil { DAOIMPL L.71 - update() } \nErreur : " + e);
+					" Une erreur est intervenue lors de la mise a jour du profil { DAOIMPL L.71 - update() } \nErreur : "
+							+ e);
 		}
 
 	}

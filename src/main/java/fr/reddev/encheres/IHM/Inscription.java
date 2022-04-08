@@ -50,11 +50,11 @@ public class Inscription extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+	
 
 		UserManager manager = new UserManager();
 		BusinessException exceptions = new BusinessException();
 		Utilisateur utilisateur = null;
-		RequestDispatcher rd;
 
 		// Compare les passwords
 		if (request.getParameter("mdp").equals(request.getParameter("mdpConfirme"))) {
@@ -84,8 +84,7 @@ public class Inscription extends HttpServlet {
 				session.setAttribute("utilisateur", nouvelUtilisateur);
 				request.setAttribute("titlePage", "Accueil");
 				// redirection sur la page Home en mode connecter
-				rd = request.getRequestDispatcher("WEB-INF/jsp/pages/Home.jsp");
-				rd.forward(request, response);
+				response.sendRedirect("http://localhost:8080/ENI-Encheres");
 			} else {
 				// Erreur si l'enregistrement n'a pas été éffectuer
 				exceptions.ajouterErreur(MSG_BLL.ERROR_CREATE_UTILISATEUR);
@@ -99,5 +98,5 @@ public class Inscription extends HttpServlet {
 		}
 
 	}
-
+	
 }

@@ -24,4 +24,9 @@ public abstract class MSG_BLL {
 	public static final int ERROR_CREATE_UTILISATEUR=20013;
 	public static final int ERROR_UPDATE_UTILISATEUR=20014;
 	public static final int ERROR_MDP_NO_EQUALS=20015;
+	public static final int NOMBRE_DE_POINTS_INSUFFISANT=20016;
+	public static final int ERROR_LENGTH_NOM_ARTICLE=20017;
+	public static final int ERROR_LENGTH_DESCRIPTION_ARTICLE =20018;
+	public static final int ERROR_DATE_BEFORE_TODAY=20019;
+	public static final int ERROR_START_DATE_AFTER_END_DATE=20020;
 }

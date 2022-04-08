@@ -8,7 +8,6 @@ package fr.reddev.encheres.IHM;
  */
 import java.io.IOException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -43,9 +42,7 @@ public class SuppressionCompte extends HttpServlet {
 		session.invalidate();		
 		request.setAttribute("titlePage", "Accueil");
 		// redirection vers la page d'accueil en déconnecter
-		RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/jsp/pages/Home.jsp");
-		rd.forward(request, response);
-		 
+		response.sendRedirect(request.getContextPath()+"/");		 
 	}
 
 	/**

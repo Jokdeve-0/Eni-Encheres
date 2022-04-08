@@ -9,7 +9,6 @@ package fr.reddev.encheres.IHM;
  */
 import java.io.IOException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -37,9 +36,7 @@ public class Deconnexion extends HttpServlet {
 		// Détruit la session
 		session.invalidate();
 		// redirection sur la page de Home en déconnecter
-		request.setAttribute("titlePage", "Accueil");
-		RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/jsp/pages/Home.jsp");
-		rd.forward(request, response);
+		response.sendRedirect("http://localhost:8080/ENI-Encheres");
 	}
 
 	/**

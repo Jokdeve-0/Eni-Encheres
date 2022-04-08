@@ -55,20 +55,19 @@ public class ModifierProfil extends HttpServlet {
 		HttpSession session = request.getSession();
 		RequestDispatcher rd;
 		
-		// Compare les passwords
-		if  (request.getParameter("mdp").equals(request.getParameter("mdpConfirme"))) {
 			// Récupère l'utilisateur connecté 
 			utilisateur_courant = (Utilisateur) session.getAttribute("utilisateur");
 			// Récupère no_utilisateur, le crédit et le role de l'utilisateur connecté 
 			int id = utilisateur_courant.getno_utilisateur();
 			int credit = utilisateur_courant.getCredit();
 			boolean admin = utilisateur_courant.getAdministrateur();
+			String mdpBDD = utilisateur_courant.getMot_de_passe();
 			// Créé l'utilisateur modifié
 			utilisateurModifier = new Utilisateur(id, (String) request.getParameter("pseudo"),
 					(String) request.getParameter("nom"), (String) request.getParameter("prenom"),
 					(String) request.getParameter("email"), (String) request.getParameter("telephone"),
 					(String) request.getParameter("rue"), (String) request.getParameter("codePostal"),
-					(String) request.getParameter("ville"), UserManager.hashPwd(request.getParameter("mdp")), credit, admin);
+					(String) request.getParameter("ville"), mdpBDD, credit, admin);
 			// Validation du formulaire
 			exceptions = manager.validateUtilisateur(utilisateurModifier);
 			try {
@@ -79,7 +78,9 @@ public class ModifierProfil extends HttpServlet {
 					
 					// Création d'une session
 					session = request.getSession();
-					// Set dans la session l'attribut "utilisateur"
+					// Réinitialise  l'attribut "utilisateur" dans la session
+					session.removeAttribute("utilisateur");
+					// Set l'attribut "utilisateur" dans la session
 					session.setAttribute("utilisateur", utilisateurModifier);
 					request.setAttribute("titlePage", "Mon Profil");
 					// redirection sur la page Home en mode connecter
@@ -96,8 +97,7 @@ public class ModifierProfil extends HttpServlet {
 				// renvoi sur la page modifier profil
 				doGet(request, response);
 			}
-				
-		}
+
 
 	
 	}

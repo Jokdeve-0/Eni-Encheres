@@ -3,7 +3,7 @@
 <%@include file="../includes/userConnect.jsp" %>
 <main class="inscription">
 	<form action="" method="post">
-		<h1>Profil</h1>
+		<h1>Modifier vos informations</h1>
 		<div>
 			<div class="groupForm">
 				<label for="pseudo">pseudo</label>
@@ -40,21 +40,13 @@
 				<input required type="text" id="ville" name="ville" value="${utilisateur != null ? utilisateur.getVille():''}"/>
 			</div>
 			<div class="groupForm">
-				<label for="mdp">mot de passe</label>
-				<input required type="password" id="mdp" name="mdp" value="${utilisateur != null ? utilisateur.getMot_de_passe():''}"/>
-			</div>
-			<div class="groupForm">
-				<label for="mdpConfirme">confirmation du mot de passe</label>
-				<input required type="password" id="mdpConfirme"  name="mdpConfirme" value="${utilisateur != null ? utilisateur.getMot_de_passe():''}"/>
-			</div>
-			<div class="groupForm">
 				<p>Crédit : ${utilisateur != null ? utilisateur.getCredit():''}</p>
 			</div>
 		</div>
 		<div class="btnsForm">
 			<button type="submit">Enregistrer</button>
 			<a href="SuppressionCompte">Supprimer mon compte</a>
-			<a href="">Retour</a>
+			<a href="MonProfil">Retour</a>
 		</div>
 	</form>
 </main>

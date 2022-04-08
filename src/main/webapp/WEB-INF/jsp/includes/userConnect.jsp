@@ -1,6 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
 <c:if test="${utilisateur != null }">
-	<p>${utilisateur.getPrenom()} est connecté</p>
+		<aside class="user-connected">
+			<div class="card-connected">
+		        <img src="https://www.nautec.com/wp-content/uploads/2018/04/placeholder-person.png" alt="">
+		        <h2>Bienvenue ${utilisateur.getPseudo()}</h2>
+		    </div>
+		</aside>
 </c:if>
