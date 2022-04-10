@@ -1,5 +1,12 @@
+/**
+ * PROJET ENI-ENCHERES
+ * 
+ */
 package fr.reddev.encheres.Exception.CodesMessages;
 
+/**
+ * @author REDDEV
+ */
 import java.util.ResourceBundle;
 
 public abstract class LecteurMessage {

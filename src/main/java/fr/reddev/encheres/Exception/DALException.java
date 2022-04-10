@@ -1,6 +1,12 @@
-
+/**
+ * PROJET ENI-ENCHERES
+ * 
+ */
 package fr.reddev.encheres.Exception;
 
+/**
+ * @author REDDEV
+ */
 public class DALException extends Exception {
 	private static final long serialVersionUID = 1L;
 	public DALException() {
@@ -11,6 +17,6 @@ public class DALException extends Exception {
 	}
 	@Override
 	public String toString() {
-		return "Couche DAL => DALException : \n" + super.getMessage();
+		return "***DALException***\n" + super.getMessage();
 	}
 }

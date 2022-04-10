@@ -1,0 +1,77 @@
+.inscription h1 {
+	padding: .2em;
+	width: 100%;
+	margin-bottom: 1em;
+}
+
+
+.inscription form {
+	max-width: 640px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-flow: row wrap;
+	margin: 0 auto;
+	padding: 1em 0;
+	box-shadow: 0 5px 10px #000;
+	background: rgba(0, 74, 131, .5);
+	color:#2a2a2a;
+  	text-shadow: 0 0 15px #fff;
+  	font-size: 1.2em;
+}
+
+.inscription form div {
+	width: 320px;
+}
+
+.inscription .groupForm {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	margin-bottom: .5em;
+}
+
+.inscription label {
+	width: 250px;
+	cursor: pointer;
+	margin-bottom: .2em;
+}
+
+.inscription input {
+	width: 250px;
+	height: 30px;
+	padding: 0 15px;
+	font-weight: bold;
+	border-radius: 5px;
+}
+
+.inscription .btnsForm {
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	padding: 1em;
+}
+
+.inscription .btnsForm button, .inscription .btnsForm a {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 130px;
+	height: 40px;
+	padding: .5em 1em;
+	border-radius: 8px;
+	border: 2px solid #f9f9f9;
+	color: #fff;
+	background: #004a83;
+	text-align: center;
+	font-size: .8em;
+}
+
+button[type=submit]:hover {
+	background: #ff8000;
+}
+
+button[type=reset]:hover, .btnsForm a:hover {
+	background: #800000;
+}

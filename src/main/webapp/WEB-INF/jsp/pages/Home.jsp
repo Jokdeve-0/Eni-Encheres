@@ -1,10 +1,46 @@
-<%@ page pageEncoding="UTF-8" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@include file="../includes/userConnect.jsp" %>
+<%@ page pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ include file="../../tests/includes/Menu-Test.jsp" %>
 
 <main class="home">
-<%@include file="../includes/erreurs.jsp" %>
-	<h1>Eni-Enchère</h1>
-	<p>Une solution permettant l’échange d’objets de seconde main au plus grand nombre.</p>
-	<p>Réutiliser des objets devenus inutiles plutôt que d’acheter neuf.</p>
+	<h1>
+		ENI-Enchères <br /> <span>la plateforme web qui vous permet de
+			céder ou d'acheter des objets sans transaction financière.</span>
+	</h1>
+	<section class="box-filter">
+		<%@include file="../includes/filtreArticle.jsp"%>
+		<div class="box-filterHome">
+			<c:if test="${utilisateur != null }">
+				<%@include file="../includes/filtresHome.jsp"%>
+			</c:if>
+		</div>
+	</section>
+	<%@include file="../includes/erreurs.jsp"%>
+	<div class="box-articles">
+		<c:forEach var="article" items="${catalogue}">
+			<article class="container">
+				<div class="poster">
+					<div class="poster__img"></div>
+					<div class="poster__info">
+						<h3 class="poster__title">${article.nom_article}</h3>
+						<hr /><br>
+						<p class="poster__text">
+							<span><strong>Prix:</strong><strong>${article.prix_initial }€</strong></span>
+							<span><strong>Fin de l'enchére:</strong><strong><fmt:formatDate pattern="dd/MM/yy" value="${article.date_fin_encheres}" /></strong></span>
+							<c:forEach var="user" items="${users}">
+								<c:if test="${user.no_utilisateur == article.no_utilisateur }">								
+									<span><strong>Retrait: </strong><strong class="rue">${user.rue}<br> ${user.code_postal} ${user.ville }</strong></span>
+								</c:if>
+							</c:forEach>
+							  <span><strong>Vendeur:</strong><strong> ${article.vendeur}</strong></span>
+						</p>
+					</div>
+				</div>
+				<a class="btn-article" href="Article?id=${article.no_article}">Voir les détails</a>
+			</article>
+		</c:forEach>
+	</div>
+
+
 </main>

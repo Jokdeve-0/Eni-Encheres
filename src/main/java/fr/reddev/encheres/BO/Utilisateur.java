@@ -1,4 +1,13 @@
+
+/**
+ * PROJET ENI-ENCHERES
+ * 
+ */
 package fr.reddev.encheres.BO;
+
+/**
+ * @author REDDEV
+ */
 
 public class Utilisateur {
 	private Integer no_utilisateur;
@@ -12,7 +21,7 @@ public class Utilisateur {
 	private String ville;
 	private String mot_de_passe;
 	private Integer credit;
-	private byte administrateur;
+	private boolean administrateur;
 	
 
 	public Utilisateur() {
@@ -20,12 +29,12 @@ public class Utilisateur {
 	}
 
 	public Utilisateur(String pseudo, String nom, String prenom, String email, String telephone,
-			String rue, String code_postal, String ville, String mot_de_passe, Integer credit, byte administrateur) {
+			String rue, String code_postal, String ville, String mot_de_passe, Integer credit, boolean administrateur) {
 		this(null, pseudo,  nom,  prenom,  email,  telephone, rue,  code_postal,  ville,  mot_de_passe,  credit,  administrateur);
 	}
 	
 	public Utilisateur(Integer no_utilisateur, String pseudo, String nom, String prenom, String email, String telephone,
-			String rue, String code_postal, String ville, String mot_de_passe, Integer credit, byte administrateur) {
+			String rue, String code_postal, String ville, String mot_de_passe, Integer credit, boolean administrateur) {
 		super();
 		this.no_utilisateur = no_utilisateur;
 		this.pseudo = pseudo;
@@ -129,11 +138,11 @@ public class Utilisateur {
 		this.credit = credit;
 	}
 
-	public byte getAdministrateur() {
+	public boolean getAdministrateur() {
 		return administrateur;
 	}
 
-	public void setAdministrateur(byte administrateur) {
+	public void setAdministrateur(boolean administrateur) {
 		this.administrateur = administrateur;
 	}
 
@@ -144,9 +153,4 @@ public class Utilisateur {
 				+ code_postal + ", ville=" + ville + ", mot_de_passe=" + mot_de_passe + ", credit=" + credit
 				+ ", administrateur=" + administrateur + "]";
 	}
-
-	
-
-	
-
 }

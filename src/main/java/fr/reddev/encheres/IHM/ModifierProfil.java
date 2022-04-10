@@ -1,0 +1,105 @@
+/**
+ * PROJET ENI-ENCHERES
+ * 
+ */
+package fr.reddev.encheres.IHM;
+
+/**
+ * @author REDDEV
+ */
+import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import fr.reddev.encheres.BLL.UserManager;
+import fr.reddev.encheres.BO.Utilisateur;
+import fr.reddev.encheres.Exception.BusinessException;
+import fr.reddev.encheres.Exception.CodesMessages.MSG_BLL;
+
+/**
+ * Modifier un profil
+ * Servlet implementation class MonProfil
+ */
+@WebServlet("/ModifierProfil")
+public class ModifierProfil extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		request.setAttribute("titlePage", "Modifier Mon Profil");
+		RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/jsp/pages/ModifierProfil.jsp");
+		rd.forward(request, response);
+	}
+
+	/**
+	 * Modifie un profil
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		BusinessException exceptions = new BusinessException();
+		UserManager manager = UserManager.getInstance();
+		Utilisateur utilisateur_courant  = null;
+		Utilisateur utilisateurModifier = null;
+		HttpSession session = request.getSession();
+		RequestDispatcher rd;
+		
+			// Récupère l'utilisateur connecté 
+			utilisateur_courant = (Utilisateur) session.getAttribute("utilisateur");
+			// Récupère no_utilisateur, le crédit et le role de l'utilisateur connecté 
+			int id = utilisateur_courant.getno_utilisateur();
+			int credit = utilisateur_courant.getCredit();
+			boolean admin = utilisateur_courant.getAdministrateur();
+			String mdpBDD = utilisateur_courant.getMot_de_passe();
+			// Créé l'utilisateur modifié
+			utilisateurModifier = new Utilisateur(id, (String) request.getParameter("pseudo"),
+					(String) request.getParameter("nom"), (String) request.getParameter("prenom"),
+					(String) request.getParameter("email"), (String) request.getParameter("telephone"),
+					(String) request.getParameter("rue"), (String) request.getParameter("codePostal"),
+					(String) request.getParameter("ville"), mdpBDD, credit, admin);
+			// Validation du formulaire
+			exceptions = manager.validateUtilisateur(utilisateurModifier);
+			try {
+				// si tout est OK
+				if (!exceptions.hasErreurs()) {
+					// Enregistre les modifications
+					manager.modifierProfil(utilisateurModifier);
+					
+					// Création d'une session
+					session = request.getSession();
+					// Réinitialise  l'attribut "utilisateur" dans la session
+					session.removeAttribute("utilisateur");
+					// Set l'attribut "utilisateur" dans la session
+					session.setAttribute("utilisateur", utilisateurModifier);
+					request.setAttribute("titlePage", "Mon Profil");
+					// redirection sur la page Home en mode connecter
+					rd = request.getRequestDispatcher("WEB-INF/jsp/pages/Profile.jsp");
+					rd.forward(request, response);
+					
+				} else {
+					exceptions.ajouterErreur(MSG_BLL.ERROR_UPDATE_UTILISATEUR);
+					throw exceptions;
+				}
+			} catch (BusinessException e) {
+				// set dans la requete la liste d'erreurs a la jsp
+				request.setAttribute("listeCodesErreur", exceptions.getListeCodesErreur());
+				// renvoi sur la page modifier profil
+				doGet(request, response);
+			}
+
+
+	
+	}
+
+}

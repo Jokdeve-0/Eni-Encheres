@@ -1,5 +1,12 @@
+/**
+ * PROJET ENI-ENCHERES
+ * 
+ */
 package fr.reddev.encheres.IHM;
 
+/**
+ * @author REDDEV
+ */
 import java.io.IOException;
 
 import javax.servlet.RequestDispatcher;
@@ -16,17 +23,19 @@ import fr.reddev.encheres.Exception.BusinessException;
 import fr.reddev.encheres.Exception.CodesMessages.MSG_BLL;
 
 /**
+ * Connexion
  * Servlet implementation class Connexion
  */
 @WebServlet("/Connexion")
 public class Connexion extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		
 		request.setAttribute("titlePage", "Connexion");
 		RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/jsp/pages/Connexion.jsp");
@@ -34,37 +43,42 @@ public class Connexion extends HttpServlet {
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * Connexion d'un utilisateur
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		BusinessException exceptions = new BusinessException();
 		UserManager manager = new UserManager();
 		Utilisateur utilisateur;
 		RequestDispatcher rd;
-		
-		String pseudo = request.getParameter("Pseudo" );
-		System.out.println(pseudo);
-		String  mdp = request.getParameter("MDP" );
-		System.out.println(mdp);
-		
 
-		
-			utilisateur = manager.connexion(pseudo,mdp);
-			if(utilisateur != null) {
-				HttpSession session =  request.getSession();
+		try {
+			// essai connexion
+			utilisateur = manager.connexion(request.getParameter("Pseudo"), request.getParameter("MDP"));
+			// OK
+			if (utilisateur != null && !request.getParameter("Pseudo").equals("") && !request.getParameter("MDP").equals("")) {
+				// Création d'une session
+				HttpSession session = request.getSession();
+				// Set dans la session l'attribut "utilisateur"
 				session.setAttribute("utilisateur", utilisateur);
-				System.out.println(utilisateur.toString());
-				
+				// redirection sur la page Home en mode connecter
 				request.setAttribute("titlePage", "Liste des enchères");
-				rd = request.getRequestDispatcher("WEB-INF/jsp/pages/Home.jsp");
-		
-			}else {
+				response.sendRedirect(request.getContextPath()+"/");
+			} else {
+				// PAS OK si erreurs identifiants
 				exceptions.ajouterErreur(MSG_BLL.ID_MDP_KO);
-				request.setAttribute("listeCodesErreur", exceptions.getListeCodesErreur());
-				request.setAttribute("titlePage", "Connexion");
-				rd = request.getRequestDispatcher("WEB-INF/jsp/pages/Connexion.jsp");
+				throw exceptions;
 			}
+		} catch (BusinessException e) {
+			e.printStackTrace();
+			// set dans la requete la liste d'erreurs a la jsp
+			request.setAttribute("listeCodesErreur", exceptions.getListeCodesErreur());
+			request.setAttribute("titlePage", "Connexion");
+			// redirection sur la page de connexion
+			rd = request.getRequestDispatcher("WEB-INF/jsp/pages/Connexion.jsp");
 			rd.forward(request, response);
+		}
 	}
-
 }
