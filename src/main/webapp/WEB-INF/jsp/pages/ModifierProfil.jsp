@@ -1,9 +1,19 @@
+<<<<<<< HEAD
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <main class="inscription">
 	<form action="" method="post" class="ModifMonProfil">
 		<h1>Modifier vos informations</h1>
 		<%@include file="../includes/erreurs.jsp"%>
 		<div class="box-form">
+=======
+<%@ page pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@include file="../includes/userConnect.jsp" %>
+<main class="inscription">
+	<form action="" method="post">
+		<h1>Modifier vos informations</h1>
+		<div>
+>>>>>>> 7b0875c12920df25e51724e34e7883470d4d5958
 			<div class="groupForm">
 				<label for="pseudo">pseudo</label>
 				<input required type="text" id="pseudo"  name="pseudo" value="${utilisateur != null ? utilisateur.getPseudo():''}"/>
@@ -13,7 +23,11 @@
 				<input required type="text" id="nom" name="nom" value="${utilisateur != null ? utilisateur.getNom():''}"/>
 			</div>
 			<div class="groupForm">
+<<<<<<< HEAD
 				<label for="prenom">prénom</label>
+=======
+				<label for="prenom">prÃ©nom</label>
+>>>>>>> 7b0875c12920df25e51724e34e7883470d4d5958
 				<input required type="text" id="prenom" name="prenom" value="${utilisateur != null ? utilisateur.getPrenom():''}"/>
 			</div>
 			<div class="groupForm">
@@ -21,9 +35,17 @@
 				<input required type="email" id="email" name="email" value="${utilisateur != null ? utilisateur.getEmail():''}"/>
 			</div>
 			<div class="groupForm">
+<<<<<<< HEAD
 				<label for="telephone">téléphone</label>
 				<input required type="tel" id="telephone" name="telephone" placeholder="FR 0605040302"  pattern="[0-9]{10}" value="${utilisateur != null ? utilisateur.getTelephone():''}" />
 			</div>
+=======
+				<label for="telephone">tÃ©lÃ©phone</label>
+				<input required type="tel" id="telephone" name="telephone" placeholder="FR 0605040302"  pattern="[0-9]{10}" value="${utilisateur != null ? utilisateur.getTelephone():''}" />
+			</div>
+		</div>
+		<div>
+>>>>>>> 7b0875c12920df25e51724e34e7883470d4d5958
 			<div class="groupForm">
 				<label for="rue">rue</label>
 				<input required type="text" id="rue" name="rue" value="${utilisateur != null ? utilisateur.getRue():''}"/>
@@ -37,6 +59,7 @@
 				<input required type="text" id="ville" name="ville" value="${utilisateur != null ? utilisateur.getVille():''}"/>
 			</div>
 			<div class="groupForm">
+<<<<<<< HEAD
 				<p class="credit">Crédit : <span>${utilisateur != null ? utilisateur.getCredit():''}</span> points</p>
 			</div>
 		</div>
@@ -44,6 +67,15 @@
 			<button class="btn-save" type="submit">Enregistrer</button>
 			<a  class="delete" href="SuppressionCompte">Supprimer</a>
 			<a class="return" href="MonProfil">Retour</a>
+=======
+				<p>CrÃ©dit : ${utilisateur != null ? utilisateur.getCredit():''}</p>
+			</div>
+		</div>
+		<div class="btnsForm">
+			<button type="submit">Enregistrer</button>
+			<a href="SuppressionCompte">Supprimer mon compte</a>
+			<a href="MonProfil">Retour</a>
+>>>>>>> 7b0875c12920df25e51724e34e7883470d4d5958
 		</div>
 	</form>
 </main>

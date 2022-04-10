@@ -8,7 +8,10 @@ package fr.reddev.encheres.BLL;
  * @author REDDEV
  */
 import java.time.LocalDate;
+<<<<<<< HEAD
 import java.util.ArrayList;
+=======
+>>>>>>> 7b0875c12920df25e51724e34e7883470d4d5958
 import java.util.List;
 
 import fr.reddev.encheres.BO.Articles_vendus;
@@ -32,12 +35,17 @@ public class Articles_vendusManager {
 	 * @param articleVendu
 	 * @throws BusinessException
 	 */
+<<<<<<< HEAD
 	public BusinessException creerArticle(Articles_vendus articleVendu) throws BusinessException{
+=======
+	public void creerArticle(Articles_vendus articleVendu) throws BusinessException{
+>>>>>>> 7b0875c12920df25e51724e34e7883470d4d5958
 		BusinessException exceptions = validateArticleVendu(articleVendu);
 		if (!exceptions.hasErreurs()) {
 			try {
 				articleDao.insert(articleVendu);
 			} catch (DALException e) {
+<<<<<<< HEAD
 				// TODO Message DAL
 				e.printStackTrace();
 			}
@@ -46,6 +54,14 @@ public class Articles_vendusManager {
 			// TODO Ecrire Message d'erreur
 		}
 		return exceptions;
+=======
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} else {
+			throw exceptions;
+		}
+>>>>>>> 7b0875c12920df25e51724e34e7883470d4d5958
 	}
 
 	/**
@@ -68,7 +84,11 @@ public class Articles_vendusManager {
 		if (articleVendu.getDate_debut_encheres().after(articleVendu.getDate_fin_encheres())) {
 			exceptions.ajouterErreur(MSG_BLL.ERROR_START_DATE_AFTER_END_DATE);
 		}
+<<<<<<< HEAD
 		if (date_debut.isBefore(LocalDate.now().plusDays(1)) || !date_fin.isAfter(date_debut)) {
+=======
+		if (date_debut.isBefore(LocalDate.now()) || !date_fin.isAfter(date_debut)) {
+>>>>>>> 7b0875c12920df25e51724e34e7883470d4d5958
 			exceptions.ajouterErreur(MSG_BLL.ERROR_DATE_BEFORE_TODAY);
 		}
 		return exceptions;
@@ -119,6 +139,7 @@ public class Articles_vendusManager {
 		}
 		return articles;
 	}
+<<<<<<< HEAD
 	
 	public Articles_vendus getArticleById(int id) throws BLLException {
 		Articles_vendus articles = null;
@@ -178,5 +199,7 @@ public class Articles_vendusManager {
 		}
 		
 	}
+=======
+>>>>>>> 7b0875c12920df25e51724e34e7883470d4d5958
 
 }

@@ -11,7 +11,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+<<<<<<< HEAD
 import java.util.ArrayList;
+=======
+>>>>>>> 7b0875c12920df25e51724e34e7883470d4d5958
 import java.util.List;
 
 import fr.reddev.encheres.BO.Utilisateur;
@@ -22,12 +25,19 @@ public class UtilisateurDaoImpl implements UtilisateurDAO {
 
 	public static final String SELECT_BY_LOGIN = "SELECT no_utilisateur,nom,pseudo,prenom,email,telephone,rue,code_postal,ville,mot_de_passe ,credit,administrateur FROM UTILISATEURS where pseudo = ?";
 	public static final String DELETE_USER = "DELETE FROM UTILISATEURS where no_utilisateur = ?";
+<<<<<<< HEAD
 	public static final String UPDATE_USER = "UPDATE UTILISATEURS SET  pseudo=? , nom=?  , prenom=? , email=? , telephone=? , rue=? , code_postal=? , ville=? , credit=?, mot_de_passe=? WHERE no_utilisateur = ?";
 	public static final String INSERT_USER = "INSERT INTO UTILISATEURS (pseudo,nom,prenom,email,telephone,rue,code_postal,ville,mot_de_passe ,credit,administrateur) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	public static final String SELECT_BY_ID = "SELECT * FROM UTILISATEURS WHERE no_utilisateur = ?";
 	public static final String SELECT_ALL = "SELECT * FROM UTILISATEURS";
 	
 	
+=======
+	public static final String UPDATE_USER = "UPDATE UTILISATEURS SET  pseudo=? , nom=?  , prenom=? , email=? , telephone=? , rue=? , code_postal=? , ville=? , mot_de_passe=? WHERE no_utilisateur = ?";
+	public static final String INSERT_USER = "INSERT INTO UTILISATEURS (pseudo,nom,prenom,email,telephone,rue,code_postal,ville,mot_de_passe ,credit,administrateur) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	public static final String SELECT_BY_ID = "SELECT * FROM UTILISATEURS WHERE no_utilisateur = ?";
+	
+>>>>>>> 7b0875c12920df25e51724e34e7883470d4d5958
 	@Override
 	public Utilisateur selectByLogin(String login) throws DALException {
 		Utilisateur utilisateur = null;
@@ -72,6 +82,7 @@ public class UtilisateurDaoImpl implements UtilisateurDAO {
 
 	@Override
 	public List<Utilisateur> selectAll() throws DALException {
+<<<<<<< HEAD
 		List<Utilisateur> catalogueUtilisateurs = new ArrayList<>();
 		Utilisateur utilisateur;
 		try {
@@ -129,6 +140,44 @@ public class UtilisateurDaoImpl implements UtilisateurDAO {
 
 	}
 
+=======
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void update(Utilisateur utilisateur) throws DALException {
+		try {
+			Connection cnx = JdbcTools.getConnection();
+			PreparedStatement pstmt = cnx.prepareStatement(UPDATE_USER);
+			// Attrs
+			pstmt.setString(1, utilisateur.getPseudo());
+			pstmt.setString(2, utilisateur.getNom());
+			pstmt.setString(3, utilisateur.getPrenom());
+			pstmt.setString(4, utilisateur.getEmail());
+			pstmt.setString(5, utilisateur.getTelephone());
+			pstmt.setString(6, utilisateur.getRue());
+			pstmt.setString(7, utilisateur.getCode_postal());
+			pstmt.setString(8, utilisateur.getVille());
+			pstmt.setString(9, utilisateur.getMot_de_passe());
+			// where
+			pstmt.setInt(10, utilisateur.getno_utilisateur());
+			// execute
+			int rows = pstmt.executeUpdate();
+			// check 1 utilisateur modifier
+			if (rows < 1) {
+				throw new DALException("Aucune modification n'a été éffectuées dans la BDD.");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new DALException(
+					" Une erreur est intervenue lors de la mise a jour du profil { DAOIMPL L.71 - update() } \nErreur : "
+							+ e);
+		}
+
+	}
+
+>>>>>>> 7b0875c12920df25e51724e34e7883470d4d5958
 	@Override
 	public void insert(Utilisateur utilisateur) throws DALException {
 		try {

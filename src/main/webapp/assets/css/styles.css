@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;900&display=swap");
 /*base*/
 * {
@@ -6,6 +7,22 @@
   box-sizing: border-box;
   text-decoration: none;
   font-family: "Roboto", sans-serif;
+=======
+@charset "UTF-8";
+
+@import
+	url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;900&display=swap')
+	;
+/* ########################################################### */
+/*BASE*/
+/* ########################################################### */
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	text-decoration: none;
+	font-family: 'Roboto', sans-serif;
+>>>>>>> 7b0875c12920df25e51724e34e7883470d4d5958
 }
 
 *:first-letter {
@@ -13,6 +30,7 @@
 }
 
 body {
+<<<<<<< HEAD
   display: flex;
   justify-content: center;
   align-items: center;
@@ -848,3 +866,312 @@ aside.user-connected {
 }
 
 /*# sourceMappingURL=styles.css.map */
+=======
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	min-height: 100vh;
+}
+
+main {
+	width: 100%;
+	flex: 1;
+}
+
+h1 {
+	text-align: center;
+	padding: 1em;
+}
+
+/* ########################################################### */
+/*PAGES*/
+/* ########################################################### */
+
+/*home*/
+.home p {
+	text-align: center;
+}
+
+/*inscription & modifier profil*/
+.inscription h1 {
+	padding: .2em;
+	width: 100%;
+}
+
+.inscription h2 {
+	width: 100%;
+	text-align: center;
+}
+
+.inscription form {
+	max-width: 640px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-flow: row wrap;
+	margin: 0 auto;
+	padding: 1em 0;
+	box-shadow: 0 5px 10px #000;
+	background: rgba(0, 74, 131, .5);
+}
+
+.inscription form div {
+	width: 320px;
+}
+
+.inscription .groupForm {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	margin-bottom: .5em;
+}
+
+.inscription label {
+	width: 250px;
+	cursor: pointer;
+	margin-bottom: .2em;
+}
+
+.inscription input {
+	width: 250px;
+	height: 30px;
+	padding: 0 15px;
+	font-weight: bold;
+	border-radius: 5px;
+}
+
+.inscription .btnsForm {
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	padding: 1em;
+}
+
+.inscription .btnsForm button, .inscription .btnsForm a {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 130px;
+	height: 40px;
+	padding: .5em 1em;
+	border-radius: 8px;
+	border: 2px solid #f9f9f9;
+	color: #fff;
+	background: #004a83;
+	text-align: center;
+	font-size: .8em;
+}
+
+button[type=submit]:hover {
+	background: #ff8000;
+}
+
+button[type=reset]:hover, .btnsForm a:hover {
+	background: #800000;
+}
+
+/*Profile*/
+.MonProfil {
+	max-width: 640px;
+	margin: 0 auto;
+	padding: 1em 0;
+	box-shadow: 0 5px 10px #000;
+	background: rgba(0, 74, 131, .5);
+}
+
+.MonProfil .MonProfil-card {
+	max-width: 640px;
+	display: flex;
+	justify-content: center;
+	align-items: stretch;
+	flex-flow: row wrap;
+	margin: 0 auto;
+	padding: 1em 0;
+}
+
+.MonProfil .MonProfil-card div {
+	width: 320px;
+}
+
+.MonProfil .groupForm {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: .5em;
+	padding: .5em;
+}
+
+.MonProfil .groupForm p:nth-child(1) {
+	width: 45%;
+	padding-left: 1em;
+	color: #fff;
+	/* 	border-bottom: 2px dotted #fff; */
+}
+
+.MonProfil .groupForm p:nth-child(2) {
+	width: 55%;
+	border: 2px dotted #fff;
+	border-radius: 15px;
+	text-align: start;
+	padding: .5em 1em;
+	background: #fff;
+}
+
+.MonProfil .btnsForm {
+	width: 600px;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	padding: 1em;
+}
+
+.MonProfil .btnsForm a {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 130px;
+	height: 40px;
+	padding: .5em 1em;
+	border-radius: 8px;
+	border: 2px solid #f9f9f9;
+	color: #fff;
+	background: #004a83;
+	text-align: center;
+	font-size: .8em;
+}
+
+@media screen and (min-width: 640px) {
+	.inscription form, .MonProfil {
+		margin-top: 2em;
+	}
+	.inscription .btnsForm {
+		width: 100%;
+		justify-content: flex-end;
+	}
+	.inscription .btnsForm button, .inscription .btnsForm a {
+		margin-right: 2em;
+	}
+}
+/* ########################################################### */
+/*INCLUDES*/
+/* ########################################################### */
+/*header*/
+header {
+	width: 100%;
+	background: #004a83;
+}
+
+header .head-top {
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	flex-direction: row nowap;
+	padding-left: 2em;
+}
+
+header img {
+	width: 100px;
+	height: auto;
+}
+
+header a {
+	color: #fff;
+	margin-right: 1.5em;
+}
+
+header a:hover {
+	color: #9f9f9f;
+}
+/*userConnect*/
+aside.user-connected {
+	width: 100%;
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+}
+
+.card-connected {
+	display: flex;
+	flex-direction: row nowrap;
+	align-items: center;
+	border-radius: 0 0 15px 15px;
+	background-color: #346082;
+	padding: .5em;
+	margin-left: .5em;
+}
+
+.card-connected img {
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	background-image: linear-gradient(60deg, #2AAA8A, #4169E1);
+	padding: 5px;
+	/*     margin-top: -45px; */
+}
+
+.card-connected h2 {
+	margin: 10px 0;
+	font-size: 14px;
+}
+
+/*filtresHome*/
+form.filterArticle {
+	display: flex;
+	justify-content: end;
+	align-items: center;
+	flex-flow: row wrap;
+	max-width: 300px;
+	border: 1px dotted #2a2a2a;
+	border-radius: 10px;
+	padding: .5em;
+}
+
+form.filterArticle div.group-achats, form.filterArticle div.group-ventes
+	{
+	display: flex;
+	align-items: start;
+	flex-flow: row wrap;
+	max-width: 250px;
+}
+
+form.filterArticle div.group-checks {
+	display: flex;
+	justify-content: center;
+	align-items: start;
+	flex-direction: column;
+	padding: .5em;
+}
+
+@media screen and (min-width:600px) {
+	form.filterArticle {
+		max-width: 600px;
+	}
+}
+
+/*footer*/
+footer {
+	width: 100%;
+	background: #004a83;
+	padding: 1em 0;
+	color: #fff;
+}
+
+footer h2 {
+	text-align: center;
+}
+
+footer p {
+	text-align: center;
+	padding: 0 2em;
+	color: #9f9f9f;
+}
+
+footer p span {
+	font-size: 1.2em;
+	font-weight: bold;
+	color: #b00000;
+}
+>>>>>>> 7b0875c12920df25e51724e34e7883470d4d5958

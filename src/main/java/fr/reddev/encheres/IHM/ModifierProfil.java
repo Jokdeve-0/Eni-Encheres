@@ -93,7 +93,11 @@ public class ModifierProfil extends HttpServlet {
 				}
 			} catch (BusinessException e) {
 				// set dans la requete la liste d'erreurs a la jsp
+<<<<<<< HEAD
 				request.setAttribute("listeCodesErreur", exceptions.getListeCodesErreur());
+=======
+				request.setAttribute("listeErreur", exceptions.getListeCodesErreur());
+>>>>>>> 7b0875c12920df25e51724e34e7883470d4d5958
 				// renvoi sur la page modifier profil
 				doGet(request, response);
 			}

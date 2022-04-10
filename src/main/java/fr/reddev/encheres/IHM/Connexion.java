@@ -58,7 +58,11 @@ public class Connexion extends HttpServlet {
 			// essai connexion
 			utilisateur = manager.connexion(request.getParameter("Pseudo"), request.getParameter("MDP"));
 			// OK
+<<<<<<< HEAD
 			if (utilisateur != null && !request.getParameter("Pseudo").equals("") && !request.getParameter("MDP").equals("")) {
+=======
+			if (utilisateur != null) {
+>>>>>>> 7b0875c12920df25e51724e34e7883470d4d5958
 				// Création d'une session
 				HttpSession session = request.getSession();
 				// Set dans la session l'attribut "utilisateur"

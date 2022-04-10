@@ -13,10 +13,15 @@ import fr.reddev.encheres.BO.Utilisateur;
 import fr.reddev.encheres.DAL.Articles_vendusDAO;
 import fr.reddev.encheres.DAL.DAOFactory;
 import fr.reddev.encheres.DAL.UtilisateurDAO;
+<<<<<<< HEAD
+=======
+import fr.reddev.encheres.Exception.BusinessException;
+>>>>>>> 7b0875c12920df25e51724e34e7883470d4d5958
 import fr.reddev.encheres.Exception.DALException;
 
 public class Articles_vendusDaoImpl implements Articles_vendusDAO  {
 	
+<<<<<<< HEAD
 	public static final String SELECT_ALL = "SELECT * FROM ARTICLES_VENDUS a INNER JOIN UTILISATEURS u ON (a.no_utilisateur = u.no_utilisateur) ORDER BY no_article DESC";
 	public static final String SELECT_CATEGORIES = "SELECT * FROM ARTICLES_VENDUS a INNER JOIN CATEGORIES c ON (a.no_categorie = c.no_categorie) WHERE c.no_categorie = ?";
 	public static final String SELECT_BY_ID = "SELECT * FROM ARTICLES_VENDUS WHERE no_article =?";
@@ -53,6 +58,15 @@ public class Articles_vendusDaoImpl implements Articles_vendusDAO  {
 				throw new DALException("\nERREUR : Sur la sélection de toutes les données.\n\nMESSAGE : " + e);
 			}
 			return article;
+=======
+	public static final String SELECT_ALL = "SELECT * FROM ARTICLES_VENDUS a INNER JOIN UTILISATEURS u ON (a.no_utilisateur = u.no_utilisateur)";
+	public static final String SELECT_CATEGORIES = "SELECT * FROM ARTICLES_VENDUS a INNER JOIN CATEGORIES c ON (a.no_categorie = c.no_categorie) WHERE c.no_categorie = ?";
+	
+	@Override
+	public Articles_vendus selectById(int id) throws DALException {
+		// TODO Pensez a joindre les retraits
+		return null;
+>>>>>>> 7b0875c12920df25e51724e34e7883470d4d5958
 	}
 
 	@Override
@@ -142,6 +156,14 @@ public class Articles_vendusDaoImpl implements Articles_vendusDAO  {
 		
 	}
 
+<<<<<<< HEAD
+=======
+	@Override
+	public void creerArticle(Articles_vendus article) throws BusinessException {
+		// TODO Auto-generated method stub
+		
+	}
+>>>>>>> 7b0875c12920df25e51724e34e7883470d4d5958
 
 	public List<Articles_vendus> selectCategorie(int id) throws DALException {
 		List<Articles_vendus> listArticles = new ArrayList<>();

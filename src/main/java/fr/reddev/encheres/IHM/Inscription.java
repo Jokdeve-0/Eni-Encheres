@@ -36,6 +36,10 @@ public class Inscription extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+<<<<<<< HEAD
+=======
+		
+>>>>>>> 7b0875c12920df25e51724e34e7883470d4d5958
 		request.setAttribute("titlePage", "Inscription");
 		RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/jsp/pages/Inscription.jsp");
 		rd.forward(request, response);
@@ -91,7 +95,11 @@ public class Inscription extends HttpServlet {
 			}
 		} catch (BusinessException e) {
 			// set dans la requete la liste d'erreurs a la jsp
+<<<<<<< HEAD
 			request.setAttribute("listeCodesErreur", exceptions.getListeCodesErreur());
+=======
+			request.setAttribute("listeErreur", exceptions.getListeCodesErreur());
+>>>>>>> 7b0875c12920df25e51724e34e7883470d4d5958
 			// renvoi sur la page d'inscription
 			doGet(request, response);
 		}

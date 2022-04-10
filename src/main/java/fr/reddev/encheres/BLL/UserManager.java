@@ -10,7 +10,10 @@ package fr.reddev.encheres.BLL;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+<<<<<<< HEAD
 import java.util.List;
+=======
+>>>>>>> 7b0875c12920df25e51724e34e7883470d4d5958
 import java.util.regex.Pattern;
 
 import fr.reddev.encheres.BO.Utilisateur;
@@ -200,6 +203,7 @@ public class UserManager {
 			sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
 		}
 		return sb.toString();
+<<<<<<< HEAD
 	}
 
 	public List<Utilisateur> AfficherTousUtilisateurs() {
@@ -226,6 +230,8 @@ public class UserManager {
 			e.printStackTrace();
 		}
 		return vendeur;
+=======
+>>>>>>> 7b0875c12920df25e51724e34e7883470d4d5958
 	}
 
 }
