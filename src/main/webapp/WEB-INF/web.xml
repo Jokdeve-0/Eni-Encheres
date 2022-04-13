@@ -14,17 +14,21 @@
     </servlet-mapping>
     <servlet-mapping>
     	<servlet-name>default</servlet-name>
-<<<<<<< HEAD
     	<url-pattern>*.map</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
     	<servlet-name>default</servlet-name>
-=======
->>>>>>> 7b0875c12920df25e51724e34e7883470d4d5958
     	<url-pattern>*.js</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
     	<servlet-name>default</servlet-name>
     	<url-pattern>*.png</url-pattern>
     </servlet-mapping>
+    <error-page>
+	<error-code>500</error-code>
+		<location>/WEB-INF/jsp/pages/500.jsp</location>
+	</error-page>
+	<session-config>
+		<session-timeout>1</session-timeout>
+	</session-config>
 </web-app>

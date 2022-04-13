@@ -1,8 +1,16 @@
+/**
+ * PROJET ENI-ENCHERES
+ * 
+ */
 package fr.reddev.encheres.BLL;
 
-<<<<<<< HEAD
+/**
+ * @author REDDEV
+ */
 import java.sql.Date;
+import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.List;
 
 import fr.reddev.encheres.BO.Articles_vendus;
 import fr.reddev.encheres.BO.Encheres;
@@ -10,69 +18,25 @@ import fr.reddev.encheres.BO.Utilisateur;
 import fr.reddev.encheres.DAL.DAOFactory;
 import fr.reddev.encheres.DAL.EncheresDAO;
 import fr.reddev.encheres.Exception.BLLException;
-import fr.reddev.encheres.Exception.BusinessException;
 import fr.reddev.encheres.Exception.DALException;
-import fr.reddev.encheres.Exception.MessageConfException;
-import fr.reddev.encheres.Exception.CodesMessages.MSG_BLL;
 
 public class EncheresManager {
-	public Utilisateur ajouterEnchere(Encheres enchere,Utilisateur encherisseur, int somme, Articles_vendus article) throws BusinessException {
-		EncheresDAO enchereDao = DAOFactory.getEncheresDAO();
-		BusinessException exceptions = new BusinessException();
-		MessageConfException messages = new MessageConfException();
-		Encheres newEnchere = new Encheres(encherisseur.getno_utilisateur(),article.getNo_article(),Date.valueOf(LocalDate.now()), somme);	
-		Utilisateur userMAJ = null;
 
-		if(enchere != null) {
-			if(validerSoldeSuffisant(enchere, encherisseur.getCredit())) {
-				if(enchereSuperieurAncienne(enchere.getMontant_enchere(),somme)) {
-				
-					//	credit l'ancien
-					recrediterUtilisateur(enchere.getMontant_enchere(),enchere.getNo_utilisateur());
-					//debit le nouveau
-					userMAJ = debiterUtilisateur(somme,newEnchere.getNo_utilisateur());
-					//ajouter l'enchere
-					try {
-						enchereDao.update(newEnchere);
-					} catch (DALException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}				
-				}else {
-					exceptions.ajouterErreur(0);
-					// TODO pas de message
-				}
-			}else {
-				exceptions.ajouterErreur(MSG_BLL.NOMBRE_DE_POINTS_INSUFFISANT);
-				// TODO  pas de message
-			}
-		}else {
-			// si il y n'a pas d'enchere en cours
-			if(valideSuperieurAuPrix(article,somme)) {
-				//debit l'utilisateur
-				userMAJ = debiterUtilisateur(somme,newEnchere.getNo_utilisateur());
-				try {
-					//ajoute une nouvelle enchere
-					enchereDao.insert(newEnchere);
-					// envoie message de confirmation
-				} catch (DALException e) {
-					// TODO message DAL console 
-					e.printStackTrace();
-				}
-			}else {
-				exceptions.ajouterErreur(0);
-				// TODO message somme inferieur au prix initial
-			}
-			
-		}
-
-		if (exceptions.hasErreurs()) {
-				throw exceptions;
-		}
-		return userMAJ;
+	public List<Encheres> getAllEncheres() throws DALException, SQLException {
+		return DAOFactory.getEncheresDAO().selectAll();
 	}
-	
-	private Utilisateur debiterUtilisateur(int somme, Integer no_utilisateur) {
+
+	public boolean verifExisteEnchere(Integer no_utilisateur, Integer no_article) throws BLLException, DALException {
+		EncheresDAO enchereDao = DAOFactory.getEncheresDAO();
+		boolean existe = false;
+		Encheres enchere = enchereDao.selectByUser(no_article, no_utilisateur);
+		if (enchere != null) {
+			existe = true;
+		}
+		return existe;
+	}
+
+	public Utilisateur debiterUtilisateur(int somme, Integer no_utilisateur) throws DALException, SQLException {
 		UserManager userMG = new UserManager();
 		Utilisateur user = userMG.GetUtilisateur(no_utilisateur);
 		user.setCredit(user.getCredit() - somme);
@@ -80,95 +44,47 @@ public class EncheresManager {
 		return user;
 	}
 
-	private void recrediterUtilisateur(Integer montant_enchere, Integer no_utilisateur) {
+	public void recrediterUtilisateur(Integer montant_enchere, Integer no_utilisateur) throws DALException, SQLException {
 		UserManager userMG = new UserManager();
 		Utilisateur oldUser = userMG.GetUtilisateur(no_utilisateur);
 		oldUser.setCredit(oldUser.getCredit() + montant_enchere);
 		userMG.modifierProfil(oldUser);
 	}
 
-	private boolean valideSuperieurAuPrix(Articles_vendus article, int somme) {
-		boolean valid= false;
-		if(article.getPrix_initial() < somme) {
-			valid = true;
-		}
-		return valid;
+	public boolean validerSoldeSuffisant(Integer somme, Integer credit) {
+		return credit > somme ? true : false;
 	}
 
-	// Méthodes privées
-	
-
-	private boolean validerSoldeSuffisant(Encheres enchere, Integer credit) {
-		boolean valid = false;
-		if (credit > enchere.getMontant_enchere()) {
-			valid = true;
-		}
-		return valid;
-	}
-	public boolean enchereSuperieurAncienne(Integer AncienMontant, int NouveauMontant) {
-		boolean verif = false;
-		if (NouveauMontant > AncienMontant) {
-			verif = true;
-		}
-		return verif;
+	public boolean sommeSuperieurPrixInitial(Integer somme, Integer prix) {
+		return somme >= prix ? true : false;
 	}
 
-	public Encheres rechercheEnchere(Integer no_article) throws BLLException {
-		EncheresDAO enchereDao = DAOFactory.getEncheresDAO();
-		Encheres enchere = new Encheres();
-		try {
-			enchere = enchereDao.selectById(no_article);
-		} catch (DALException e) {
-			e.printStackTrace();
-			throw new BLLException(
-					"Erreur lors de la récupération des catégories par libellé {CategorieManager - L38 - getCatalogueLibelle()}");
-		}
-		return enchere;
+	public boolean enchereSuperieurAncienne(Encheres curr_enchere, int NouveauMontant) {
+		return curr_enchere.getMontant_enchere() == 0 || curr_enchere.getMontant_enchere() < NouveauMontant ? true: false;
 
 	}
 
+	public Encheres rechercheMaxEnchere(Integer no_article) throws BLLException, DALException {
+		return DAOFactory.getEncheresDAO().recuprerMaxEnchere(no_article);
+	}
 
 	public boolean etatEnCours(Articles_vendus article) {
-		boolean etat = false;
-		if(article.getDate_debut_encheres().before(Date.valueOf(LocalDate.now().plusDays(1))) &&
-			article.getDate_fin_encheres().after(Date.valueOf(LocalDate.now()))) {
-			etat = true;
-		}
-		return etat;
-	}
-	
-}
-=======
-import fr.reddev.encheres.BO.Encheres;
-import fr.reddev.encheres.DAL.DAOFactory;
-import fr.reddev.encheres.Exception.BusinessException;
-import fr.reddev.encheres.Exception.DALException;
-import fr.reddev.encheres.Exception.CodesMessages.MSG_BLL;
+		return article.getDate_debut_encheres().before(Date.valueOf(LocalDate.now().plusDays(1)))
+				&& article.getDate_fin_encheres().after(Date.valueOf(LocalDate.now())) ? true : false;
 
-public class EncheresManager {
-	public void ajouterEnchere(Encheres enchere) throws BusinessException {
-		BusinessException businessException = new BusinessException();
-		validerSoldeSuffisant(enchere, businessException);
-		if (!businessException.hasErreurs()) {
-			try {
-				DAOFactory.getEncheresDAO(). insert(enchere);
-			} catch (DALException e) {
-				
-				e.printStackTrace();
-			}
-		} else {
-			throw businessException;
-		}
 	}
-	
-	// Méthodes privées
-	
-	private void validerSoldeSuffisant(Encheres enchere, BusinessException businessException) {
-		if (enchere.getUtilisateur().getCredit() < enchere.getMontantEnchere()) {
-			businessException.ajouterErreur(MSG_BLL.NOMBRE_DE_POINTS_INSUFFISANT);//pas de message
-		}
-	}
-	
-}
 
->>>>>>> 7b0875c12920df25e51724e34e7883470d4d5958
+	public void miseAjour(Encheres enchere) throws BLLException, SQLException, DALException {
+		DAOFactory.getEncheresDAO().update(enchere);
+
+	}
+
+	public void ajouteEnchere(Encheres newEnchere) throws BLLException, DALException, SQLException {
+		DAOFactory.getEncheresDAO().insert(newEnchere);
+	}
+
+	public boolean etatTerminer(Articles_vendus article) {
+		return article.getDate_fin_encheres().before(Date.valueOf(LocalDate.now())) ? true : false;
+	}
+
+}

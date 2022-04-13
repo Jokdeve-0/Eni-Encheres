@@ -1,14 +1,19 @@
+/**
+ * PROJET ENI-ENCHERES
+ * 
+ */
 package fr.reddev.encheres.DAL;
 
+/**
+ * @author REDDEV
+ */
+
 import fr.reddev.encheres.BO.Encheres;
+import fr.reddev.encheres.Exception.DALException;
 
-<<<<<<< HEAD
- public interface EncheresDAO extends DAO<Encheres>{
+public interface EncheresDAO extends DAO<Encheres> {
 
-=======
-import fr.reddev.encheres.Exception.BusinessException;
+	public Encheres recuprerMaxEnchere(int idArticle) throws DALException;
 
- public interface EncheresDAO extends DAO<Encheres>{
-	public void insertEnchere(Encheres enchere) throws BusinessException;
->>>>>>> 7b0875c12920df25e51724e34e7883470d4d5958
+	public Encheres selectByUser(int idArticle, Integer no_utilisateur) throws DALException;
 }

@@ -1,5 +1,12 @@
+/**
+ * PROJET ENI-ENCHERES
+ * 
+ */
 package fr.reddev.encheres.TEST;
 
+/**
+ * @author REDDEV
+ */
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -14,7 +21,9 @@ import javax.servlet.http.HttpServletResponse;
 import fr.reddev.encheres.BLL.Articles_vendusManager;
 import fr.reddev.encheres.BO.Articles_vendus;
 import fr.reddev.encheres.BO.Utilisateur;
+import fr.reddev.encheres.Exception.BLLException;
 import fr.reddev.encheres.Exception.BusinessException;
+import fr.reddev.encheres.Exception.DALException;
 
 /**
  * Servlet implementation class AddArticle
@@ -39,7 +48,7 @@ public class TestAjouterArticle extends HttpServlet {
 		
 // 	MOCK UTILISATEUR FAKE 
 		Utilisateur curr_user = new Utilisateur(
-				1,"Jokdeve","Looper","Arts","jokdeve@gmail.com","0123456789","test_rue","59250","test_ville","test",250,true
+				1,"Jokdeve","Looper","Arts","jokdeve@gmail.com","0123456789","test_rue","59250","test_ville","test",250,true,true
 				);
 
         // New Articles
@@ -51,17 +60,18 @@ public class TestAjouterArticle extends HttpServlet {
                 200,
                 null, curr_user.getno_utilisateur(),   1, "CR", curr_user.getPseudo()
         );
-          try {
-					artManager.creerArticle(av);
-			} catch (BusinessException e) {
-				e.printStackTrace();
-				exceptions.ajouterErreur(0);
-				// penser a creer le message d'erreur creation utilisateur echoué.
-				request.setAttribute("listeCodesErreur", exceptions.getListeCodesErreur());
-				e.printStackTrace();
-			} 
+       
+		try {
+			artManager.creerArticle(av);
+		} catch (BLLException | DALException e) {
+			exceptions.ajouterErreur(0);
+			// TODO penser a creer le message d'erreur creation utilisateur echoué.
+			request.setAttribute("listeCodesErreur", exceptions.getListeCodesErreur());
+			e.printStackTrace();
+		}
+			
          
-          response.sendRedirect(request.getContextPath()+"/Home");
+		response.sendRedirect(request.getContextPath()+"/Home");
 		
 		
 

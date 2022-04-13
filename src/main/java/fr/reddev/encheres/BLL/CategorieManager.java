@@ -1,12 +1,15 @@
+/**
+ * PROJET ENI-ENCHERES
+ * 
+ */
 package fr.reddev.encheres.BLL;
 
-import java.util.ArrayList;
+import java.sql.SQLException;
 import java.util.List;
 
 import fr.reddev.encheres.BO.Categorie;
 import fr.reddev.encheres.DAL.CategorieDAO;
 import fr.reddev.encheres.DAL.DAOFactory;
-import fr.reddev.encheres.Exception.BLLException;
 import fr.reddev.encheres.Exception.DALException;
 
 public class CategorieManager {
@@ -16,25 +19,23 @@ public class CategorieManager {
 		daoCategories = DAOFactory.getCategorieDAO();
 	}
 
-	public List<Categorie> getCategories() throws BLLException {
-		List<Categorie> list = new ArrayList<>();
-		try {
-			list = daoCategories.selectAll();
-		} catch (DALException e) {
-			e.printStackTrace();
-			throw new BLLException("Erreur lors de la récupération des catégories {CategorieManager - L26 - getCategories()}");
-		}
-		return list;
+	public List<Categorie> getCategories() throws DALException, SQLException {
+		return daoCategories.selectAll();
+
 	}
 
-	public List<Categorie> getCatalogueLibelle(String libelle) throws BLLException {
-		List<Categorie> list = new ArrayList<>();
-		try {
-			list = daoCategories.selectByLibelle(libelle);
-		} catch (DALException e) {
-			e.printStackTrace();
-			throw new BLLException("Erreur lors de la récupération des catégories par libellé {CategorieManager - L38 - getCatalogueLibelle()}");
-		}
-		return list;
+	public List<Categorie> getCatalogueLibelle(String libelle) throws DALException {
+		return daoCategories.selectByLibelle(libelle);
+	}
+	
+	public void ajouterCategorie(String libelle) throws DALException  {
+			daoCategories.insertCategorie(libelle);
+	}
+	
+	public void deleteCategorie(Integer id) throws DALException, SQLException {
+			daoCategories.delete(id);
+	}
+	public void updateCategorie(String libelle, int id) throws DALException {
+		daoCategories.update(libelle, id);
 	}
 }

@@ -8,6 +8,7 @@ package fr.reddev.encheres.IHM;
  * @author REDDEV
  */
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -20,11 +21,11 @@ import javax.servlet.http.HttpSession;
 import fr.reddev.encheres.BLL.UserManager;
 import fr.reddev.encheres.BO.Utilisateur;
 import fr.reddev.encheres.Exception.BusinessException;
+import fr.reddev.encheres.Exception.DALException;
 import fr.reddev.encheres.Exception.CodesMessages.MSG_BLL;
 
 /**
- * Inscription
- * Servlet implementation class Inscription
+ * Inscription Servlet implementation class Inscription
  */
 @WebServlet("/Inscription")
 public class Inscription extends HttpServlet {
@@ -36,10 +37,6 @@ public class Inscription extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-<<<<<<< HEAD
-=======
-		
->>>>>>> 7b0875c12920df25e51724e34e7883470d4d5958
 		request.setAttribute("titlePage", "Inscription");
 		RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/jsp/pages/Inscription.jsp");
 		rd.forward(request, response);
@@ -53,7 +50,6 @@ public class Inscription extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-	
 
 		UserManager manager = new UserManager();
 		BusinessException exceptions = new BusinessException();
@@ -65,13 +61,18 @@ public class Inscription extends HttpServlet {
 			utilisateur = new Utilisateur(request.getParameter("pseudo"), request.getParameter("nom"),
 					request.getParameter("prenom"), request.getParameter("email"), request.getParameter("telephone"),
 					request.getParameter("rue"), request.getParameter("codePostal"), request.getParameter("ville"),
-					UserManager.hashPwd(request.getParameter("mdp")), 250, false);
+					UserManager.hashPwd(request.getParameter("mdp")), 250, false,true);
 			// Validation du formulaire
 			exceptions = manager.validateUtilisateur(utilisateur);
 			// Si le formulaire est valide
 			if (!exceptions.hasErreurs()) {
 				// Enregistrement du nouveau profil dans la BDD
-				exceptions = manager.createUtilisateur(utilisateur, exceptions);
+				try {
+					exceptions = manager.createUtilisateur(utilisateur, exceptions);
+				} catch (SQLException | DALException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		} else
 			// Si les passwords ne correspondent pas.
@@ -80,11 +81,17 @@ public class Inscription extends HttpServlet {
 			// si tout est OK
 			if (!exceptions.hasErreurs()) {
 				// On connecte le nouvel utilisateur
-				Utilisateur nouvelUtilisateur = manager.connexion(utilisateur.getPseudo(), request.getParameter("mdp"));
+				Utilisateur nouvelUtilisateur;
+				try {
+					nouvelUtilisateur = manager.connexion(utilisateur.getPseudo(), request.getParameter("mdp"));
+					HttpSession session = request.getSession();
+					session.setAttribute("utilisateur", nouvelUtilisateur);
+				} catch (DALException | SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				// Création d'une session
-				HttpSession session = request.getSession();
 				// Set dans la session l'attribut "utilisateur"
-				session.setAttribute("utilisateur", nouvelUtilisateur);
 				request.setAttribute("titlePage", "Accueil");
 				// redirection sur la page Home en mode connecter
 				response.sendRedirect("http://localhost:8080/ENI-Encheres");
@@ -95,15 +102,11 @@ public class Inscription extends HttpServlet {
 			}
 		} catch (BusinessException e) {
 			// set dans la requete la liste d'erreurs a la jsp
-<<<<<<< HEAD
 			request.setAttribute("listeCodesErreur", exceptions.getListeCodesErreur());
-=======
-			request.setAttribute("listeErreur", exceptions.getListeCodesErreur());
->>>>>>> 7b0875c12920df25e51724e34e7883470d4d5958
 			// renvoi sur la page d'inscription
 			doGet(request, response);
 		}
 
 	}
-	
+
 }

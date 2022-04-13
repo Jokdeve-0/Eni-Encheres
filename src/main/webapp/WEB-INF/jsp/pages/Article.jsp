@@ -1,6 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <main class="home">
-	<%@include file="../includes/erreurs.jsp"%>
 	<article class="Article-Page">
 		<div class="box-title">
 			<div class="img"></div>
@@ -51,7 +50,7 @@
 			<div class="groupForm">
 				<p>
 					<strong>Vendeur: </strong><a
-						href="${context}#?id=${vendeur.no_utilisateur }">${vendeur.pseudo}</a>
+						href="${context}/MonProfil?idVendeur=${vendeur.no_utilisateur }">${vendeur.pseudo}</a>
 				</p>
 			</div>
 			<hr>
@@ -63,6 +62,8 @@
 		</div>
 	</article>
 	<section class="Article-Page">
+		<%@include file="../includes/erreursSession.jsp"%>
+		<%@include file="../includes/messageConfirmation.jsp"%>
 		<div class="bestAuction">
 			<c:choose>
 				<c:when test="${etatEnchere != null}">
@@ -81,20 +82,23 @@
 			</c:choose>
 		</div>
 		<c:choose>
+			<c:when test="${utilisateur != null && utilisateur.pseudo == vendeur.pseudo}">
+				s{article.prix_initial + enchere.montant_enchere}
+			</c:when>
 			<c:when test="${utilisateur != null}">
-				<form action="Encherir?id=${article.no_article}" method="post" class="formEncherir">
-					<label for="prix">Votre proposition:</label> 
-					<input type="number" id="prix" name="howmuch">
+				<form action="Encherir?id=${article.no_article}" method="post"
+					class="formEncherir">
+					<label for="prix">Votre proposition:</label> <input type="number"
+						id="prix" name="howmuch">
 					<button type="submit">Encherir</button>
 				</form>
 			</c:when>
 			<c:otherwise>
 				<div class="formEncherir">
 					<p>
-						Si vous souhaitez encherir, veuillez <br>
-						<a href="${context}/Connexion">vous connecter</a>
-						 ou 
-						 <a href="${context}/Inscription">créer un compte</a>
+						Si vous souhaitez encherir, veuillez <br> <a
+							href="${context}/Connexion">vous connecter</a> ou <a
+							href="${context}/Inscription">créer un compte</a>
 					</p>
 				</div>
 			</c:otherwise>

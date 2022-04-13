@@ -10,6 +10,10 @@
 			<label for="MDP">Mot de passe</label> <input type="password" id="MDP"
 				name="MDP" />
 		</div>
+			<div>
+		 	<label for="connection-remember">Se souvenir de moi:
+         	<input id="connection-remember" type="checkbox" name="connection-remember" value="connection-remember"></label>
+		</div>
 		<div class="btnsForm">
 			<a href="${context}/Inscription" >Inscription</a>
 			<button type="submit">Connexion</button>

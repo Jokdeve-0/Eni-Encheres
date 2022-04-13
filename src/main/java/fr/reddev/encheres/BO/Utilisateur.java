@@ -1,4 +1,5 @@
-
+/**
+ 
 /**
  * PROJET ENI-ENCHERES
  * 
@@ -22,19 +23,19 @@ public class Utilisateur {
 	private String mot_de_passe;
 	private Integer credit;
 	private boolean administrateur;
-	
+	private boolean active;
 
 	public Utilisateur() {
 		super();
 	}
 
 	public Utilisateur(String pseudo, String nom, String prenom, String email, String telephone,
-			String rue, String code_postal, String ville, String mot_de_passe, Integer credit, boolean administrateur) {
-		this(null, pseudo,  nom,  prenom,  email,  telephone, rue,  code_postal,  ville,  mot_de_passe,  credit,  administrateur);
+			String rue, String code_postal, String ville, String mot_de_passe, Integer credit, boolean administrateur,boolean active) {
+		this(null, pseudo,  nom,  prenom,  email,  telephone, rue,  code_postal,  ville,  mot_de_passe,  credit,  administrateur, active);
 	}
 	
 	public Utilisateur(Integer no_utilisateur, String pseudo, String nom, String prenom, String email, String telephone,
-			String rue, String code_postal, String ville, String mot_de_passe, Integer credit, boolean administrateur) {
+			String rue, String code_postal, String ville, String mot_de_passe, Integer credit, boolean administrateur,boolean active) {
 		super();
 		this.no_utilisateur = no_utilisateur;
 		this.pseudo = pseudo;
@@ -48,6 +49,7 @@ public class Utilisateur {
 		this.mot_de_passe = mot_de_passe;
 		this.credit = credit;
 		this.administrateur = administrateur;
+		this.active=active;
 	}
 
 	public Integer getno_utilisateur() {
@@ -145,12 +147,18 @@ public class Utilisateur {
 	public void setAdministrateur(boolean administrateur) {
 		this.administrateur = administrateur;
 	}
+	public boolean getActive() {
+		return active;
+	}
+	public void setActive(boolean active) {
+		this.active = active;
+	}
 
 	@Override
 	public String toString() {
 		return "Utilisateur [no_utilisateur=" + no_utilisateur + ", pseudo=" + pseudo + ", nom=" + nom + ", prenom="
 				+ prenom + ", email=" + email + ", telephone=" + telephone + ", rue=" + rue + ", code_postal="
 				+ code_postal + ", ville=" + ville + ", mot_de_passe=" + mot_de_passe + ", credit=" + credit
-				+ ", administrateur=" + administrateur + "]";
+				+ ", administrateur=" + administrateur +  ", activ=" + active + "]";
 	}
 }

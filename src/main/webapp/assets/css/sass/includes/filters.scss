@@ -1,4 +1,4 @@
-.home .box-filter{
+.home .box-filter form{
 		@include flex-mix($flow:column);
 	@media(min-width: 1230px){
 		@include flex-mix();
@@ -24,7 +24,7 @@
 		}
 }
 /* user - connected */
-form.filterArticle {
+div.filterArticle {
 	display: flex;
 	justify-content: start;
 	align-items: center;
@@ -35,7 +35,7 @@ form.filterArticle {
 	margin: auto;
 }
 
-form.filterArticle div.group-achats, form.filterArticle div.group-ventes
+div.filterArticle div.group-achats, div.filterArticle div.group-ventes
 	{
 	display: flex;
 	align-items: start;
@@ -43,7 +43,7 @@ form.filterArticle div.group-achats, form.filterArticle div.group-ventes
 	max-width: 250px;
 }
 
-form.filterArticle div.group-checks {
+div.filterArticle div.group-checks {
 	display: flex;
 	justify-content: center;
 	align-items: start;
@@ -53,7 +53,7 @@ form.filterArticle div.group-checks {
 
 
 @media screen and (min-width:600px) {
-	form.filterArticle {
+	div.filterArticle {
 		max-width: 600px;
 	}
 }
@@ -66,7 +66,7 @@ form.filterArticle div.group-checks {
 	@include flex-mix();
 		min-height:164px;
 	}
-	& form.formHome {
+	& div.formHome {
 		@include flex-mix();
 		@media(min-width:$bp690){
 			justify-content: space-between;

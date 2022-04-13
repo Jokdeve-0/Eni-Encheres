@@ -1,10 +1,8 @@
-package fr.reddev.encheres.TEST.utilisateur;
+package fr.reddev.encheres.IHM;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.List;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,34 +10,31 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import fr.reddev.encheres.BLL.UserManager;
-import fr.reddev.encheres.BO.Utilisateur;
 import fr.reddev.encheres.Exception.DALException;
 
 /**
- * Servlet implementation class TestAfficherTousUtilisateurs
+ * Servlet implementation class AdminSuppressionCompte
  */
-@WebServlet("/test/TestAfficherTousUtilisateurs")
-public class TestAfficherTousUtilisateurs extends HttpServlet {
+@WebServlet("/AdminSuppressionCompte")
+public class AdminSuppressionCompte extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-      
+       
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// Set l'encodage de la request en UTF-8
-		request.setCharacterEncoding("UTF-8");
-		List<Utilisateur> catalogueUtilisateurs;
+		UserManager manager = UserManager.getInstance();
+		String id = (String) request.getParameter("id");
+		System.out.println(id);
 		try {
-				catalogueUtilisateurs = new UserManager().AfficherTousUtilisateurs();
-			System.out.println(catalogueUtilisateurs);
-		} catch (DALException | SQLException e) {
+			manager.deleteUser(Integer.parseInt(id));
+		} catch (NumberFormatException | DALException | SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		// Redirection sur la jsp Home
-		request.setAttribute("titlePage", "Accueil");
-		RequestDispatcher rd = request.getRequestDispatcher("../WEB-INF/jsp/pages/Home.jsp");
-		rd.forward(request, response);
+		request.setAttribute("titlePage", "Administrateur");
+		response.sendRedirect(request.getContextPath()+"/Admin");
+
 	}
 
 	/**

@@ -5,48 +5,41 @@
 		<h1>Profile</h1>
 		<div class="MonProfil-card">
 			<div>
+			${otherUser != null}
 				<div class="groupForm">
 					<p>pseudo :</p>
-					<p>${utilisateur.getPseudo()}</p>
+					<p>${otherUser.getPseudo()}</p>
 				</div>
 				<div class="groupForm">
 					<p>nom :</p>
-					<p>${utilisateur.getNom()}</p>
+					<p>${otherUser.getNom()}</p>
 				</div>
 				<div class="groupForm">
 					<p>prénom :</p>
-					<p>${utilisateur.getPrenom()}</p>
+					<p>${otherUser.getPrenom()}</p>
 				</div>
 				<div class="groupForm">
 					<p>email :</p>
-					<p>${utilisateur.getEmail()}</p>
+					<p>${otherUser.getEmail()}</p>
 				</div>
-				
 			</div>
 			<div>
 				<div class="groupForm">
 					<p>téléphone :</p>
-					<p>${utilisateur.getTelephone()}</p>
+					<p>${otherUser.getTelephone()}</p>
 				</div>
 				<div class="groupForm">
 					<p>rue :</p>
-					<p>${utilisateur.getRue()}</p>
+					<p>${otherUser.getRue()}</p>
 				</div>
 				<div class="groupForm">
 					<p>code Postal :</p>
-					<p>${utilisateur.getCode_postal()}</p>
+					<p>${otherUser.getCode_postal()}</p>
 				</div>
 				<div class="groupForm">
 					<p>ville :</p>
-					<p>${utilisateur.getVille()}</p>
+					<p>${otherUser.getVille()}</p>
 				</div>
-				<div class="groupForm">
-					<p>Crédit :</p>
-					<p>${utilisateur.getCredit()} pts</p>
-				</div>
-			</div>
-			<div class="btnsForm">
-				<a href="ModifierProfil">Modifier</a>
 			</div>
 		</div>
 		
