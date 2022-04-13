@@ -21,7 +21,7 @@
 						<h3 class="poster__title">${article.nom_article}</h3>
 						<hr /><br>
 						<p class="poster__text">
-							<span><strong>Prix:</strong><strong>${article.prix_initial }€</strong></span>
+							<span><strong>Prix:</strong><strong>${article.prix_initial } pts</strong></span>
 							<span><strong>Fin de l'enchére:</strong><strong><fmt:formatDate pattern="dd/MM/yy" value="${article.date_fin_encheres}" /></strong></span>
 							<c:forEach var="user" items="${users}">
 								<c:if test="${user.no_utilisateur == article.no_utilisateur }">								

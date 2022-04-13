@@ -22,7 +22,7 @@ public class UtilisateurDaoImpl implements UtilisateurDAO {
 
 	public static final String SELECT_BY_LOGIN = "SELECT no_utilisateur,nom,pseudo,prenom,email,telephone,rue,code_postal,ville,mot_de_passe ,credit,administrateur,active FROM UTILISATEURS where pseudo = ?";
 	public static final String DELETE_USER = "DELETE FROM UTILISATEURS where no_utilisateur = ?";
-	public static final String UPDATE_USER = "UPDATE UTILISATEURS SET  pseudo=? , nom=?  , prenom=? , email=? , telephone=? , rue=? , code_postal=? , ville=? , credit=?, mot_de_passe=?, active? WHERE no_utilisateur = ?";
+	public static final String UPDATE_USER = "UPDATE UTILISATEURS SET  pseudo=? , nom=?  , prenom=? , email=? , telephone=? , rue=? , code_postal=? , ville=? , credit=?, mot_de_passe=?, active=? WHERE no_utilisateur = ?";
 	public static final String INSERT_USER = "INSERT INTO UTILISATEURS (pseudo,nom,prenom,email,telephone,rue,code_postal,ville,mot_de_passe ,credit,administrateur,active) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
 	public static final String SELECT_BY_ID = "SELECT * FROM UTILISATEURS WHERE no_utilisateur = ?";
 	public static final String SELECT_ALL = "SELECT * FROM UTILISATEURS";

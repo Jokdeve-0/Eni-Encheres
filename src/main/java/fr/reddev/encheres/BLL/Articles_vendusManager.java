@@ -248,9 +248,11 @@ public class Articles_vendusManager {
 		for(Articles_vendus article : catalogueAll) {
 			if(article.getEtat_vente().equals("TR")) {	
 				Encheres maxEnchere = new EncheresManager().rechercheMaxEnchere(article.getNo_article());
-				if(maxEnchere.getNo_utilisateur() != null)
-					if(maxEnchere.getNo_utilisateur() == userCurrent.getno_utilisateur())
-						aRetourner.add(article);						
+				if(maxEnchere != null) {
+					if(maxEnchere.getNo_utilisateur() != null)
+						if(maxEnchere.getNo_utilisateur() == userCurrent.getno_utilisateur())
+							aRetourner.add(article);											
+				}
 			}
 		}
 		return aRetourner;

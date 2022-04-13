@@ -113,6 +113,15 @@ public class Home extends HttpServlet {
 		Articles_vendusManager artMG = new Articles_vendusManager();
 		CategorieManager categoriesMG = new CategorieManager();
 		EncheresManager enchereMG = new EncheresManager();
+		// LES UTILISATEURS
+				List<Utilisateur> users = null;
+				try {
+					users = new UserManager().AfficherTousUtilisateurs();
+					request.setAttribute("users", users);
+				} catch (DALException | SQLException e2) {
+					exceptions.ajouterErreur(0);// erreur de mise en place
+					e2.printStackTrace();
+				}
 		// LES CATEGORIES
 		List<Categorie> categorie = null;
 		try {
@@ -198,7 +207,13 @@ public class Home extends HttpServlet {
 							}
 						}
 					} else {
-						catalogueARenvoyer = artMG.getCatalogueByName(request.getParameter("search"));
+	
+						List<Articles_vendus> cataTrie = artMG.getCatalogueByName(request.getParameter("search"));
+						for(Articles_vendus article : cataTrie) {
+							if(!article.getEtat_vente().equals("TR") && !article.getEtat_vente().equals("RE")) {
+								catalogueARenvoyer.add(article);
+							}
+						}
 					}
 
 				} catch (BLLException | DALException e) {
@@ -216,8 +231,7 @@ public class Home extends HttpServlet {
 		} else {
 			Categorie CategorieRechercher = null;
 			try {
-				CategorieRechercher = new CategorieManager().getCatalogueLibelle(request.getParameter("categorie"))
-						.get(0);
+				CategorieRechercher = new CategorieManager().getCatalogueLibelle(request.getParameter("categorie")).get(0);
 				// *1 Récupère la catégorie recherchée
 				if (aRetourner.size() != 0) {
 					for (Articles_vendus article : aRetourner) {
@@ -228,28 +242,35 @@ public class Home extends HttpServlet {
 				} else {
 					// *2 Récupère le catalogue avec tous les articles de la catégories demandée
 					for (Articles_vendus article : artMG.getCatalogueCategorie(CategorieRechercher.getNo_categorie())) {
-						catalogueARenvoyer.add(article);
+						if(!article.getEtat_vente().equals("TR") && !article.getEtat_vente().equals("RE")) {
+							
+							catalogueARenvoyer.add(article);
+						}
 					}
 				}
-
-				// si param
-				if (aRetourner.size() != 0) {
-					for (Articles_vendus article : aRetourner) {
-						if (article.toString().contains(request.getParameter("search").trim())) {
-							catalogueARenvoyer.add(article);
+				if (request.getParameter("search").strip().length() != 0) {
+					// si param
+					if (aRetourner.size() != 0) {
+						for (Articles_vendus article : aRetourner) 
+							if (article.getNo_categorie() == CategorieRechercher.getNo_categorie()) 
+								if (article.toString().contains(request.getParameter("search").trim())) 
+									catalogueARenvoyer.add(article);
+					} else {							
+						List<Articles_vendus> listTmp = new ArrayList<>();
+						for (Articles_vendus article : catalogueARenvoyer ) {
+							if (article.toString().contains(request.getParameter("search").trim())) {
+								listTmp.add(article);
+							}
 						}
+						catalogueARenvoyer = listTmp;
 					}
-				} else {
-					for (Articles_vendus article : artMG.getCatalogueCategorie(CategorieRechercher.getNo_categorie())) {
-						if (article.toString().contains(request.getParameter("search").trim())) {
-							catalogueARenvoyer.add(article);
-						}
-					}
+					
 				}
 			} catch (DALException | BLLException e) {
 				exceptions.ajouterErreur(MSG_BLL.ERROR_ZERO_ENCHERES);
 				e.printStackTrace();
 			}
+///######################
 		}
 		if (exceptions.hasErreurs()) {
 			// set dans la requete la liste d'erreurs pour la jsp

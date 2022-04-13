@@ -86,5 +86,13 @@ public class EncheresManager {
 	public boolean etatTerminer(Articles_vendus article) {
 		return article.getDate_fin_encheres().before(Date.valueOf(LocalDate.now())) ? true : false;
 	}
+	
+	
+	public List<Encheres> recupereToutesEnchereUtilisation() throws DALException {
+		return DAOFactory.getEncheresDAO().selectByAuction();
+	}
+	public List<Encheres> recupereToutesEnchereArticle(int id) throws DALException, SQLException {
+		return DAOFactory.getEncheresDAO().selectByIdSpec(id);
+	}
 
 }

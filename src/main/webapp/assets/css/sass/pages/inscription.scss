@@ -75,3 +75,30 @@ button[type=submit]:hover {
 button[type=reset]:hover, .btnsForm a:hover {
 	background: #800000;
 }
+
+.groupForm.souvenir{
+	@include flex-mix($content:center);
+	padding: 0 1em;
+	color: #fff;
+	text-align: center;
+	font-size: .8em;
+	margin:0;
+	width: 100%;
+	@media(min-width: 640px){
+		@include flex-mix($content:end);
+	}
+	& label{
+		width:auto;
+		margin : 0;
+		margin-left:.3em;
+	}
+	& input{
+		height:20px;
+		width: auto;
+	}
+}
+form.Connexion{
+	& .btnsForm{
+		@include flex-mix($content:space-around);
+	}
+}

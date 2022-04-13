@@ -113,8 +113,8 @@
 }
 .formEncherir{
 	@include flex-mix($content:space-around);
-	width:80%;
-	margin: 1em 0;
+	width:100%;
+	margin: 1em auto;
 	@media(min-width:650px){
 		flex-flow:row nowrap;
 	}
@@ -157,4 +157,21 @@
 }
 hr{
 	width:100%;
+}
+
+.ListEnchere{
+	width: 100%;
+		& h2{
+			text-align: center;
+			margin :1em;
+		}
+	& p{
+		@include flex-mix($content:space-between);
+		width:50%;
+		margin: auto;
+	}
+	& hr{
+		width:60%;
+		margin: auto;
+	}
 }

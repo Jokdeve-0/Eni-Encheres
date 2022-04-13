@@ -2,7 +2,7 @@
 <main class="Inscription">
 	<%@include file="../includes/erreurs.jsp"%>
 	<section class="MonProfil">
-		<h1>Profile</h1>
+		<h1>Profil</h1>
 		<div class="MonProfil-card">
 			<div>
 				<div class="groupForm">

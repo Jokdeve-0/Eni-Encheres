@@ -12,6 +12,7 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -191,16 +192,15 @@ public class Encherir extends HttpServlet {
 					request.setAttribute("utilisateur", userMAJ);
 					request.setAttribute("bestEnchere", userMAJ);
 					request.setAttribute("titlePage", "Article");
-					response.sendRedirect("http://localhost:8080/ENI-Encheres/Article?id=" + article.getNo_article());
+					request.setAttribute("id", article.getNo_article());
+//					response.sendRedirect("http://localhost:8080/ENI-Encheres/Article?id=" + article.getNo_article());
 				} else {
 					// set dans la session la liste d'erreurs a la jsp
 					request.getSession().setAttribute("listeCodesErreur", exceptions.getListeCodesErreur());
-//						request.setAttribute("listeCodesErreur", exceptions.getListeCodesErreur());	
-					request.setAttribute("titlePage", "Article");
-					response.sendRedirect("http://localhost:8080/ENI-Encheres/Article?id=" + article.getNo_article());
 				}
 			}
 		}
+		request.getRequestDispatcher("Article").forward(request, response);
 
 	}
 }

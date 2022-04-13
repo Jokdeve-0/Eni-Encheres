@@ -35,19 +35,21 @@ public class MonProfil extends HttpServlet {
 		UserManager userMG = new UserManager();
 		RequestDispatcher rd = null;
 		Utilisateur user = null ;
-		if (!request.getParameter("idVendeur").equals("") && request.getParameter("idVendeur") != null) {
-			try {
-				user = userMG.GetUtilisateur(Integer.parseInt( request.getParameter("idVendeur") ));	
-				request.setAttribute("otherUser", user);
-				request.setAttribute("titlePage", "Profil Vendeur");
-				rd = request.getRequestDispatcher("WEB-INF/jsp/pages/OtherProfile.jsp");
-			} catch (Exception e) {
-				System.err.println(e);
-				response.sendRedirect(request.getContextPath() + "/Error500");
+		if(request.getParameter("idVendeur") != null) {			
+			if (!request.getParameter("idVendeur").equals("")) {
+				try {
+					user = userMG.GetUtilisateur(Integer.parseInt( request.getParameter("idVendeur") ));	
+					request.setAttribute("otherUser", user);
+					request.setAttribute("titlePage", "Profil Vendeur");
+					rd = request.getRequestDispatcher("WEB-INF/jsp/pages/OtherProfile.jsp");
+				} catch (Exception e) {
+					System.err.println(e);
+					response.sendRedirect(request.getContextPath() + "/Error500");
+				}
 			}
-		}else {			
+		}else {
 			request.setAttribute("titlePage", "Mon Profil");
-			rd = request.getRequestDispatcher("WEB-INF/jsp/pages/Profile.jsp");
+				rd = request.getRequestDispatcher("WEB-INF/jsp/pages/Profile.jsp");
 		}
 		rd.forward(request, response);
 	}

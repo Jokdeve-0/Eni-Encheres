@@ -14,11 +14,20 @@ public class Encheres {
 	private Integer no_article;
 	private Date date_enchere;
 	private Integer montant_enchere;
+	private String pseudo;
 
 	public Encheres() {
 		super();
 	}
 
+	public Encheres(Integer no_utilisateur, Integer no_article, Date date_enchere, Integer montant_enchere,String pseudo) {
+		super();
+		this.no_utilisateur = no_utilisateur;
+		this.no_article = no_article;
+		this.date_enchere = date_enchere;
+		this.montant_enchere = montant_enchere;
+		this.pseudo = pseudo;
+	}
 	public Encheres(Integer no_utilisateur, Integer no_article, Date date_enchere, Integer montant_enchere) {
 		super();
 		this.no_utilisateur = no_utilisateur;
@@ -59,10 +68,19 @@ public class Encheres {
 		this.montant_enchere = montant_enchere;
 	}
 
+	public String getPseudo() {
+		return pseudo;
+	}
+
+	public void setPseudo(String pseudo) {
+		this.pseudo = pseudo;
+	}
+
 	@Override
 	public String toString() {
 		return "Encheres [no_utilisateur=" + no_utilisateur + ", no_article=" + no_article + ", date_enchere="
-				+ date_enchere + ", montant_enchere=" + montant_enchere + "]";
+				+ date_enchere + ", montant_enchere=" + montant_enchere + ", pseudo=" + pseudo + "]";
 	}
+
 
 }

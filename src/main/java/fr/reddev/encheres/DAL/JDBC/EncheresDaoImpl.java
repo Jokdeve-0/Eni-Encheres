@@ -27,10 +27,12 @@ public class EncheresDaoImpl implements EncheresDAO {
 	private static final String UPDATE_ENCHERE = "UPDATE ENCHERES SET   date_enchere=?, montant_enchere = ? WHERE no_utilisateur=? ";
 	private static final String DERNIERE_ENCHERE_ARTICLE_ID = "SELECT * FROM ENCHERES WHERE no_article = ? AND montant_enchere = (SELECT MAX(montant_enchere) FROM ENCHERES WHERE no_article = ?)";
 	private static final String SELECT_ALL = "SELECT * FROM ENCHERES";
+	private static final String SELECT_AUCTION="SELECT ENCHERES.no_utilisateur, no_article, date_enchere,montant_enchere, UTILISATEURS.pseudo FROM ENCHERES INNER JOIN UTILISATEURS ON ( ENCHERES.no_utilisateur = UTILISATEURS.no_utilisateur )  ORDER BY date_enchere DESC ";
 	
 	@Override
-	public Encheres selectById(int id) throws DALException {
+	public List<Encheres> selectByIdSpec(int id) throws DALException {
 		Encheres enchere = null;
+		List<Encheres> list = new ArrayList<>();
 		Connection cnx = JdbcTools.getConnection();
 		PreparedStatement pstmt;
 		try {
@@ -40,12 +42,33 @@ public class EncheresDaoImpl implements EncheresDAO {
 			if (rs.next()) {
 				enchere = new Encheres(rs.getInt("no_utilisateur"), rs.getInt("no_article"), rs.getDate("date_enchere"),
 						rs.getInt("montant_enchere"));
+				list.add(enchere);
 			}
 		} catch (SQLException e) {
 //			e.printStackTrace();
 			throw new DALException("EncheresDaoImpl - selectById() ");
 		}
-		return enchere;
+		return list;
+	}
+	@Override
+	public List<Encheres> selectByAuction() throws DALException {
+		Encheres enchere = null;
+		List<Encheres> list = new ArrayList<>();
+		Connection cnx = JdbcTools.getConnection();
+		PreparedStatement pstmt;
+		try {
+			pstmt = cnx.prepareStatement(SELECT_AUCTION);
+			ResultSet rs = pstmt.executeQuery();
+			while(rs.next()) {
+				enchere = new Encheres(rs.getInt("no_utilisateur"), rs.getInt("no_article"), rs.getDate("date_enchere"),
+						rs.getInt("montant_enchere"),rs.getString("pseudo"));
+				list.add(enchere);
+			}
+		} catch (SQLException e) {
+//			e.printStackTrace();
+			throw new DALException("EncheresDaoImpl - selectByAuction() ");
+		}
+		return list;
 	}
 
 	@Override
@@ -148,5 +171,10 @@ public class EncheresDaoImpl implements EncheresDAO {
 	public void delete(int id) throws DALException {
 		// TODO Auto-generated method stub
 
+	}
+	@Override
+	public Encheres selectById(int id) throws DALException, SQLException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

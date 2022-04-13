@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <main class="home">
 	<article class="Article-Page">
 		<div class="box-title">
@@ -65,35 +66,29 @@
 		<%@include file="../includes/erreursSession.jsp"%>
 		<%@include file="../includes/messageConfirmation.jsp"%>
 		<div class="bestAuction">
-			<c:choose>
-				<c:when test="${etatEnchere != null}">
-					<p>Meilleur enchère actuelle</p>
-					<p>
-						<strong>${utilisateur.pseudo == bestEnchere.pseudo ? "Vous" : bestEnchere.pseudo}
-							avec </strong> <strong>${enchere.montant_enchere} pts</strong>
-					</p>
-				</c:when>
-				<c:otherwise>
-					<p>
-						<strong>Il n'y a pas encore d'enchère pour cette article.
-						</strong><strong>Soyez le premier a enchérir !</strong>
-					</p>
-				</c:otherwise>
-			</c:choose>
-		</div>
-		<c:choose>
-			<c:when test="${utilisateur != null && utilisateur.pseudo == vendeur.pseudo}">
-				s{article.prix_initial + enchere.montant_enchere}
-			</c:when>
-			<c:when test="${utilisateur != null}">
+			<c:if test="${enchere.no_utilisateur > 0}">
+				<p>Meilleure enchère actuelle</p>
+				<p>
+					<strong>${utilisateur.pseudo == bestEnchere.pseudo ? "Vous" : bestEnchere.pseudo}
+						avec </strong> <strong>${enchere.montant_enchere} pts</strong>
+				</p>
+			</c:if>
+			<c:if test="${enchere.no_utilisateur < 0}">
+				<p>
+					<strong>Il n'y a pas encore d'enchère pour cette article.</strong><strong>Soyez
+						le premier a enchérir !</strong>
+				</p>
+			</c:if>
+			<c:if
+				test="${utilisateur != null && utilisateur.pseudo != vendeur.pseudo && etatEnchere == 'EC'}">
 				<form action="Encherir?id=${article.no_article}" method="post"
 					class="formEncherir">
 					<label for="prix">Votre proposition:</label> <input type="number"
 						id="prix" name="howmuch">
 					<button type="submit">Encherir</button>
 				</form>
-			</c:when>
-			<c:otherwise>
+			</c:if>
+			<c:if test="${utilisateur == null}">
 				<div class="formEncherir">
 					<p>
 						Si vous souhaitez encherir, veuillez <br> <a
@@ -101,12 +96,18 @@
 							href="${context}/Inscription">créer un compte</a>
 					</p>
 				</div>
-			</c:otherwise>
-		</c:choose>
-
-
+			</c:if>
+		</div>
+			<div class="ListEnchere">
+			<h2>Historique des enchères</h2>
+			<hr />
+				<c:forEach var="ench" items="${encheresArticle}">
+					<p>
+						<strong>${ench.pseudo}</strong><strong>${ench.montant_enchere} pts</strong>
+					</p>
+					<hr />
+				</c:forEach>
+			</div>
 	</section>
-
-
-
 </main>
+<!-- test="${etatEnchere == 'EC'}"-->

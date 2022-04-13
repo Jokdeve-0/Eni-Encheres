@@ -2,10 +2,9 @@
 <main class="Inscription">
 	<%@include file="../includes/erreurs.jsp"%>
 	<section class="MonProfil">
-		<h1>Profile</h1>
+		<h1>Profil Vendeur</h1>
 		<div class="MonProfil-card">
 			<div>
-			${otherUser != null}
 				<div class="groupForm">
 					<p>pseudo :</p>
 					<p>${otherUser.getPseudo()}</p>

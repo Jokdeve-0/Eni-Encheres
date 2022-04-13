@@ -9,6 +9,7 @@ package fr.reddev.encheres.IHM;
  */
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -54,6 +55,10 @@ public class Article extends HttpServlet {
 		Encheres curr_enchere = null;
 		HttpSession session = request.getSession();
 
+		
+		// reinitialisation des erreurs session
+		request.getSession().setAttribute("listeCodesErreur", null);
+
 		curr_user = (Utilisateur) session.getAttribute("utilisateur");
 		if (curr_user != null) {
 			try {
@@ -67,6 +72,16 @@ public class Article extends HttpServlet {
 				e.printStackTrace();
 			}
 		}
+		
+		// LES ENCHERES
+		List<Encheres> catalogueEnchere = null;
+		try {
+			catalogueEnchere = enchereMG.getAllEncheres();
+			request.setAttribute("listeEnchereArticle", catalogueEnchere);
+		} catch (DALException | SQLException e2) {
+			e2.printStackTrace();
+			response.sendRedirect(request.getContextPath() + "/Error500");
+		}
 
 		if (!request.getParameter("id").equals("") && request.getParameter("id") != null) {
 
@@ -79,7 +94,30 @@ public class Article extends HttpServlet {
 				e.printStackTrace();
 			}
 
+			
+			
+			//recuperer la liste des encherer de l'article 
 
+				try {
+					List<Encheres> listeEnchereArticles = enchereMG.recupereToutesEnchereUtilisation();
+					List<Encheres> listeEnchereArticle =new ArrayList<>();
+					for(Encheres ench : listeEnchereArticles) {
+						if(ench.getNo_article() == article.getNo_article()) {
+							listeEnchereArticle.add(ench);
+						}
+					}
+					
+					
+					request.setAttribute("encheresArticle", listeEnchereArticle);
+				} catch (DALException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+
+			
+			
+			
 				// Récupération des catégories dans la BDD
 				try {
 					categorie = new CategorieManager().getCategories();
@@ -127,7 +165,8 @@ public class Article extends HttpServlet {
 					e.printStackTrace();
 				}
 //			boolean etatEnchere = article.getDate_debut_encheres().before(Date.valueOf(LocalDate.now().plusDays(1))) && article.getDate_fin_encheres().after(Date.valueOf(LocalDate.now()));
-				boolean etatEnchere = enchereMG.etatEnCours(article);
+//				String etatEnchere = enchereMG.etatEnCours(article);
+				String etatEnchere = article.getEtat_vente();
 				request.setAttribute("etatEnchere", etatEnchere);
 			}
 

@@ -11,6 +11,7 @@ import java.io.IOException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -35,6 +36,27 @@ public class Deconnexion extends HttpServlet {
 		HttpSession session = request.getSession();
 		// Détruit la session
 		session.invalidate();
+		Cookie[] cookies = request.getCookies();
+		if (cookies != null) {
+			for (Cookie cookie : cookies) {
+				if (cookie.getName().equals("Pseudo")) {
+					Cookie cookiePass = new Cookie("Pseudo", cookie.getValue());
+					cookiePass.setMaxAge(0);
+					response.addCookie(cookiePass); ;
+
+				}
+				if (cookie.getName().equals("MDP")) {
+					Cookie cookiePass = new Cookie("MDP", cookie.getValue());
+					cookiePass.setMaxAge(0);
+					response.addCookie(cookiePass); ;
+					
+				}
+
+			}
+		}
+		/// TODO supprimer les cookies
+		
+		
 		// redirection sur la page de Home en déconnecter
 		response.sendRedirect("http://localhost:8080/ENI-Encheres");
 	}
