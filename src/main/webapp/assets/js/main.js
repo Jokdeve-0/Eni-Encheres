@@ -32,12 +32,20 @@ $(()=>{
 	$('#btn-menu').click(()=>{
 		$('.Menu-App').slideToggle();
 	})
-	$('.delete').click((e)=>{
+	$('.jsDelete').click((e)=>{
 		if(window.confirm("Voulez vous supprimer votre compte ? ")){
 		  alert("Au plaisir de vous voir partir !")
   	}else{
 		e.preventDefault()
 		alert("Heureux de vous voir rester !")
+	}
+	})
+	$('.jsAdminDelete').click((e)=>{
+		if(window.confirm("Voulez vous supprimer ce compte ? ")){
+		  alert("C'est fait !")
+  	}else{
+		e.preventDefault()
+		alert("La commande est annulée.")
 	}
 	})
 })

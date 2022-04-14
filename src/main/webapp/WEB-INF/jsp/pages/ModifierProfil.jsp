@@ -42,7 +42,7 @@
 		</div>
 		<div class="btnsForm">
 			<button class="btn-save" type="submit">Enregistrer</button>
-			<a  class="delete" href="SuppressionCompte">Supprimer</a>
+			<a  class="delete jsDelete" href="SuppressionCompte">Supprimer</a>
 			<a class="return" href="MonProfil">Retour</a>
 		</div>
 	</form>

@@ -92,7 +92,7 @@ public class VenteArticle extends HttpServlet {
 				!request.getParameter("howmuch").equals("") ? Integer.valueOf(request.getParameter("howmuch")) : 0,
 				null,
 				Integer.valueOf(curr_user.getno_utilisateur()),
-				1, "CR", 
+				Integer.valueOf(request.getParameter("categorie")) , "CR", 
 				curr_user.getPseudo());
 		// Id de l'article pour le renvoyer dans l'url pour l'affichage
 		Integer no_article = null;
@@ -117,8 +117,10 @@ public class VenteArticle extends HttpServlet {
 		} catch (BusinessException e) {
 			request.setAttribute("listeCodesErreur", exceptions.getListeCodesErreur());
 		}
+		
+		request.setAttribute("idArticle", no_article);
 		request.setAttribute("titlePage", "Article");
-		response.sendRedirect("http://localhost:8080/ENI-Encheres/Article?id=" + no_article);
+		response.sendRedirect(request.getContextPath()+"/Article?idArticle="+no_article);
 	}
 
 }

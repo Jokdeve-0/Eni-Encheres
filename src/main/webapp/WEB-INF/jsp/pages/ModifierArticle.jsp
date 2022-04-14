@@ -5,7 +5,7 @@
 
 <main class="inscription artForm">
 	<form method="post" action="ModifierArticle?idArticle=${article.no_article }">
-	<h1>Formulaire Vendre un Article</h1>
+	<h1>Vente d'un Article</h1>
     <%@include file="../includes/erreurs.jsp" %>
     <div class="img"></div>
     <div class="groupForm artForm">

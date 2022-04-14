@@ -15,7 +15,7 @@
 		 	<label for="connection-remember">Se souvenir de moi </label>
 		</div>
 		<div class="btnsForm">
-			<a href="${context}/Inscription" >Inscription</a>
+			<a class="btn-orange" href="${context}/Inscription" >Inscription</a>
 			<button type="submit">Connexion</button>
 		</div>
 	</form>

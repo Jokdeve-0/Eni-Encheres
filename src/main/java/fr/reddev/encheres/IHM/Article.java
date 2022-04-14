@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import fr.reddev.encheres.BLL.Administration;
 import fr.reddev.encheres.BLL.Articles_vendusManager;
 import fr.reddev.encheres.BLL.CategorieManager;
 import fr.reddev.encheres.BLL.EncheresManager;
@@ -62,6 +63,8 @@ public class Article extends HttpServlet {
 		HttpSession session = request.getSession();
 
 	
+		// SETUP ADMINISTARATION
+		Administration.setUp(request, response);
 		// reinitialisation des erreurs session
 		request.getSession().setAttribute("listeCodesErreur", null);
 		curr_user = (Utilisateur) session.getAttribute("utilisateur");

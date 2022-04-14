@@ -58,7 +58,7 @@
 							<label> <input type="checkbox" name="e-achats"  id="v-1" 
 								disabled="disabled" value="4" />Mes ventes en cours
 							</label> <label> <input type="checkbox" name="e-achats"  id="v-2" 
-								disabled="disabled" value="5" /> Ventes non débutées
+								disabled="disabled" value="5" />Ventes non débutées
 							</label> <label> <input type="checkbox" name="e-achats"  id="v-3" 
 								disabled="disabled" value="6" />Ventes terminées
 							</label>

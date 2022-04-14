@@ -4,7 +4,7 @@
 
 <main class="home">
 	<h1>
-		ENI-Enchères <br /> <span>la plateforme web qui vous permet de
+		ENI-Enchères <br /> <span>La plateforme web qui vous permet de
 			céder ou d'acheter des objets sans transaction financière.</span>
 	</h1>
 

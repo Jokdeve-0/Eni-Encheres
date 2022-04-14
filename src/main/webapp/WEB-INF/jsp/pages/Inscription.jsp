@@ -39,11 +39,11 @@
 				<input required type="text" id="ville" name="ville" placeholder="Paris (max 30 caratères)"/>
 			</div>
 			<div class="groupForm">
-				<label for="mdp">Password</label>
+				<label for="mdp">Mot de passe </label>
 				<input required type="password" id="mdp" name="mdp" placeholder="********" />
 			</div>
 			<div class="groupForm">
-				<label for="mdpConfirme">confirmer Password</label>
+				<label for="mdpConfirme">confirmer MDP</label>
 				<input required type="password" id="mdpConfirme" name="mdpConfirme" placeholder="********"/>
 			</div>
 		</div>

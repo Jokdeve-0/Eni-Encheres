@@ -5,7 +5,7 @@
 
 <main class="inscription artForm">
 	<form method="post" action="VendreUnArticle">
-	<h1>Formulaire Vendre un Article</h1>
+	<h1>Vente d'un Article</h1>
     <%@include file="../includes/erreurs.jsp" %>
     <div class="img"></div>
     <div class="groupForm artForm">
@@ -21,7 +21,7 @@
 	        <label for="categorie">Catégorie</label>
 	        <select name="categorie" id="categorie">
 	            <c:forEach var="cat" items="${categorie}">
-	            	<option value="${cat.libelle}">${cat.libelle}</option>
+	            	<option value="${cat.no_categorie}">${cat.libelle}</option>
 	            </c:forEach>
 	        </select>
 	    </div>
@@ -32,7 +32,7 @@
     </div>
     <div class="artGroup">
 	    <div class="groupForm artForm">
-	        <label for="date_debut">Début de l'enchére :</label>
+	        <label for="date_debut">Début de l'enchére :<span>(min J+1)</span></label>
 	        <input type="date" id="date_debut" name="date_debut">
 	    </div>
 	    <div class="groupForm artForm">
