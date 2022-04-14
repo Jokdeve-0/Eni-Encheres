@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import fr.reddev.encheres.BLL.Administration;
 import fr.reddev.encheres.BLL.CategorieManager;
 
 /**
@@ -16,29 +17,41 @@ import fr.reddev.encheres.BLL.CategorieManager;
 @WebServlet("/AdminSuppressionCategorie")
 public class AdminSuppressionCategorie extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		// INITIALISATION
 		CategorieManager manager = new CategorieManager();
-		String id = (String) request.getParameter("id");
-		System.out.println(id);
+		Administration administration = new Administration();
+		// AUTHENTIFICATION
+		boolean valid = administration.AuthentificationAdmin(request, response);
 		try {
-			manager.deleteCategorie(Integer.parseInt(id));
+			if (valid) {// AUTH-if
+				String id = (String) request.getParameter("id");
+				manager.deleteCategorie(Integer.parseInt(id));
+			}else {
+				request.getSession().invalidate();
+				response.sendRedirect(request.getContextPath() + "/Connexion");
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			response.sendRedirect(request.getContextPath() + "/Error500");
 		}
 		request.setAttribute("titlePage", "Administrateur");
-		response.sendRedirect(request.getContextPath()+"/Admin");
+		response.sendRedirect(request.getContextPath() + "/Admin");
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		doGet(request, response);
 	}
 

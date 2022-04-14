@@ -19,10 +19,12 @@ body {
 	flex-direction: column;
 	min-height: 100vh;
 	background-image: linear-gradient(to left top, #004A83, #94e0fc,#004A83);
+	max-width:100%;
 }
 
 main {
 	width: 100%;
+	max-width:100%;
 	flex: 1;
 }
 

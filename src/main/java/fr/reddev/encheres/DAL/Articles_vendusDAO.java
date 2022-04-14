@@ -19,4 +19,5 @@ public interface Articles_vendusDAO extends DAO<Articles_vendus> {
 
 	public Integer insertArticle(Articles_vendus article) throws DALException;
 	public void  setEtatArticle(Articles_vendus article) throws DALException;
+	public void retraitArticle(int id) throws DALException;
 }

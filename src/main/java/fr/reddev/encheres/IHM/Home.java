@@ -53,11 +53,11 @@ public class Home extends HttpServlet {
 		Articles_vendusManager artMG = new Articles_vendusManager();
 		CategorieManager categoriesMG = new CategorieManager();
 		UserManager userMG = new UserManager();
-		
+
 		// SETUP ADMINISTARATION
 		BusinessException exceptions = new BusinessException();
 		Administration.setUp(request, response);
-		
+
 		// LES UTILISATEURS
 		try {
 			List<Utilisateur> users = null;
@@ -67,7 +67,7 @@ public class Home extends HttpServlet {
 			exceptions.ajouterErreur(0);// erreur de mise en place
 			e2.printStackTrace();
 		}
-		
+
 		// LES CATEGORIES
 		try {
 			List<Categorie> categorie = null;
@@ -79,14 +79,14 @@ public class Home extends HttpServlet {
 		}
 
 		// LES ARTICLES ENCHERES OUVERTES
-			try {
-				List<Articles_vendus> catalogueEncheres = null;
-				catalogueEncheres = artMG.getEnchereOuverte(artMG.getCatalogue());
-				request.setAttribute("catalogue", catalogueEncheres);
-			} catch (DALException |  SQLException e) {
-				e.printStackTrace();
-				response.sendRedirect(request.getContextPath() + "/Error500");
-			}
+		try {
+			List<Articles_vendus> catalogueEncheres = null;
+			catalogueEncheres = artMG.getEnchereOuverte(artMG.getCatalogue());
+			request.setAttribute("catalogue", catalogueEncheres);
+		} catch (DALException | SQLException e) {
+			e.printStackTrace();
+			response.sendRedirect(request.getContextPath() + "/Error500");
+		}
 
 		if (exceptions.hasErreurs()) {
 			request.getSession().setAttribute("listeCodesErreur", exceptions.getListeCodesErreur());
@@ -94,7 +94,7 @@ public class Home extends HttpServlet {
 		}
 		// REDIRECTION SUR LA JSP HOME
 		request.setAttribute("titlePage", "Accueil");
-		 request.getRequestDispatcher("WEB-INF/jsp/pages/Home.jsp").forward(request, response);
+		request.getRequestDispatcher("WEB-INF/jsp/pages/Home.jsp").forward(request, response);
 	}
 
 	/**
@@ -103,17 +103,17 @@ public class Home extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
-		//INITIALISATION EXCEPTIONS
+
+		// INITIALISATION EXCEPTIONS
 		BusinessException exceptions = new BusinessException();
 		MessageConfException messages = new MessageConfException();
-		
+
 		// INITIALISATION DES MANAGER
 		Articles_vendusManager artMG = new Articles_vendusManager();
 		CategorieManager categoriesMG = new CategorieManager();
 		EncheresManager enchereMG = new EncheresManager();
 		UserManager userMG = new UserManager();
-		
+
 		// SETUP ADMINISTARATION
 		try {
 			Administration.setUp(request, response);
@@ -121,23 +121,25 @@ public class Home extends HttpServlet {
 			e1.printStackTrace();
 			response.sendRedirect(request.getContextPath() + "/Error500");
 		}
-		
+
 		// RECUPERATION DES CHECKBOX
 		String[] names = request.getParameterValues("e-achats");
 		List<String> list = null;
-		if (names != null) {list = Arrays.asList(names);}
+		if (names != null) {
+			list = Arrays.asList(names);
+		}
 		boolean param3 = false;
 		if (names != null) {
 			list = Arrays.asList(names);
-			for (String val : list){
-				if(val.equals("3")) { 
-					param3 = true;}}}
+			if(list.size()!=0) {
+				param3 = true;
+			}
+		}
 
-		
 		// USER CURRENT
 		Utilisateur userCurrent = null;
 		userCurrent = (Utilisateur) request.getSession().getAttribute("utilisateur");
-		
+
 		// LES UTILISATEURS
 		List<Utilisateur> users = null;
 		try {
@@ -147,7 +149,7 @@ public class Home extends HttpServlet {
 			e2.printStackTrace();
 			response.sendRedirect(request.getContextPath() + "/Error500");
 		}
-		
+
 		// LES CATEGORIES
 		List<Categorie> categorie = null;
 		try {
@@ -157,8 +159,8 @@ public class Home extends HttpServlet {
 			e4.printStackTrace();
 			response.sendRedirect(request.getContextPath() + "/Error500");
 		}
-		
-		// LES ARTICLES 
+
+		// LES ARTICLES
 		List<Articles_vendus> catalogue = null;
 		try {
 			catalogue = artMG.getCatalogue();
@@ -167,7 +169,7 @@ public class Home extends HttpServlet {
 			e4.printStackTrace();
 			response.sendRedirect(request.getContextPath() + "/Error500");
 		}
-		
+
 		// LES ENCHERES
 		List<Encheres> catalogueEnchere = null;
 		try {
@@ -180,14 +182,14 @@ public class Home extends HttpServlet {
 		List<Articles_vendus> aRetourner = new ArrayList<>();
 		if (userCurrent != null && list != null) {
 			try {
-				/*#####FILTRES CHECHBOX####6 fonctions*/
+				/* #####FILTRES CHECHBOX####6 fonctions */
 				aRetourner = artMG.getUserAchats(list, catalogue, userCurrent, catalogueEnchere);
 			} catch (DALException e) {
 				e.printStackTrace();
 				response.sendRedirect(request.getContextPath() + "/Error500");
 			}
 		}
-/*#####FILTRES CLASSIQUES####*/
+		/* #####FILTRES CLASSIQUES#### */
 		List<Articles_vendus> catalogueARenvoyer = new ArrayList<>();
 		// Si on reçoit la catégorie "Toutes" et : *1 ou *2
 		if (request.getParameter("categorie").equals("Toutes")) {
@@ -198,11 +200,13 @@ public class Home extends HttpServlet {
 					catalogueARenvoyer = aRetourner;
 				} else {
 					try {
-						if(!param3) {
-						for (Articles_vendus article : artMG.getCatalogue()) {
-							if (!article.getEtat_vente().equals("TR") && !article.getEtat_vente().equals("RE") ) {
-								catalogueARenvoyer.add(article);}}
-						}else {
+						if (!param3) {
+							for (Articles_vendus article : artMG.getCatalogue()) {
+								if (!article.getEtat_vente().equals("TR") && !article.getEtat_vente().equals("RE")) {
+									catalogueARenvoyer.add(article);
+								}
+							}
+						} else {
 							messages.ajouterMessage(MSG_CONF.NULL_ARTICLES);
 						}
 					} catch (Exception e) {
@@ -217,15 +221,20 @@ public class Home extends HttpServlet {
 					if (aRetourner.size() != 0) {
 						for (Articles_vendus article : aRetourner) {
 							if (article.toString().contains(request.getParameter("search").trim())) {
-								catalogueARenvoyer.add(article);}}
-					}else {
-						 if(!param3){
+								catalogueARenvoyer.add(article);
+							}
+						}
+					} else {
+						if (!param3) {
 							List<Articles_vendus> cataTrie = artMG.getCatalogueByName(request.getParameter("search"));
-						for (Articles_vendus article : cataTrie) {
-							if (!article.getEtat_vente().equals("TR") && !article.getEtat_vente().equals("RE")) {
-								catalogueARenvoyer.add(article);}}}
-				
-						 messages.ajouterMessage(MSG_CONF.NULL_ARTICLES);
+							for (Articles_vendus article : cataTrie) {
+								if (!article.getEtat_vente().equals("TR") && !article.getEtat_vente().equals("RE")) {
+									catalogueARenvoyer.add(article);
+								}
+							}
+						}
+
+						messages.ajouterMessage(MSG_CONF.NULL_ARTICLES);
 					}
 				} catch (DALException e) {
 					e.printStackTrace();
@@ -243,12 +252,17 @@ public class Home extends HttpServlet {
 				if (aRetourner.size() != 0) {
 					for (Articles_vendus article : aRetourner) {
 						if (article.getNo_categorie() == CategorieRechercher.getNo_categorie()) {
-							catalogueARenvoyer.add(article);}}
+							catalogueARenvoyer.add(article);
+						}
+					}
 				} else {
 					// *2 Récupère le catalogue avec tous les articles de la catégories demandée
 					for (Articles_vendus article : artMG.getCatalogueCategorie(CategorieRechercher.getNo_categorie())) {
 						if (!article.getEtat_vente().equals("TR") && !article.getEtat_vente().equals("RE")) {
-							catalogueARenvoyer.add(article);}}}
+							catalogueARenvoyer.add(article);
+						}
+					}
+				}
 				if (request.getParameter("search").strip().length() != 0) {
 					// si param
 					if (aRetourner.size() != 0) {
@@ -260,12 +274,14 @@ public class Home extends HttpServlet {
 						List<Articles_vendus> listTmp = new ArrayList<>();
 						for (Articles_vendus article : catalogueARenvoyer) {
 							if (article.toString().contains(request.getParameter("search").trim())) {
-								listTmp.add(article);}}
+								listTmp.add(article);
+							}
+						}
 						catalogueARenvoyer = listTmp;
 					}
 				}
-				
-				if(catalogueARenvoyer.size() != 0) {
+
+				if (catalogueARenvoyer.size() != 0) {
 					messages.ajouterMessage(MSG_CONF.NULL_ARTICLES);
 				}
 			} catch (DALException e) {

@@ -8,40 +8,32 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import fr.reddev.encheres.BLL.Administration;
+import fr.reddev.encheres.BLL.Articles_vendusManager;
 import fr.reddev.encheres.BLL.UserManager;
+import fr.reddev.encheres.BO.Utilisateur;
 import fr.reddev.encheres.Exception.DALException;
 
 /**
- * Servlet implementation class AdminSuppressionCompte
+ * Servlet implementation class SupprimerArticle
  */
-@WebServlet("/AdminSuppressionCompte")
-public class AdminSuppressionCompte extends HttpServlet {
+@WebServlet("/SupprimerArticle")
+public class SupprimerArticle extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Administration administration = new Administration();
-		// AUTHENTIFICATION
-		boolean valid = administration.AuthentificationAdmin(request, response);
+		Articles_vendusManager manager = new Articles_vendusManager();
 		try {
-			if (valid) {// AUTH-if
-				UserManager manager = UserManager.getInstance();
-				String id = (String) request.getParameter("id");
-				manager.deleteUser(Integer.parseInt(id));
-			}else {
-				request.getSession().invalidate();
-				response.sendRedirect(request.getContextPath() + "/Connexion");
-			}
-		} catch (NumberFormatException | DALException | SQLException e) {
+			manager.deleteArticle(Integer.parseInt(request.getParameter("idArticle")));
+		} catch (DALException | SQLException e) {
 			e.printStackTrace();
-			response.sendRedirect(request.getContextPath() + "/Error500");
 		}
-		request.setAttribute("titlePage", "Administrateur");
-		response.sendRedirect(request.getContextPath()+"/Admin");
+		request.setAttribute("titlePage", "Accueil");
+		response.sendRedirect(request.getContextPath() + "/");
 	}
 
 	/**

@@ -1,76 +1,69 @@
-/**
- * PROJET ENI-ENCHERES
- * 
- */
 package fr.reddev.encheres.IHM;
 
-/**
- * @author REDDEV
- */
 import java.io.IOException;
-import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import fr.reddev.encheres.BLL.Administration;
 import fr.reddev.encheres.BLL.UserManager;
 import fr.reddev.encheres.BO.Utilisateur;
-import fr.reddev.encheres.Exception.DALException;
 
 /**
- * Supprimer un profil Servlet implementation class SuppresionCompte
+ * Servlet implementation class DeactiverCompte
  */
-@WebServlet("/SuppressionCompte")
-public class SuppressionCompte extends HttpServlet {
+@WebServlet("/DesactiverCompte")
+public class DesactiverCompte extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Supprime le profil
-	 * 
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// INITIALISATION
+
 		Administration administration = new Administration();
-		UserManager manager = UserManager.getInstance();
-		HttpSession session = request.getSession();
 		// AUTHENTIFICATION
 		boolean valid = administration.AuthentificationAdmin(request, response);
 		try {
 			if (valid) {// AUTH-if
-				// On récupère l'utilisateur stocké dans la session
-				Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
-				// On supprime de la BDD
-				manager.deleteUser(utilisateur.getno_utilisateur());
+				UserManager manager = UserManager.getInstance();
+				if (!request.getParameter("idUser").equals("") && request.getParameter("idUser") != null) {
+					String idStr = (String) request.getParameter("idUser");
+					int id = Integer.parseInt(idStr);
+					Utilisateur utilisateur = manager.GetUtilisateur(id);
+					if (utilisateur != null) {
+						boolean active = false;
+						if (!utilisateur.getActive()) {
+							active = true;
+						}
+						manager.ActivateUser(active, id);
+					}
+				}
 			}else {
 				request.getSession().invalidate();
 				response.sendRedirect(request.getContextPath() + "/Connexion");
 			}
-		} catch (DALException | SQLException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			response.sendRedirect(request.getContextPath() + "/Error500");
 		}
-		// On détruit la session
-		session.invalidate();
 		request.setAttribute("titlePage", "Administrateur");
 		response.sendRedirect(request.getContextPath() + "/Admin");
+
 	}
 
 	/**
-	 * Aucun post vers cette page
-	 * 
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 

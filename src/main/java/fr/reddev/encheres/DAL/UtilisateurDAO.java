@@ -14,6 +14,6 @@ import fr.reddev.encheres.Exception.DALException;
 
 public interface UtilisateurDAO extends DAO<Utilisateur> {
 	public Utilisateur selectByLogin(String login) throws DALException, SQLException;
-
 	public boolean UniquePseudoMail(String pseudo, String email) throws SQLException, DALException;
+	void updateActivate(boolean active, int id) throws DALException, SQLException;
 }

@@ -30,6 +30,7 @@ public class Articles_vendusDaoImpl implements Articles_vendusDAO {
 	public static final String SELECT_ALL_BY_NAME = "SELECT * FROM ARTICLES_VENDUS a INNER JOIN UTILISATEURS u ON (a.no_utilisateur = u.no_utilisateur) WHERE nom_article LIKE '%";;
 	public static final String DELETE_ARTICLE = "DELETE FROM ARTICLES_VENDUS WHERE no_article = ?";
 	public static final String UPDATE_ARTICLE = " UPDATE ARTICLES_VENDUS  set nom_article=? ,description=? ,date_debut_encheres=?, date_fin_encheres=? , prix_initial=? , prix_vente=? , no_utilisateur=? , no_categorie=? , etat_vente=? , vendeur=? WHERE no_article= ?";
+	public static final String RETRAIT_ARTICLE = " UPDATE ARTICLES_VENDUS  set  etat_vente='RE'  WHERE no_article= ?";
 
 	@Override
 	public Articles_vendus selectById(int id) throws DALException {
@@ -232,6 +233,25 @@ public class Articles_vendusDaoImpl implements Articles_vendusDAO {
 //			e.printStackTrace();
 			throw new DALException("Articles_vendusDaoImpl - update()");
 		}
+	}
+
+	@Override
+	public void retraitArticle(int id) throws DALException {
+		try {
+			Connection cnx = JdbcTools.getConnection();
+			PreparedStatement pstmt = cnx.prepareStatement(RETRAIT_ARTICLE);
+			pstmt.setInt(1, id);
+			// execute
+			int rows = pstmt.executeUpdate();
+			// check 1 utilisateur modifier
+			if (rows < 1) {
+				throw new DALException("Articles_vendusDaoImpl - update()");
+			}
+		} catch (Exception e) {
+//			e.printStackTrace();
+			throw new DALException("Articles_vendusDaoImpl - update()");
+		}
+		
 	}
 
 }

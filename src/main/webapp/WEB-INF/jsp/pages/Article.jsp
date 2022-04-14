@@ -160,8 +160,22 @@
 		<c:if test="${etatEnchere == 'CR'}">
 				<div class="formEncherir">
 					<p>
-						<a href="${context}/ModifierArticle?idArticle=${article.no_article}">Modifier</a> <a
-							href="${context}/SupprimerArticle">Supprimer</a>
+						<a href="${context}/ModifierArticle?idArticle=${article.no_article}">Modifier</a>
+						<a href="${context}/SupprimerArticle?idArticle=${article.no_article}">Supprimer</a>
+					</p>
+				</div>
+			</c:if>
+		<c:if test="${etatEnchere == 'TR'}">
+				<div class="formEncherir">
+					<p>
+						<a href="${context}/RetraitArticle?idArticle=${article.no_article}">Confirmer le retrait</a>
+					</p>
+				</div>
+			</c:if>
+			<c:if test="${etatEnchere == 'RE'}">
+				<div class="formEncherir">
+					<p>
+						L'article a été remis au gagnant de l'enchère.
 					</p>
 				</div>
 			</c:if>

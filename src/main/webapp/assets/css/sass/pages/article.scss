@@ -111,6 +111,10 @@
 		}
 	}
 }
+.Article-Page a{
+	color: rgb(255, 128, 0); 
+	text-shadow: none;
+}
 .formEncherir{
 	@include flex-mix($content:space-around);
 	width:100%;
@@ -135,7 +139,7 @@
 		font-size: 1.5em;
 		text-align:center;
 	}
-	& button{
+	& button,& a{
 		display: flex;
 		justify-content: center;
 		align-items: center;
@@ -150,10 +154,6 @@
 		font-size: .8em;
 		margin: 1em 0;
 	}
-}
-.Article-Page a{
-	color: rgb(255, 128, 0); 
-	text-shadow: none;
 }
 hr{
 	width:100%;

@@ -23,6 +23,7 @@ public class UtilisateurDaoImpl implements UtilisateurDAO {
 	public static final String SELECT_BY_LOGIN = "SELECT no_utilisateur,nom,pseudo,prenom,email,telephone,rue,code_postal,ville,mot_de_passe ,credit,administrateur,active FROM UTILISATEURS where pseudo = ?";
 	public static final String DELETE_USER = "DELETE FROM UTILISATEURS where no_utilisateur = ?";
 	public static final String UPDATE_USER = "UPDATE UTILISATEURS SET  pseudo=? , nom=?  , prenom=? , email=? , telephone=? , rue=? , code_postal=? , ville=? , credit=?, mot_de_passe=?, active=? WHERE no_utilisateur = ?";
+	public static final String ACTIVATE_USER = "UPDATE UTILISATEURS SET  active=? WHERE no_utilisateur = ?";
 	public static final String INSERT_USER = "INSERT INTO UTILISATEURS (pseudo,nom,prenom,email,telephone,rue,code_postal,ville,mot_de_passe ,credit,administrateur,active) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)";
 	public static final String SELECT_BY_ID = "SELECT * FROM UTILISATEURS WHERE no_utilisateur = ?";
 	public static final String SELECT_ALL = "SELECT * FROM UTILISATEURS";
@@ -99,6 +100,18 @@ public class UtilisateurDaoImpl implements UtilisateurDAO {
 			// where
 			pstmt.setInt(12, utilisateur.getno_utilisateur());
 			// execute
+			int rows = pstmt.executeUpdate();
+			// check 1 utilisateur modifier
+			if (rows < 1) {
+				throw new DALException("Aucune modification n'a été éffectuées dans la BDD.");
+			}
+	}
+	@Override
+	public void updateActivate(boolean active,int id) throws DALException, SQLException {
+			Connection cnx = JdbcTools.getConnection();
+			PreparedStatement pstmt = cnx.prepareStatement(ACTIVATE_USER);
+			pstmt.setBoolean(1,active );
+			pstmt.setInt(2,id);
 			int rows = pstmt.executeUpdate();
 			// check 1 utilisateur modifier
 			if (rows < 1) {

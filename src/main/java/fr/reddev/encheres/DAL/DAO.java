@@ -22,4 +22,5 @@ public interface DAO<T> {
 	public void insert(T data) throws DALException, SQLException;
 
 	public void delete(int id) throws DALException, SQLException;
+
 }

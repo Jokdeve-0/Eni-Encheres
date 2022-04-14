@@ -42,7 +42,7 @@
     </div>
     <div class="btnsForm ">
         <button type="submit">Enregistrer</button>
-        <button type="reset"> annuler</button>
+        <a href="${context}/Article?idArticle=${article.no_article}"> annuler</a>
     </div>
     </form>
 </main>

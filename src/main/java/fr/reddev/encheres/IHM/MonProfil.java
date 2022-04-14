@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import fr.reddev.encheres.BLL.Administration;
 import fr.reddev.encheres.BLL.UserManager;
 import fr.reddev.encheres.BO.Utilisateur;
 
@@ -32,26 +33,37 @@ public class MonProfil extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		UserManager userMG = new UserManager();
+		//INITIALISATION
 		RequestDispatcher rd = null;
+		UserManager userMG = new UserManager();
 		Utilisateur user = null ;
-		if(request.getParameter("idVendeur") != null) {			
-			if (!request.getParameter("idVendeur").equals("")) {
-				try {
-					user = userMG.GetUtilisateur(Integer.parseInt( request.getParameter("idVendeur") ));	
-					request.setAttribute("otherUser", user);
-					request.setAttribute("titlePage", "Profil Vendeur");
-					rd = request.getRequestDispatcher("WEB-INF/jsp/pages/OtherProfile.jsp");
-				} catch (Exception e) {
-					System.err.println(e);
-					response.sendRedirect(request.getContextPath() + "/Error500");
+		Administration administration = new Administration();
+		//AUTHENTIFICATION
+		boolean valid = administration.Authentification(request,response);
+		if(valid) {//AUTH-if
+			if(request.getParameter("idVendeur") != null) {			
+				if (!request.getParameter("idVendeur").equals("")) {
+					try {
+						user = userMG.GetUtilisateur(Integer.parseInt( request.getParameter("idVendeur") ));	
+						request.setAttribute("otherUser", user);
+						request.setAttribute("titlePage", "Profil Vendeur");
+						rd = request.getRequestDispatcher("WEB-INF/jsp/pages/OtherProfile.jsp");
+					} catch (Exception e) {
+						e.printStackTrace();
+						response.sendRedirect(request.getContextPath() + "/Error500");
+					}
 				}
-			}
-		}else {
-			request.setAttribute("titlePage", "Mon Profil");
+			}else {
+				request.setAttribute("titlePage", "Mon Profil");
 				rd = request.getRequestDispatcher("WEB-INF/jsp/pages/Profile.jsp");
+			}
+		}//AUTH-if	
+		if(!valid) {		
+			request.getSession().invalidate();
+			response.sendRedirect(request.getContextPath() + "/Connexion");
+		}else {			
+			rd.forward(request, response);
 		}
-		rd.forward(request, response);
 	}
 
 	/**

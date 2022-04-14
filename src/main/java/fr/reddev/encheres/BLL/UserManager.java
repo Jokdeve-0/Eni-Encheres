@@ -29,13 +29,6 @@ public class UserManager {
 	private static UserManager instance;
 
 	/**
-	 * Constructeur
-	 */
-	public UserManager() {
-		super();
-	}
-
-	/**
 	 * @return Instance
 	 */
 	public static UserManager getInstance() {
@@ -228,6 +221,10 @@ public class UserManager {
 					// Si le password est correct => on retourne l'utilisateur trouvé
 				}
 			return utilisateur;
+		}
+
+		public void ActivateUser(boolean active,int id) throws DALException, SQLException {
+			DAOFactory.getUtilisateurDAO().updateActivate(active, id);
 		}
 
 }

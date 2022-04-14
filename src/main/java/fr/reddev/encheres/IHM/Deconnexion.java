@@ -32,35 +32,31 @@ public class Deconnexion extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// Récupère la session dan sla requete
+		// RÉCUPÈRE LA SESSION DANS LA REQUETE
 		HttpSession session = request.getSession();
-		// Détruit la session
+		// DÉTRUIT LA SESSION
 		session.invalidate();
+		//RECUPERE LES COOKIES
 		Cookie[] cookies = request.getCookies();
 		if (cookies != null) {
 			for (Cookie cookie : cookies) {
+				// SUPPRIME LES COOKIES MDP
 				if (cookie.getName().equals("Pseudo")) {
 					Cookie cookiePass = new Cookie("Pseudo", cookie.getValue());
 					cookiePass.setMaxAge(0);
-					response.addCookie(cookiePass); ;
-
+					response.addCookie(cookiePass);
 				}
+				// SUPPRIME LES COOKIES MDP
 				if (cookie.getName().equals("MDP")) {
 					Cookie cookiePass = new Cookie("MDP", cookie.getValue());
 					cookiePass.setMaxAge(0);
-					response.addCookie(cookiePass); ;
-					
+					response.addCookie(cookiePass);
 				}
-
 			}
 		}
-		/// TODO supprimer les cookies
-		
-		
 		// redirection sur la page de Home en déconnecter
 		response.sendRedirect("http://localhost:8080/ENI-Encheres");
 	}
-
 	/**
 	 * Aucun post vers cette page
 	 * 

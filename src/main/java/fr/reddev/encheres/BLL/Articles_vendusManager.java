@@ -37,7 +37,7 @@ public class Articles_vendusManager {
 	 * @throws BLLException
 	 * @throws DALException 
 	 */
-	public Integer creerArticle(Articles_vendus articleVendu) throws BLLException, DALException {
+	public Integer creerArticle(Articles_vendus articleVendu) throws DALException {
 		return articleDao.insertArticle(articleVendu);
 	}
 
@@ -213,7 +213,7 @@ public class Articles_vendusManager {
 	private List<Articles_vendus> getTerminees(List<Articles_vendus> catalogueAll, Utilisateur userCurrent) {
 		List<Articles_vendus> aRetourner = new ArrayList<>();
 		for(Articles_vendus article : catalogueAll) {
-			if(article.getEtat_vente().equals("TR")) {
+			if(article.getEtat_vente().equals("TR") || article.getEtat_vente().equals("RE")) {
 					if(article.getNo_utilisateur() == userCurrent.getno_utilisateur())
 						aRetourner.add(article);						
 			}
@@ -285,4 +285,13 @@ public class Articles_vendusManager {
 	public  void updateArticle(Articles_vendus article) throws DALException, SQLException {
 		articleDao.update(article);
 	}
+
+	public void retraitArticle(int id) throws DALException {
+		articleDao.retraitArticle(id);
+		
+	}
+	
+	public void deleteArticle(int id) throws DALException, SQLException {
+		articleDao.delete(id);
+		}
 }

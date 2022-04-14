@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import fr.reddev.encheres.BO.Utilisateur;
-import fr.reddev.encheres.Exception.BLLException;
 
 public class Administration {
 
@@ -22,22 +21,47 @@ public class Administration {
 		super();
 	}
 
-	public void Authentification(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		Utilisateur userCurrent = (Utilisateur) request.getSession().getAttribute("utilisateur");
-		if (userCurrent == null) {
-			response.sendRedirect(request.getContextPath()+"/Connexion");
+	public boolean Authentification(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		Utilisateur userCurrent = null;
+		try {
+			userCurrent = (Utilisateur) request.getSession().getAttribute("utilisateur");
+			if(userCurrent != null) {
+				request.getSession().setAttribute("listeCodesErreur", new ArrayList<>());
+				request.getSession().setAttribute("listeCodesMessage", new ArrayList<>());
+				request.setCharacterEncoding("UTF-8");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			response.sendRedirect(request.getContextPath() + "/Error500");
 		}
+		return userCurrent != null && userCurrent.getActive() ?true : false;
 	}
 	
 	public static void setUp(HttpServletRequest request, HttpServletResponse response) throws IOException{
-		request.getSession().setAttribute("listeCodesErreur", new ArrayList<>());
-		request.getSession().setAttribute("listeCodesMessage", new ArrayList<>());
 			try {
+				request.getSession().setAttribute("listeCodesErreur", new ArrayList<>());
+				request.getSession().setAttribute("listeCodesMessage", new ArrayList<>());
 				request.setCharacterEncoding("UTF-8");
 			} catch (Exception e) {
 				e.printStackTrace();
 				response.sendRedirect(request.getContextPath() + "/Error500");
 			}
+	}
+
+	public boolean AuthentificationAdmin(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		Utilisateur userCurrent = null;
+		try {
+			userCurrent = (Utilisateur) request.getSession().getAttribute("utilisateur");
+			if(userCurrent != null ) {
+				request.getSession().setAttribute("listeCodesErreur", new ArrayList<>());
+				request.getSession().setAttribute("listeCodesMessage", new ArrayList<>());
+				request.setCharacterEncoding("UTF-8");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			response.sendRedirect(request.getContextPath() + "/Error500");
+		}
+		return userCurrent != null && userCurrent.getAdministrateur() && userCurrent.getActive() ? true : false;
 	}
 
 }
