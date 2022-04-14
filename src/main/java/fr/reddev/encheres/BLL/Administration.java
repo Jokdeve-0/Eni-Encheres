@@ -5,6 +5,7 @@
 package fr.reddev.encheres.BLL;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * @author REDDEV
@@ -29,8 +30,8 @@ public class Administration {
 	}
 	
 	public static void setUp(HttpServletRequest request, HttpServletResponse response) throws IOException{
-		request.getSession().setAttribute("listeCodesErreur", null);
-		request.getSession().setAttribute("listeMessage", null);
+		request.getSession().setAttribute("listeCodesErreur", new ArrayList<>());
+		request.getSession().setAttribute("listeCodesMessage", new ArrayList<>());
 			try {
 				request.setCharacterEncoding("UTF-8");
 			} catch (Exception e) {
