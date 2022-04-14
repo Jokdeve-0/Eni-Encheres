@@ -9,5 +9,6 @@ package fr.reddev.encheres.Exception.CodesMessages;
  */
 public abstract class MSG_CONF {
 	public static final int ENCHERE_OK = 10001;
+	public static final int NULL_ARTICLES = 10002;
 
 }

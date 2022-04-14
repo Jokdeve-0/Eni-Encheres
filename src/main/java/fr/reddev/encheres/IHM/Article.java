@@ -8,7 +8,9 @@ package fr.reddev.encheres.IHM;
  * @author REDDEV
  */
 import java.io.IOException;
+import java.sql.Date;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +31,11 @@ import fr.reddev.encheres.BO.Categorie;
 import fr.reddev.encheres.BO.Encheres;
 import fr.reddev.encheres.BO.Utilisateur;
 import fr.reddev.encheres.Exception.BLLException;
+import fr.reddev.encheres.Exception.BusinessException;
 import fr.reddev.encheres.Exception.DALException;
+import fr.reddev.encheres.Exception.MessageConfException;
+import fr.reddev.encheres.Exception.CodesMessages.MSG_BLL;
+import fr.reddev.encheres.Exception.CodesMessages.MSG_CONF;
 
 /**
  * Servlet implementation class Article
@@ -55,10 +61,9 @@ public class Article extends HttpServlet {
 		Encheres curr_enchere = null;
 		HttpSession session = request.getSession();
 
-		
+	
 		// reinitialisation des erreurs session
 		request.getSession().setAttribute("listeCodesErreur", null);
-
 		curr_user = (Utilisateur) session.getAttribute("utilisateur");
 		if (curr_user != null) {
 			try {
@@ -72,7 +77,7 @@ public class Article extends HttpServlet {
 				e.printStackTrace();
 			}
 		}
-		
+	
 		// LES ENCHERES
 		List<Encheres> catalogueEnchere = null;
 		try {
@@ -82,22 +87,16 @@ public class Article extends HttpServlet {
 			e2.printStackTrace();
 			response.sendRedirect(request.getContextPath() + "/Error500");
 		}
-
-		if (!request.getParameter("id").equals("") && request.getParameter("id") != null) {
-
+		if (!request.getParameter("idArticle").equals("") && request.getParameter("idArticle") != null) {
 			// recuperation de l'article
 			try {
-				article = new Articles_vendusManager().getArticleById(Integer.parseInt(request.getParameter("id")));
+				article = new Articles_vendusManager().getArticleById(Integer.parseInt(request.getParameter("idArticle")));
 				request.setAttribute("article", article);
-			} catch (DALException | SQLException | BLLException | NumberFormatException e) {
+			} catch (DALException | SQLException  | NumberFormatException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
-			
-			
 			//recuperer la liste des encherer de l'article 
-
 				try {
 					List<Encheres> listeEnchereArticles = enchereMG.recupereToutesEnchereUtilisation();
 					List<Encheres> listeEnchereArticle =new ArrayList<>();
@@ -106,18 +105,11 @@ public class Article extends HttpServlet {
 							listeEnchereArticle.add(ench);
 						}
 					}
-					
-					
 					request.setAttribute("encheresArticle", listeEnchereArticle);
 				} catch (DALException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
-
-			
-			
-			
 				// Récupération des catégories dans la BDD
 				try {
 					categorie = new CategorieManager().getCategories();
@@ -147,12 +139,13 @@ public class Article extends HttpServlet {
 				try {
 					curr_enchere = enchereMG.rechercheMaxEnchere(article.getNo_article());
 					request.setAttribute("enchere", curr_enchere);
-				} catch (BLLException | DALException e) {
+				} catch (DALException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-
-
+				String etatEnchere = article.getEtat_vente();
+				System.out.println(etatEnchere);
+				request.setAttribute("etatEnchere", etatEnchere);
 			if (curr_enchere != null) {
 				try {
 					bestEncherisseur = userMG.GetUtilisateur(curr_enchere.getNo_utilisateur());
@@ -164,16 +157,9 @@ public class Article extends HttpServlet {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-//			boolean etatEnchere = article.getDate_debut_encheres().before(Date.valueOf(LocalDate.now().plusDays(1))) && article.getDate_fin_encheres().after(Date.valueOf(LocalDate.now()));
-//				String etatEnchere = enchereMG.etatEnCours(article);
-				String etatEnchere = article.getEtat_vente();
-				request.setAttribute("etatEnchere", etatEnchere);
 			}
 
-		} else {
-			// TODO new error no id article
-			System.out.println("error####################");
-		}
+		} 
 
 		request.setAttribute("titlePage", "Article");
 		RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/jsp/pages/Article.jsp");
@@ -186,8 +172,152 @@ public class Article extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+
+		BusinessException exceptions = new BusinessException();
+		MessageConfException confirmations = new MessageConfException();
+		EncheresManager enchereMG = new EncheresManager();
+		UserManager userMG = new UserManager();
+		Utilisateur encherisseur = new Utilisateur();
+		Utilisateur userMAJ = new Utilisateur();
+		Integer somme = null;
+		Articles_vendus article = null;
+		Encheres enchereMax = null;
+		Encheres newEnchere = null;
+
+		// reinitialisation des erreurs session
+		request.getSession().setAttribute("listeCodesErreur", null);
+
+		if (!request.getParameter("idArticle").equals("") && request.getParameter("idArticle") != null) {
+			// recupération de la somme
+			if (!request.getParameter("howmuch").equals("") && request.getParameter("howmuch") != null) {
+				somme = Integer.parseInt(request.getParameter("howmuch"));
+			} else {
+				exceptions.ajouterErreur(MSG_BLL.ENCHERE_NULL_PROPOSITION);
+			}
+			if (!exceptions.hasErreurs()) {
+				// recuperation de l'article
+				try {
+					article = new Articles_vendusManager().getArticleById(Integer.parseInt(request.getParameter("idArticle")));
+				} catch (Exception e) {
+					System.err.println(e);
+					response.sendRedirect(request.getContextPath() + "/Error500");
+				}
+				// Récupération de l'enchere si elle existe
+	
+					try {
+						enchereMax = enchereMG.rechercheMaxEnchere(article.getNo_article());
+					} catch (DALException e2) {
+						System.err.println(e2);
+						response.sendRedirect(request.getContextPath() + "/Error500");
+					}
+					if(enchereMax == null) {
+						enchereMax = new Encheres(article.getNo_article(),0,Date.valueOf(LocalDate.now()),0);
+					}
+		
+				//validation
+				if(!enchereMG.sommeSuperieurPrixInitial(somme,  article.getPrix_initial())) {
+					exceptions.ajouterErreur(MSG_BLL.PROPOSITION_INFERIEUR_ENCHERE);
+				}
+				
+				
+				// Récupération des infos de l'encherisseur
+				Utilisateur tmp = (Utilisateur) request.getSession().getAttribute("utilisateur");
+			
+					try {
+						encherisseur = userMG.GetUtilisateur(tmp.getno_utilisateur());
+					} catch (DALException | SQLException e1) {
+						System.err.println(e1);
+						response.sendRedirect(request.getContextPath() + "/Error500");
+					}
+				
+				if (encherisseur == null) {
+					System.err.println(
+							"Une erreur est intervenue la de la récupération d'info de l'enrichisseur - doPost - l74");
+					response.sendRedirect(request.getContextPath() + "/Error500");
+				}
+
+				// Validation de l'enchere
+				if (!enchereMG.validerSoldeSuffisant(somme, encherisseur.getCredit())) {
+					exceptions.ajouterErreur(MSG_BLL.NOMBRE_DE_POINTS_INSUFFISANT);
+				}
+				if (!enchereMG.enchereSuperieurAncienne(enchereMax, somme)) {
+					exceptions.ajouterErreur(MSG_BLL.PROPOSITION_INFERIEUR_ENCHERE);
+				}
+
+				if (!exceptions.hasErreurs()) {
+					newEnchere = new Encheres(encherisseur.getno_utilisateur(), article.getNo_article(),
+							Date.valueOf(LocalDate.now()), somme);
+					// ajouter l'enchere
+					try {
+						if (enchereMG.verifExisteEnchere(newEnchere.getNo_utilisateur(), newEnchere.getNo_article())) {
+							try {
+								enchereMG.miseAjour(newEnchere);
+							} catch (SQLException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							// credit l'ancien
+					
+								try {
+									enchereMG.recrediterUtilisateur(enchereMax.getMontant_enchere(),
+											enchereMax.getNo_utilisateur());
+								} catch (SQLException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+					
+							// debit le nouveau
+						
+								try {
+									userMAJ = enchereMG.debiterUtilisateur(somme, encherisseur.getno_utilisateur());
+								} catch (SQLException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+						
+							confirmations.ajouterMessage(MSG_CONF.ENCHERE_OK);
+						} else {
+							try {
+								enchereMG.ajouteEnchere(newEnchere);
+							} catch (SQLException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							// debit le nouveau
+						
+								try {
+									userMAJ = enchereMG.debiterUtilisateur(somme, encherisseur.getno_utilisateur());
+								} catch (SQLException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+						
+							confirmations.ajouterMessage(MSG_CONF.ENCHERE_OK);
+						}
+						if (confirmations.hasMessages()) {
+							// set dans la requete la liste de messages a la jsp
+
+							request.getSession().setAttribute("listeMessage", confirmations.getListeCodesMessage());
+						}
+					} catch (BLLException | DALException e) {
+						System.err.println(
+								"Une erreur est intervenue la de la récupération d'info de l'enrichisseur - doPost - l74");
+						response.sendRedirect(request.getContextPath() + "/Error500");
+					}
+					// MAJ de l'utilisateur dans la session
+					request.getSession().setAttribute("utilisateur", userMAJ);
+					request.setAttribute("utilisateur", userMAJ);
+					request.setAttribute("bestEnchere", userMAJ);
+					request.setAttribute("titlePage", "Article");
+					request.setAttribute("id", article.getNo_article());
+//					response.sendRedirect("http://localhost:8080/ENI-Encheres/Article?id=" + article.getNo_article());
+				} else {
+					// set dans la session la liste d'erreurs a la jsp
+					request.getSession().setAttribute("listeCodesErreur", exceptions.getListeCodesErreur());
+				}
+			}
+		}
+doGet(request, response);
 	}
 
 }

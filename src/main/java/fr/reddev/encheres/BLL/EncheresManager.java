@@ -64,7 +64,7 @@ public class EncheresManager {
 
 	}
 
-	public Encheres rechercheMaxEnchere(Integer no_article) throws BLLException, DALException {
+	public Encheres rechercheMaxEnchere(Integer no_article) throws DALException {
 		return DAOFactory.getEncheresDAO().recuprerMaxEnchere(no_article);
 	}
 

@@ -3,9 +3,11 @@
 		<a href="${context}/Home">Accueil</a>
 		<c:choose>
 			<c:when test="${utilisateur != null }">
+			<c:if test="${utilisateur.administrateur}">			
 				<a href="${context}/Admin">Admin</a>
-					<a href="${context}/MonProfil">Profil</a>
-				<a href="${context}/VendreUnArticle">Vendre article</a>
+			</c:if>
+					<a href="${context}/MonProfil">Compte</a>
+				<a href="${context}/VendreUnArticle">Vendre</a>
 				<a href="${context}/Error500">Error500</a>
 				<a href="${context}/Deconnexion">Déconnexion</a>
 			</c:when>

@@ -74,7 +74,7 @@ public class Articles_vendusManager {
 	 * @throws SQLException 
 	 * @throws DALException 
 	 */
-	public List<Articles_vendus> getCatalogue() throws BLLException, DALException, SQLException {
+	public List<Articles_vendus> getCatalogue() throws DALException, SQLException {
 		return articleDao.selectAll();
 	}
 
@@ -86,7 +86,7 @@ public class Articles_vendusManager {
 	 * @throws BLLException
 	 * @throws DALException 
 	 */
-	public List<Articles_vendus> getCatalogueCategorie(int id) throws BLLException, DALException {
+	public List<Articles_vendus> getCatalogueCategorie(int id) throws DALException {
 		return articleDao.selectCategorie(id);
 
 	}
@@ -99,12 +99,12 @@ public class Articles_vendusManager {
 	 * @throws BLLException
 	 * @throws DALException 
 	 */
-	public List<Articles_vendus> getCatalogueByName(String nom) throws BLLException, DALException {
+	public List<Articles_vendus> getCatalogueByName(String nom) throws  DALException {
 		return articleDao.selectAllByName(nom);
 
 	}
 
-	public Articles_vendus getArticleById(int id) throws BLLException, DALException, SQLException {
+	public Articles_vendus getArticleById(int id) throws DALException, SQLException {
 		return articleDao.selectById(id);
 	}
 
@@ -117,7 +117,7 @@ public class Articles_vendusManager {
 	 * @throws DALException 
 	 * @throws SQLException 
 	 */
-	public List<Articles_vendus> getEnchereOuverte(List<Articles_vendus> catalogue) throws BLLException, DALException, SQLException {
+	public List<Articles_vendus> getEnchereOuverte(List<Articles_vendus> catalogue) throws  DALException, SQLException {
 		List<Articles_vendus> enchereOuverte = new ArrayList<>();
 		EncheresManager enchereMG = new EncheresManager();
 		Articles_vendusManager artMG = new Articles_vendusManager();
@@ -176,7 +176,7 @@ public class Articles_vendusManager {
 			articleDao.update(article);
 	}
 
-	public List<Articles_vendus> getUserAchats(List<String> list, List<Articles_vendus> catalogueAll, Utilisateur userCurrent, List<Encheres> listEncheres) throws BLLException, DALException {
+	public List<Articles_vendus> getUserAchats(List<String> list, List<Articles_vendus> catalogueAll, Utilisateur userCurrent, List<Encheres> listEncheres) throws DALException {
 		List<Articles_vendus> aRetourner = new ArrayList<>();
 		
 		for (String val : list) {
@@ -243,7 +243,7 @@ public class Articles_vendusManager {
 		return aRetourner;
 	}
 
-	private List<Articles_vendus> getRemportees(List<Articles_vendus> catalogueAll, Utilisateur userCurrent, List<Encheres> listEncheres) throws BLLException, DALException {
+	private List<Articles_vendus> getRemportees(List<Articles_vendus> catalogueAll, Utilisateur userCurrent, List<Encheres> listEncheres) throws DALException {
 		List<Articles_vendus> aRetourner = new ArrayList<>();
 		for(Articles_vendus article : catalogueAll) {
 			if(article.getEtat_vente().equals("TR")) {	
@@ -280,5 +280,9 @@ public class Articles_vendusManager {
 			}
 		}
 		return aRetourner;
+	}
+
+	public  void updateArticle(Articles_vendus article) throws DALException, SQLException {
+		articleDao.update(article);
 	}
 }

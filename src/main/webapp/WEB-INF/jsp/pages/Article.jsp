@@ -79,35 +79,111 @@
 						le premier a enchérir !</strong>
 				</p>
 			</c:if>
-			<c:if
-				test="${utilisateur != null && utilisateur.pseudo != vendeur.pseudo && etatEnchere == 'EC'}">
-				<form action="Encherir?id=${article.no_article}" method="post"
-					class="formEncherir">
-					<label for="prix">Votre proposition:</label> <input type="number"
-						id="prix" name="howmuch">
-					<button type="submit">Encherir</button>
-				</form>
-			</c:if>
-			<c:if test="${utilisateur == null}">
+			<c:choose>
+				<c:when
+					test="${utilisateur != null && utilisateur.pseudo != vendeur.pseudo}">
+					<c:if test="${etatEnchere == 'EC'}">
+						<form action="Article?idArticle=${article.no_article}" method="post"
+							class="formEncherir">
+							<label for="prix">Votre proposition:</label> <input type="number"
+								id="prix" name="howmuch">
+							<button type="submit">Encherir</button>
+						</form>
+					</c:if>
+					<c:if test="${etatEnchere == 'CR'}">
+						<div class="formEncherir">
+							<p>L'enchère n'a pas débutée !</p>
+						</div>
+					</c:if>
+					<c:if test="${etatEnchere == 'EC'}">
+						<div class="formEncherir">
+							<p>L'enchère est en cours ...</p>
+						</div>
+					</c:if>
+					<c:if test="${etatEnchere == 'TR'}">
+						<div class="formEncherir">
+							<c:if test="${utilisateur.pseudo == bestEnchere.pseudo}">
+								<p>Bravo Vous remporté l'enchère !</p>
+							</c:if>
+							<c:if test="${utilisateur.pseudo != bestEnchere.pseudo}">
+								<p>Dommage vous n'avez pas remporté l'enchère.</p>
+							</c:if>
+							
+						</div>
+					</c:if>
+					<c:if test="${etatEnchere == 'RE'}">
+						<div class="formEncherir">
+							<p>L'article a été remis !</p>
+						</div>
+					</c:if>
+
+
+				</c:when>
+				<c:when
+					test="${utilisateur != null && utilisateur.pseudo == vendeur.pseudo}">
+
+					<c:if test="${etatEnchere == 'CR'}">
+						<div class="formEncherir">
+							<p>L'enchère n'a pas débutée !</p>
+						</div>
+					</c:if>
+					<c:if test="${etatEnchere == 'EC'}">
+						<div class="formEncherir">
+							<p>L'enchère est en cours ...</p>
+						</div>
+					</c:if>
+					<c:if test="${etatEnchere == 'TR'}">
+						<div class="formEncherir">
+							<p>L'enchère est terminée !</p>
+						</div>
+					</c:if>
+					<c:if test="${etatEnchere == 'RE'}">
+						<div class="formEncherir">
+							<p>L'article a été remis !</p>
+						</div>
+					</c:if>
+
+				</c:when>
+				<c:otherwise>
+					<div class="formEncherir">
+						<p>
+							Si vous souhaitez encherir, veuillez <br> <a
+								href="${context}/Connexion">vous connecter</a> ou <a
+								href="${context}/Inscription">créer un compte</a>
+						</p>
+					</div>
+				</c:otherwise>
+			</c:choose>
+
+		</div>
+		<c:if test="${utilisateur.no_utilisateur == article.no_utilisateur }">
+		<c:if test="${etatEnchere == 'CR'}">
 				<div class="formEncherir">
 					<p>
-						Si vous souhaitez encherir, veuillez <br> <a
-							href="${context}/Connexion">vous connecter</a> ou <a
-							href="${context}/Inscription">créer un compte</a>
+						<a href="${context}/ModifierArticle?idArticle=${article.no_article}">Modifier</a> <a
+							href="${context}/SupprimerArticle">Supprimer</a>
 					</p>
 				</div>
 			</c:if>
-		</div>
-			<div class="ListEnchere">
+		
+		</c:if>
+		
+
+		<div class="ListEnchere">
 			<h2>Historique des enchères</h2>
 			<hr />
-				<c:forEach var="ench" items="${encheresArticle}">
-					<p>
-						<strong>${ench.pseudo}</strong><strong>${ench.montant_enchere} pts</strong>
-					</p>
-					<hr />
-				</c:forEach>
-			</div>
+			
+			<c:if test="${encheresArticle.size() == 0}"><p class="enchereNull">Il n'existe aucune enchère pour cet article.</p></c:if>
+			<c:forEach var="ench" items="${encheresArticle}">
+				<p>
+					<strong>${ench.pseudo}</strong><strong>${ench.montant_enchere}pts</strong>
+				</p>
+				<hr />
+			</c:forEach>
+		</div>
 	</section>
 </main>
+
+
+
 <!-- test="${etatEnchere == 'EC'}"-->

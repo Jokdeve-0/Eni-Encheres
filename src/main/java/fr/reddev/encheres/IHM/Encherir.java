@@ -89,7 +89,7 @@ public class Encherir extends HttpServlet {
 	
 					try {
 						enchereMax = enchereMG.rechercheMaxEnchere(article.getNo_article());
-					} catch (BLLException | DALException e2) {
+					} catch (DALException e2) {
 						System.err.println(e2);
 						response.sendRedirect(request.getContextPath() + "/Error500");
 					}

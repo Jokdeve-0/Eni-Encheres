@@ -24,11 +24,15 @@
     	<servlet-name>default</servlet-name>
     	<url-pattern>*.png</url-pattern>
     </servlet-mapping>
+     <servlet-mapping>
+    	<servlet-name>default</servlet-name>
+    	<url-pattern>*.gif</url-pattern>
+    </servlet-mapping>
     <error-page>
 	<error-code>500</error-code>
 		<location>/WEB-INF/jsp/pages/500.jsp</location>
 	</error-page>
 	<session-config>
-		<session-timeout>5</session-timeout>
+		<session-timeout>50</session-timeout>
 	</session-config>
 </web-app>

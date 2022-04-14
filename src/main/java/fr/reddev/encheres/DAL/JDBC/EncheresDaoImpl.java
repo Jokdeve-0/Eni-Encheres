@@ -27,7 +27,7 @@ public class EncheresDaoImpl implements EncheresDAO {
 	private static final String UPDATE_ENCHERE = "UPDATE ENCHERES SET   date_enchere=?, montant_enchere = ? WHERE no_utilisateur=? ";
 	private static final String DERNIERE_ENCHERE_ARTICLE_ID = "SELECT * FROM ENCHERES WHERE no_article = ? AND montant_enchere = (SELECT MAX(montant_enchere) FROM ENCHERES WHERE no_article = ?)";
 	private static final String SELECT_ALL = "SELECT * FROM ENCHERES";
-	private static final String SELECT_AUCTION="SELECT ENCHERES.no_utilisateur, no_article, date_enchere,montant_enchere, UTILISATEURS.pseudo FROM ENCHERES INNER JOIN UTILISATEURS ON ( ENCHERES.no_utilisateur = UTILISATEURS.no_utilisateur )  ORDER BY date_enchere DESC ";
+	private static final String SELECT_AUCTION="SELECT ENCHERES.no_utilisateur, no_article, date_enchere,montant_enchere, UTILISATEURS.pseudo FROM ENCHERES INNER JOIN UTILISATEURS ON ( ENCHERES.no_utilisateur = UTILISATEURS.no_utilisateur )  ORDER BY montant_enchere DESC ";
 	
 	@Override
 	public List<Encheres> selectByIdSpec(int id) throws DALException {

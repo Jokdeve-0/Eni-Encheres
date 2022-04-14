@@ -161,6 +161,7 @@ hr{
 
 .ListEnchere{
 	width: 100%;
+	text-align: center;
 		& h2{
 			text-align: center;
 			margin :1em;
@@ -168,10 +169,21 @@ hr{
 	& p{
 		@include flex-mix($content:space-between);
 		width:50%;
-		margin: auto;
+		margin: auto; 
+		text-shadow: 0 0 10px rgb(0, 0, 0);		
+		color: rgb(0, 128, 255);
+		&:nth-child(3){
+				color: rgb(255, 128, 64);
+			
+		}
+		&.enchereNull{
+			@include flex-mix();
+			width:90%;
+			color: rgb(0, 128, 255);
+		}
 	}
 	& hr{
 		width:60%;
-		margin: auto;
+		margin: 1em auto;
 	}
 }

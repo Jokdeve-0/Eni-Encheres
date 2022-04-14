@@ -4,8 +4,10 @@
 	margin-bottom: 1em;
 }
 
-
-.inscription form {
+.inscription form .adminCat form{
+	background-color: none;
+}
+.inscription form, .adminCat {
 	max-width: 640px;
 	display: flex;
 	justify-content: center;

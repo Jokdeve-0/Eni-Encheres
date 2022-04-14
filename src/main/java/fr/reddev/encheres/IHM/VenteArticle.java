@@ -84,13 +84,16 @@ public class VenteArticle extends HttpServlet {
 		// Utilisateur courant dans la session
 		Utilisateur curr_user = (Utilisateur) request.getSession().getAttribute("utilisateur");
 		// Nouvelle article à créer
-		Articles_vendus newArticle = new Articles_vendus(request.getParameter("name"), request.getParameter("story"),
+		Articles_vendus newArticle = new Articles_vendus(request.getParameter("name").toLowerCase(), request.getParameter("story").toLowerCase(),
 				java.sql.Date.valueOf(
 						LocalDate.parse(request.getParameter("date_debut"), DateTimeFormatter.ofPattern("yyyy-MM-dd"))),
 				java.sql.Date.valueOf(
 						LocalDate.parse(request.getParameter("date_fin"), DateTimeFormatter.ofPattern("yyyy-MM-dd"))),
 				!request.getParameter("howmuch").equals("") ? Integer.valueOf(request.getParameter("howmuch")) : 0,
-				null, Integer.valueOf(curr_user.getno_utilisateur()), 1, "CR", curr_user.getPseudo());
+				null,
+				Integer.valueOf(curr_user.getno_utilisateur()),
+				1, "CR", 
+				curr_user.getPseudo());
 		// Id de l'article pour le renvoyer dans l'url pour l'affichage
 		Integer no_article = null;
 		// Validation de l'article

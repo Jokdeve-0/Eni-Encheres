@@ -10,7 +10,6 @@ package fr.reddev.encheres.DAL.JDBC;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -136,7 +135,7 @@ public class Articles_vendusDaoImpl implements Articles_vendusDAO {
 			pstmt3.setString(1, article.getEtat_vente());
 			pstmt3.setInt(2, article.getNo_utilisateur());
 			pstmt3.executeUpdate();
-		} catch (SQLException e) {
+		} catch (Exception e) {
 //			e.printStackTrace();
 			throw new DALException("Articles_vendusDaoImpl - setEtatArticle() ");
 		}
@@ -216,7 +215,7 @@ public class Articles_vendusDaoImpl implements Articles_vendusDAO {
 			pstmt.setDate(3, article.getDate_debut_encheres());
 			pstmt.setDate(4, article.getDate_fin_encheres());
 			pstmt.setInt(5, article.getPrix_initial());
-			pstmt.setInt(6, article.getPrix_vente());
+			pstmt.setInt(6, 0);
 			pstmt.setInt(7, article.getNo_utilisateur());
 			pstmt.setInt(8, article.getNo_categorie());
 			pstmt.setString(9, article.getEtat_vente());

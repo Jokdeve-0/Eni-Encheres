@@ -28,9 +28,9 @@ public class Administration {
 		}
 	}
 	
-	public static void setUp(HttpServletRequest request, HttpServletResponse response) throws BLLException, IOException {
-		request.setAttribute("listeCodesErreur", null);
-		request.setAttribute("listeMessage", null);
+	public static void setUp(HttpServletRequest request, HttpServletResponse response) throws IOException{
+		request.getSession().setAttribute("listeCodesErreur", null);
+		request.getSession().setAttribute("listeMessage", null);
 			try {
 				request.setCharacterEncoding("UTF-8");
 			} catch (Exception e) {

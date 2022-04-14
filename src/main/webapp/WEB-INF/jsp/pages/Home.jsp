@@ -1,7 +1,6 @@
 <%@ page pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ include file="../../tests/includes/Menu-Test.jsp" %>
 
 <main class="home">
 	<h1>
@@ -12,6 +11,7 @@
 	<%@include file="../includes/filtresHome.jsp"%>
 
 	<%@include file="../includes/erreurs.jsp"%>
+	<%@include file="../includes/messageConfirmation.jsp"%>
 	<div class="box-articles">
 		<c:forEach var="article" items="${catalogue}">
 			<article class="container">
@@ -32,7 +32,7 @@
 						</p>
 					</div>
 				</div>
-				<a class="btn-article" href="Article?id=${article.no_article}">Voir les détails</a>
+				<a class="btn-article" href="Article?idArticle=${article.no_article}">Voir les détails</a>
 			</article>
 		</c:forEach>
 	</div>
