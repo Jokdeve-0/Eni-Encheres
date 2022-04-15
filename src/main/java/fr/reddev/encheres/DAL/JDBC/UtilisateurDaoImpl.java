@@ -21,6 +21,7 @@ import fr.reddev.encheres.Exception.DALException;
 public class UtilisateurDaoImpl implements UtilisateurDAO {
 
 	public static final String SELECT_BY_LOGIN = "SELECT no_utilisateur,nom,pseudo,prenom,email,telephone,rue,code_postal,ville,mot_de_passe ,credit,administrateur,active FROM UTILISATEURS where pseudo = ?";
+	public static final String SELECT_BY_MAIL = "SELECT * FROM UTILISATEURS where email=?";	
 	public static final String DELETE_USER = "DELETE FROM UTILISATEURS where no_utilisateur = ?";
 	public static final String UPDATE_USER = "UPDATE UTILISATEURS SET  pseudo=? , nom=?  , prenom=? , email=? , telephone=? , rue=? , code_postal=? , ville=? , credit=?, mot_de_passe=?, active=? WHERE no_utilisateur = ?";
 	public static final String ACTIVATE_USER = "UPDATE UTILISATEURS SET  active=? WHERE no_utilisateur = ?";
@@ -165,6 +166,22 @@ public class UtilisateurDaoImpl implements UtilisateurDAO {
 				isUnique = false;
 			}
 		return isUnique;
+	}
+
+	@Override
+	public Utilisateur selectByMail(String Mail) throws DALException, SQLException {
+		Utilisateur utilisateur = null;
+			Connection cnx = JdbcTools.getConnection();
+			PreparedStatement pstmt = cnx.prepareStatement(SELECT_BY_MAIL);
+			pstmt.setString(1, Mail);
+			ResultSet rs = pstmt.executeQuery();
+			if (rs.next()) {
+				utilisateur = new Utilisateur(rs.getInt("no_utilisateur"), rs.getString("pseudo"), rs.getString("nom"),
+						rs.getString("prenom"), rs.getString("email"), rs.getString("telephone"), rs.getString("rue"),
+						rs.getString("code_postal"), rs.getString("ville"), rs.getString("mot_de_passe"),
+						rs.getInt("credit"), rs.getBoolean("administrateur"),rs.getBoolean("active"));
+			}
+		return utilisateur;
 	}
 
 }

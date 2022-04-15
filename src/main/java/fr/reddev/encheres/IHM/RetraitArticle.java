@@ -1,6 +1,7 @@
 package fr.reddev.encheres.IHM;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -9,7 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import fr.reddev.encheres.BLL.Administration;
 import fr.reddev.encheres.BLL.Articles_vendusManager;
-import fr.reddev.encheres.Exception.DALException;
 
 /**
  * Servlet implementation class RetraitArticle
@@ -23,24 +23,16 @@ public class RetraitArticle extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Articles_vendusManager artMG = new Articles_vendusManager();
-		// SETUP ADMINISTARATION
-			try {
-				Administration.setUp(request, response);
-			} catch (Exception e1) {
-				e1.printStackTrace();
-				response.sendRedirect(request.getContextPath() + "/Error500");
-			}
-			Integer no_article = null;
-		if (!request.getParameter("idArticle").equals("") && request.getParameter("idArticle") != null) {
-			try {
-				no_article = Integer.parseInt(request.getParameter("idArticle"));
-				artMG.retraitArticle(no_article);
-			} catch (NumberFormatException | DALException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		Integer no_article = null;
+		try {
+				if (!request.getParameter("idArticle").equals("") && request.getParameter("idArticle") != null) {
+					no_article = Integer.parseInt(request.getParameter("idArticle"));
+					artMG.retraitArticle(no_article);
+				}
+		} catch (Exception e) {
+			e.printStackTrace();
+			response.sendRedirect(request.getContextPath() + "/Error500");
 		}
-		
 		request.setAttribute("idArticle", no_article);
 		request.setAttribute("titlePage", "Article");
 		response.sendRedirect(request.getContextPath()+"/Article?idArticle="+no_article);
@@ -50,7 +42,6 @@ public class RetraitArticle extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 

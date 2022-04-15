@@ -38,21 +38,13 @@ public class SuppressionCompte extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// INITIALISATION
-		Administration administration = new Administration();
 		UserManager manager = UserManager.getInstance();
 		HttpSession session = request.getSession();
-		// AUTHENTIFICATION
-		boolean valid = administration.AuthentificationAdmin(request, response);
 		try {
-			if (valid) {// AUTH-if
-				// On récupère l'utilisateur stocké dans la session
-				Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
-				// On supprime de la BDD
-				manager.deleteUser(utilisateur.getno_utilisateur());
-			}else {
-				request.getSession().invalidate();
-				response.sendRedirect(request.getContextPath() + "/Connexion");
-			}
+			// On récupère l'utilisateur stocké dans la session
+			Utilisateur utilisateur = (Utilisateur) session.getAttribute("utilisateur");
+			// On supprime de la BDD
+			manager.deleteUser(utilisateur.getno_utilisateur());
 		} catch (DALException | SQLException e) {
 			e.printStackTrace();
 			response.sendRedirect(request.getContextPath() + "/Error500");

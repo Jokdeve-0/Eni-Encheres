@@ -145,9 +145,9 @@
 
 				</c:when>
 				<c:otherwise>
-					<div class="formEncherir">
-						<p>
-							Si vous souhaitez encherir, veuillez <br> <a
+					<div class="formEncherir _p">
+						<p class="_p1">Si vous souhaitez encherir, veuillez </p>
+							<p class="_p2"> <a
 								href="${context}/Connexion">vous connecter</a> ou <a
 								href="${context}/Inscription">créer un compte</a>
 						</p>

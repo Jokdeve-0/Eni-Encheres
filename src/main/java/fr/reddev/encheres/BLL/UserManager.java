@@ -45,16 +45,15 @@ public class UserManager {
 	 * @param mdp    envoyé par ( jsp) l'utilisateur
 	 * @return Si tout est OK on renvoi un utilisateur , sinon utilisateur = null
 	 * @throws BusinessException
-	 * @throws SQLException 
-	 * @throws DALException 
+	 * @throws SQLException
+	 * @throws DALException
 	 */
 	public Utilisateur connexion(String pseudo, String mdp) throws BusinessException, DALException, SQLException {
 		BusinessException exceptions = new BusinessException();
-		UtilisateurDAO utilisateurDao = DAOFactory.getUtilisateurDAO();
 		Utilisateur utilisateur = new Utilisateur();
 		boolean verification = false;
 			// Tente de récupérer l'utilisateur avec l'identififiant si il existe
-			utilisateur = utilisateurDao.selectByLogin(pseudo);
+			utilisateur =ValidateMail(pseudo);
 		if (utilisateur != null) {
 			// Si l'utilisateur existe => on compare si le password reçu correspond à celui
 			// de l'utilisateur trouvé
@@ -70,24 +69,40 @@ public class UserManager {
 		return utilisateur;
 	}
 
+	public Utilisateur ValidateMail(String email) throws BusinessException, DALException, SQLException {
+		Utilisateur utilisateur=null;
+		UtilisateurDAO userDao =DAOFactory.getUtilisateurDAO();
+
+		if (email.contains("@")) {
+		utilisateur=userDao.selectByMail(email);
+		
+		}
+		else {
+		utilisateur=userDao.selectByLogin(email);
+
+		}
+		return utilisateur;
+	}
+
 	/**
 	 * Créer un nouvel utilisateur
 	 * 
 	 * @param utilisateur Nouveau utilisateur à enregistrer
 	 * @param exceptions  BLL
 	 * @return la liste des exceptions
-	 * @throws DALException 
-	 * @throws SQLException 
+	 * @throws DALException
+	 * @throws SQLException
 	 */
-	public BusinessException createUtilisateur(Utilisateur utilisateur, BusinessException exceptions) throws SQLException, DALException {
+	public BusinessException createUtilisateur(Utilisateur utilisateur, BusinessException exceptions)
+			throws SQLException, DALException {
 		UtilisateurDAO utilisateurDao = DAOFactory.getUtilisateurDAO();
-			// Vérifie si l'email ou le pseudo existe déjà dans la BDD
-			if (!utilisateurDao.UniquePseudoMail(utilisateur.getPseudo(), utilisateur.getEmail()))
-				// Si oui => on ajouter un message d'erreur
-				exceptions.ajouterErreur(MSG_BLL.ERROR_PSEUDO_OR_MAIL_ALREADY_TAKEN);
-			else
-				// Si non => on enregistre dans la BDD
-				utilisateurDao.insert(utilisateur);
+		// Vérifie si l'email ou le pseudo existe déjà dans la BDD
+		if (!utilisateurDao.UniquePseudoMail(utilisateur.getPseudo(), utilisateur.getEmail()))
+			// Si oui => on ajouter un message d'erreur
+			exceptions.ajouterErreur(MSG_BLL.ERROR_PSEUDO_OR_MAIL_ALREADY_TAKEN);
+		else
+			// Si non => on enregistre dans la BDD
+			utilisateurDao.insert(utilisateur);
 		return exceptions;
 	}
 
@@ -144,8 +159,8 @@ public class UserManager {
 	 * Supprimer un utilisateur
 	 * 
 	 * @param id no_utilisateur courrant
-	 * @throws SQLException 
-	 * @throws DALException 
+	 * @throws SQLException
+	 * @throws DALException
 	 */
 	public void deleteUser(Integer id) throws DALException, SQLException {
 		DAOFactory.getUtilisateurDAO().delete(id);
@@ -155,8 +170,8 @@ public class UserManager {
 	 * Modifier un profil
 	 * 
 	 * @param utilisateur Nouveau utilisateur créé avec les modifications
-	 * @throws SQLException 
-	 * @throws DALException 
+	 * @throws SQLException
+	 * @throws DALException
 	 */
 	public void modifierProfil(Utilisateur utilisateur) throws DALException, SQLException {
 		DAOFactory.getUtilisateurDAO().update(utilisateur);
@@ -195,36 +210,33 @@ public class UserManager {
 	public Utilisateur connexionCookies(String pseudo) throws DALException, SQLException {
 		return DAOFactory.getUtilisateurDAO().selectByLogin(pseudo);
 	}
-	
-	//Connexion Cookies
-		public Utilisateur ConnexionCookies(String pseudo, String mdp) throws BusinessException {
-			BusinessException exceptions = new BusinessException();
-			UtilisateurDAO utilisateurDao = DAOFactory.getUtilisateurDAO();
-			Utilisateur utilisateur = new Utilisateur();
-			boolean verification = false;
-			try {
-				// Tente de récupérer l'utilisateur avec l'identififiant si il existe
-					utilisateur = utilisateurDao.selectByLogin(pseudo);
-			} catch (DALException |SQLException e) {
-				// si un problème survient de la DAL dans selectByLogin()
-				System.out.println(e.getMessage());
-				e.printStackTrace();
-			}
-				if (utilisateur != null) {
-					// Si l'utilisateur existe => on compare si le password reçu correspond à celui de l'utilisateur trouvé
-					verification = mdp.equals(utilisateur.getMot_de_passe());
-					if (!verification) {
-						//  Si le password est incorrect => on ajoute le message d'erreur et on lève l'exception
-						exceptions.ajouterErreur(MSG_BLL.ID_MDP_KO);
-						throw exceptions;
-					}
-					// Si le password est correct => on retourne l'utilisateur trouvé
-				}
-			return utilisateur;
-		}
 
-		public void ActivateUser(boolean active,int id) throws DALException, SQLException {
-			DAOFactory.getUtilisateurDAO().updateActivate(active, id);
+	// Connexion Cookies
+	public Utilisateur ConnexionCookies(String pseudo, String mdp)
+			throws BusinessException, DALException, SQLException {
+		BusinessException exceptions = new BusinessException();
+		UtilisateurDAO utilisateurDao = DAOFactory.getUtilisateurDAO();
+		Utilisateur utilisateur = new Utilisateur();
+		boolean verification = false;
+		// Tente de récupérer l'utilisateur avec l'identififiant si il existe
+		utilisateur = utilisateurDao.selectByLogin(pseudo);
+		if (utilisateur != null) {
+			// Si l'utilisateur existe => on compare si le password reçu correspond à celui
+			// de l'utilisateur trouvé
+			verification = mdp.equals(utilisateur.getMot_de_passe());
+			if (!verification) {
+				// Si le password est incorrect => on ajoute le message d'erreur et on lève
+				// l'exception
+				exceptions.ajouterErreur(MSG_BLL.ID_MDP_KO);
+				throw exceptions;
+			}
+			// Si le password est correct => on retourne l'utilisateur trouvé
 		}
+		return utilisateur;
+	}
+
+	public void ActivateUser(boolean active, int id) throws DALException, SQLException {
+		DAOFactory.getUtilisateurDAO().updateActivate(active, id);
+	}
 
 }

@@ -26,8 +26,8 @@ public class Administration {
 		try {
 			userCurrent = (Utilisateur) request.getSession().getAttribute("utilisateur");
 			if(userCurrent != null) {
-				request.getSession().setAttribute("listeCodesErreur", new ArrayList<>());
-				request.getSession().setAttribute("listeCodesMessage", new ArrayList<>());
+//				request.setAttribute("listeCodesErreur",new ArrayList<>());
+//				request.setAttribute("listeCodesMessage",new ArrayList<>());
 				request.setCharacterEncoding("UTF-8");
 			}
 		} catch (Exception e) {
@@ -37,10 +37,10 @@ public class Administration {
 		return userCurrent != null && userCurrent.getActive() ?true : false;
 	}
 	
-	public static void setUp(HttpServletRequest request, HttpServletResponse response) throws IOException{
+	public  void setUp(HttpServletRequest request, HttpServletResponse response) throws IOException{
 			try {
-				request.getSession().setAttribute("listeCodesErreur", new ArrayList<>());
-				request.getSession().setAttribute("listeCodesMessage", new ArrayList<>());
+				request.setAttribute("listeCodesErreur",new ArrayList<>());
+				request.setAttribute("listeCodesMessage",new ArrayList<>());
 				request.setCharacterEncoding("UTF-8");
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -53,8 +53,8 @@ public class Administration {
 		try {
 			userCurrent = (Utilisateur) request.getSession().getAttribute("utilisateur");
 			if(userCurrent != null ) {
-				request.getSession().setAttribute("listeCodesErreur", new ArrayList<>());
-				request.getSession().setAttribute("listeCodesMessage", new ArrayList<>());
+				request.setAttribute("listeCodesErreur",new ArrayList<>());
+				request.setAttribute("listeCodesMessage",new ArrayList<>());
 				request.setCharacterEncoding("UTF-8");
 			}
 		} catch (Exception e) {

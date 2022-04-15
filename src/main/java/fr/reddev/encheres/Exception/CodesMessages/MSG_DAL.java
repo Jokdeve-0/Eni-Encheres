@@ -17,4 +17,5 @@ public abstract class MSG_DAL {
 	public static final int UPDATE_ARTICLE_ECHEC = 10106;
 	public static final int REMOVE_ARTICLE_ECHEC = 10107;
 	public static final int INSERT_ENCHERE_ERREUR = 10108;
+	public static final int ERROR_SERVER = 10109;
 }

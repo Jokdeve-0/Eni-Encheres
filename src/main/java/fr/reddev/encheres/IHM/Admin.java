@@ -28,9 +28,9 @@ public class Admin extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//INITIALISATION
-		Administration administration = new Administration();
 		List<Utilisateur> user;
 		List<Categorie> categorie;
+		Administration administration = new Administration();
 		//AUTHENTIFICATION
 		try {
 			boolean valid = administration.AuthentificationAdmin(request,response);

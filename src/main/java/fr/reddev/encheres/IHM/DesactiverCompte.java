@@ -30,7 +30,7 @@ public class DesactiverCompte extends HttpServlet {
 		// AUTHENTIFICATION
 		boolean valid = administration.AuthentificationAdmin(request, response);
 		try {
-			if (valid) {// AUTH-if
+		
 				UserManager manager = UserManager.getInstance();
 				if (!request.getParameter("idUser").equals("") && request.getParameter("idUser") != null) {
 					String idStr = (String) request.getParameter("idUser");
@@ -44,16 +44,19 @@ public class DesactiverCompte extends HttpServlet {
 						manager.ActivateUser(active, id);
 					}
 				}
-			}else {
-				request.getSession().invalidate();
-				response.sendRedirect(request.getContextPath() + "/Connexion");
-			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			response.sendRedirect(request.getContextPath() + "/Error500");
 		}
-		request.setAttribute("titlePage", "Administrateur");
-		response.sendRedirect(request.getContextPath() + "/Admin");
+		if(valid) {			
+			request.setAttribute("titlePage", "Administrateur");
+			response.sendRedirect(request.getContextPath() + "/Admin");
+		}else {
+			request.getSession().invalidate();
+			request.setAttribute("titlePage", "Accueil");
+			response.sendRedirect(request.getContextPath() + "/Home");
+		}
 
 	}
 

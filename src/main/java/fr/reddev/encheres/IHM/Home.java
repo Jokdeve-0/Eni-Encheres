@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -29,11 +28,9 @@ import fr.reddev.encheres.BO.Articles_vendus;
 import fr.reddev.encheres.BO.Categorie;
 import fr.reddev.encheres.BO.Encheres;
 import fr.reddev.encheres.BO.Utilisateur;
-import fr.reddev.encheres.Exception.BLLException;
 import fr.reddev.encheres.Exception.BusinessException;
 import fr.reddev.encheres.Exception.DALException;
 import fr.reddev.encheres.Exception.MessageConfException;
-import fr.reddev.encheres.Exception.CodesMessages.MSG_BLL;
 import fr.reddev.encheres.Exception.CodesMessages.MSG_CONF;
 
 /**
@@ -54,9 +51,8 @@ public class Home extends HttpServlet {
 		CategorieManager categoriesMG = new CategorieManager();
 		UserManager userMG = new UserManager();
 
-		// SETUP ADMINISTARATION
 		BusinessException exceptions = new BusinessException();
-		Administration.setUp(request, response);
+
 
 		// LES UTILISATEURS
 		try {
@@ -89,7 +85,7 @@ public class Home extends HttpServlet {
 		}
 
 		if (exceptions.hasErreurs()) {
-			request.getSession().setAttribute("listeCodesErreur", exceptions.getListeCodesErreur());
+			request.setAttribute("listeCodesErreur", exceptions.getListeCodesErreur());
 			response.sendRedirect(request.getContextPath() + "/Error500");
 		}
 		// REDIRECTION SUR LA JSP HOME
@@ -114,13 +110,6 @@ public class Home extends HttpServlet {
 		EncheresManager enchereMG = new EncheresManager();
 		UserManager userMG = new UserManager();
 
-		// SETUP ADMINISTARATION
-		try {
-			Administration.setUp(request, response);
-		} catch (Exception e1) {
-			e1.printStackTrace();
-			response.sendRedirect(request.getContextPath() + "/Error500");
-		}
 
 		// RECUPERATION DES CHECKBOX
 		String[] names = request.getParameterValues("e-achats");
@@ -292,11 +281,11 @@ public class Home extends HttpServlet {
 		}
 		if (exceptions.hasErreurs()) {
 			// set dans la requete la liste d'erreurs pour la jsp
-			request.getSession().setAttribute("listeCodesErreur", exceptions.getListeCodesErreur());
+			request.setAttribute("listeCodesErreur", exceptions.getListeCodesErreur());
 		}
 		if (messages.hasMessages()) {
 			// set dans la requete la liste d'erreurs pour la jsp
-			request.getSession().setAttribute("listeCodesMessage", messages.getListeCodesMessage());
+			request.setAttribute("listeCodesMessage",messages.getListeCodesMessage()); 
 		}
 		request.setAttribute("catalogue", catalogueARenvoyer);
 		// Affiche la page Home
