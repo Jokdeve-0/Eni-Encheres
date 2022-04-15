@@ -52,7 +52,7 @@ public class Connexion extends HttpServlet {
 				}
 			}
 			Utilisateur user = new UserManager().ConnexionCookies(pseudocookie, mdpcookie);
-			if (user != null) {
+			if (user != null && user.getActive()) {
 				// Création d'une session
 				HttpSession session = request.getSession();
 				// Set dans la session l'attribut "utilisateur"
@@ -103,7 +103,7 @@ public class Connexion extends HttpServlet {
 
 			utilisateur = manager.connexion(request.getParameter("Pseudo"), request.getParameter("MDP"));
 			// OK
-			if (utilisateur != null && !request.getParameter("Pseudo").equals("")
+			if (utilisateur != null && utilisateur.getActive() && !request.getParameter("Pseudo").equals("")
 					&& !request.getParameter("MDP").equals("")) {
 				// Création d'une session
 				HttpSession session = request.getSession();

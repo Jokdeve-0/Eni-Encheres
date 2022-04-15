@@ -55,7 +55,7 @@ public class Deconnexion extends HttpServlet {
 			}
 		}
 		// redirection sur la page de Home en déconnecter
-		response.sendRedirect("http://localhost:8080/ENI-Encheres");
+		response.sendRedirect(request.getContextPath()+"/ENI-Encheres");
 	}
 	/**
 	 * Aucun post vers cette page

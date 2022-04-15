@@ -5,7 +5,7 @@
 <main class="inscription">
 	<form action="" method="post">
 		<h1>Gestion des utilisateurs et des catégories</h1>
-		<%@include file="../includes/erreurs.jsp"%>
+<%-- 		<%@include file="../includes/erreurs.jsp"%> --%>
 		<div class="box-userAdmin">
 			<h2 class="h2Admin">Gestion des utilisateurs</h2>
 			<c:forEach var="user" items="${listUser}">
