@@ -1,18 +1,17 @@
 /**
- * PROJET ENI-ENCHERES
- * 
+ * Project ENI-ENCHERES
+ * CDA TEAMS REDDEV
+ * VERSION REFACTOR BY JOKDEVE-LOOPER
  */
 package fr.reddev.encheres.Exception;
 
 /**
- * @author REDDEV
+ * @author JOKDEVE-LOOPER
+ *
  */
 public class DALException extends Exception {
-	private static final long serialVersionUID = 1L;
 
-	public DALException() {
-		super();
-	}
+	private static final long serialVersionUID = 1L;
 
 	public DALException(String message) {
 		super(message);
@@ -20,6 +19,10 @@ public class DALException extends Exception {
 
 	@Override
 	public String toString() {
-		return "***DALException***\n" + super.getMessage();
+	    return ""
+	    	+ "##########################################################\n"
+	    	+ "DALEXCEPTION [" + getLocalizedMessage() + "]\n"
+	    	+ "##########################################################\n";
 	}
+
 }

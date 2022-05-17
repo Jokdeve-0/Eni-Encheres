@@ -1,36 +1,33 @@
 /**
- * PROJET ENI-ENCHERES
- * 
+ * Project ENI-ENCHERES
+ * CDA TEAMS REDDEV
+ * VERSION REFACTOR BY JOKDEVE-LOOPER
  */
 package fr.reddev.encheres.DAL;
 
+import fr.reddev.encheres.DAL.JDBC.ArticleImpl;
+import fr.reddev.encheres.DAL.JDBC.AuctionImpl;
+import fr.reddev.encheres.DAL.JDBC.CategoryImpl;
 /**
- * @author REDDEV
+ * @author JOKDEVE-LOOPER
+ *
  */
-import fr.reddev.encheres.DAL.JDBC.Articles_vendusDaoImpl;
-import fr.reddev.encheres.DAL.JDBC.CategorieDaoImpl;
-import fr.reddev.encheres.DAL.JDBC.EncheresDaoImpl;
-/**
- * @author REDDEV
- */
-import fr.reddev.encheres.DAL.JDBC.UtilisateurDaoImpl;
+import fr.reddev.encheres.DAL.JDBC.UserImpl;
 
 public class DAOFactory {
+    public static UserDAO getUserDAO() {
+	return new UserImpl();
+    }
 
-	public static UtilisateurDAO getUtilisateurDAO() {
-		return new UtilisateurDaoImpl();
-	}
+    public static ArticleDAO getArticleDAO() {
+	return new ArticleImpl();
+    }
 
-	public static Articles_vendusDAO getArticles_vendusDAO() {
-		return new Articles_vendusDaoImpl();
-	}
+    public static CategoryDAO getCategoryDAO() {
+	return new CategoryImpl();
+    }
 
-	public static CategorieDAO getCategorieDAO() {
-		return new CategorieDaoImpl();
-	}
-
-	public static EncheresDAO getEncheresDAO() {
-		return new EncheresDaoImpl();
-	}
-
+    public static AuctionDAO getAuctionDAO() {
+	return new AuctionImpl();
+    }
 }
